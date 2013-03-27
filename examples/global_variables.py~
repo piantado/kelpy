@@ -1,0 +1,86 @@
+# -*- coding: utf-8 -*-
+import pygame
+from pygame.locals import *
+
+## Set the cursor to null
+import pygame.cursors
+import pygame.mouse
+
+blankcursor_strings = (               #sized 24x24
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ",
+      "                        ")
+blank_cursor=pygame.cursors.compile(blankcursor_strings, black='X', white='.', xor='o')
+## See below: pygame.mouse.set_cursor, after screen is initialized
+
+##############################################
+## Pygame events
+# this moves the experiment forward
+DONE_RESPONDING_EVENT = USEREVENT + 0x1
+DONE_TRIAL_EVENT = USEREVENT + 0x2
+
+SHIFT_MAIN_Q_EVENT = USEREVENT + 0x3
+
+##############################################
+## Set up pygame
+
+pygame.init()
+#screen = pygame.display.set_mode( (0,0), pygame.FULLSCREEN)
+
+screen = pygame.display.set_mode((800, 600))
+
+clock = pygame.time.Clock()
+
+pygame.mouse.set_cursor( (24,24), (0,0), blank_cursor[0], blank_cursor[1])
+
+##############################################
+## Screen dimensions
+
+WINDOW_WIDTH = screen.get_width() #1024
+WINDOW_HEIGHT = screen.get_height() #768
+
+background_color = (140, 140, 140) # 90 # 190
+##############################################
+## Screen positions
+
+OFFSCREEN = [-10000, -10000]
+
+BLOCKER_X = WINDOW_WIDTH * 1. / 2.
+BLOCKER_Y = WINDOW_HEIGHT * 2. / 3.
+BLOCKER_POSITION = (BLOCKER_X, BLOCKER_Y)
+
+RESPONSE1_X = WINDOW_WIDTH * 85./100.
+RESPONSE1_Y = 300
+RESPONSE1_POSITION = (RESPONSE1_X, RESPONSE1_Y)
+
+RESPONSE2_X = WINDOW_WIDTH * 15./100.
+RESPONSE2_Y = 300
+RESPONSE2_POSITION = (RESPONSE2_X, RESPONSE2_Y)
+
+Infinity = float("inf")
+tab = '\t'
+
+OBJECT_START_POSITION = ( WINDOW_WIDTH + 400, BLOCKER_Y)
+
+def q(x): return "\""+x+"\""

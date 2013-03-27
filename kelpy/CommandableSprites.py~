@@ -1,0 +1,276 @@
+# -*- coding: utf-8 -*-
+
+from pygame import Rect, Color
+from pygame.sprite import Sprite
+from Arrangeable import *
+from Dragable import *
+from time import time
+from copy import copy
+from math import *
+from pygame.locals import *
+import pygame
+
+
+"""
+	TODO: Break this up into separate classes
+	      Change the naming of rotate etc. so that if duration is not specified, it happens immediately
+
+"""
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# This extends sprites by making them commandable, so that they will do things at certain times
+# (in a sequence)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class CommandableSprite(Sprite, Dragable):
+	
+	def __init__(self, screen, init_position, isdraggable=False):
+		
+		#Arrangeable.__init__(self)
+		Sprite.__init__(self)
+		
+		Dragable.__init__(self)
+		self.set_draggable(isdraggable)
+		
+		self.commands = []
+		self.running = False	
+		self.screen = screen
+		self.set_position(init_position)
+		self.update_callbacks = [] 
+		self.isdraggable = isdraggable
+		
+	def add_update_callback(self, f):
+		self.update_callbacks.append(f)
+	
+	def update(self):
+		for x in self.update_callbacks:
+			x(self)
+			
+	# this starts the timer for it to start processing actions
+	def start(self):
+		self.running = True
+		self.start_x = self.get_x()
+		self.start_y = self.get_y()
+	
+	def position(self):
+		return [self.get_x(), self.get_y()]
+	
+	def stop(self):
+		self.running = False
+	
+	# This pushes a list of commands onto myself
+	def push_commands(self, **d):
+		self.commands.append(d)
+
+	# get rid of the current command
+	def next_command(self): 
+		if len(self.commands) > 0:
+			del self.commands[0]
+	
+	
+	# NOTE: We re-did this so that each commandable sprite just
+	# processes single commands, and the queue is external
+	# Update the current action
+	def update_action(self, **c):
+
+		if c['first']: # If this is the first function call
+			self.start_x, self.start_y = self.position()
+			self.start_time = time()
+	
+		action = c['action']
+		duration = c.get('duration', 0.0) # get the duration else 0.0 if none is specified
+		
+		# update according to remaining time
+		if action == 'move': # move
+			wf = c.get('waitfirst',0.0) # allow a waitfirst argument to delay our movement
+			deltat = (time() - self.start_time)
+			if deltat > wf:
+				x,y = c['pos']
+				time_pct = deltat / duration
+				self.set_x( (x - self.start_x) * time_pct + self.start_x)
+				self.set_y( (y - self.start_y) * time_pct + self.start_y)
+				if time_pct > 1 or duration <= 0.0: self.set_position(x,y) 
+		elif action == 'wait': # wait in a location
+			pass # do nothing
+		elif action == 'jump': # jump to a location
+			self.set_position(*c['pos'])
+		elif action == 'hide': # hide, don't draw. These implicitly take duration as a "wait" afterwards, NOT as a hide or show for that long
+			self.visible=False
+		elif action == 'show':
+			if self.visible == False: self.last_showtime = time() # store when we were last shown
+			self.visible=True
+				
+		return False
+		
+	## Overwrite this in inherited classes
+	def draw(self):
+		pass
+	
+	def clickme(self, *args):
+		pass
+
+	
+	
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# This extends sprites by making them commandable, so that they will do things at certain times
+# (in a sequence)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+class CommandableImageSprite(CommandableSprite):
+	
+
+	def __init__(self, screen, init_position, imagepath, rotation=0, scale=1.0, brightness=1.0, isdraggable=False):
+		""" Create a new object.
+		
+		screen: 
+		The screen on which the creep lives (must be a 
+		pygame Surface object, such as pygame.display)
+		
+		creep_image: 
+		Image (surface) object for the creep
+			
+		init_position:
+		A vec2d or a pair specifying the initial position
+		of the creep on the screen.
+		"""
+		CommandableSprite.__init__(self, screen, init_position, isdraggable=isdraggable)
+		
+		
+		# load the image
+		##NOTE: Here image stores the current display image, and base_image stores it before scaling+rotation
+		self.scale = scale
+		self.rotation = rotation
+		self.initial_scale = scale # for 'restore' command
+		self.initial_rotation = rotation
+		self.initial_brightness = brightness
+		self.initial_imagepath = imagepath
+		
+		self.set_image(imagepath, rotation, scale, brightness)
+		self.visible = True
+		
+		# some variables needed for the movements, to be stored across updates
+		self.last_blink_parity = 1;
+		
+	
+	def set_image(self, imagepath, rotation=0, scale=1.0, brightness=1.0):
+		
+		# We use PIL to load images (so we can manipulate them)
+		self.PILimage  = PIL.Image.open(imagepath)
+		assert self.PILimage.mode in ["RGB", "RGBA"] # check that its the right mode
+		
+		self.base_pyimage =  pygame.image.fromstring(self.PILimage.tostring(), self.PILimage.size, self.PILimage.mode)
+		#self.base_image = pygame.image.load(imagepath).convert_alpha()
+		self.image_path = imagepath
+		
+		# and update the features
+		self.set_image_attributes(rotation=rotation, scale=scale, brightness=brightness)
+		
+	def set_image_attributes(self, rotation=None, scale=None, brightness=None):
+		"""
+			update the image attributes. Note: This does not load it from the disk -- it only re-loads from the PIL stored self.PILimage
+		"""
+		
+		if rotation is None: rotation = self.rotation
+		if scale is None:    scale    = self.scale
+		
+		if brightness is not None:
+			# re-convert from PIL if we must (if brightness is altered)
+			ii = PIL.ImageEnhance.Brightness(self.PILimage).enhance(brightness)
+			self.base_pyimage = pygame.image.fromstring(ii.tostring(), ii.size, ii.mode)
+		
+		# re-rotate and zoom the base pyimage
+		self.display_image = pygame.transform.rotozoom(self.base_pyimage, rotation, scale )
+		w,h = self.display_image.get_size()	
+		self.set_width(w)
+		self.set_height(h)
+		
+		# and save the features
+		self.scale = scale
+		self.rotation = rotation
+		if brightness is not None: self.brightness = brightness
+		
+		
+	def update_action(self, **c):
+	
+		if c['first']: # If this is the first function call
+			self.start_x, self.start_y = self.position()
+			self.start_time = time()
+			self.start_rotation = self.rotation
+			self.start_scale = self.scale
+			self.start_brightness = self.brightness
+			
+			
+		action = c['action']
+		duration = c.get('duration', 0.0) # get the duration else 0.0 if none is specified
+		
+		# try updating as parent
+		u = CommandableSprite.update_action(self, **c) # update there
+		
+		# update according to remaining time
+		if action == 'wagglemove': # waggle and move; should be a better way to do this
+			t = (time() - self.start_time)
+			start_time = self.start_time
+			x,y = c['pos']
+			
+			self.set_image_attributes(rotation=self.rotation + c['amount'] * sin(2.0 * pi * t / c['period']) / 2)
+			time_pct = t / duration
+			
+			time_pct = (time() - start_time) / duration
+			self.set_x( (x - self.start_x) * time_pct + self.start_x)
+			self.set_y( (y - self.start_y) * time_pct + self.start_y)
+			if time_pct >= 1: self.set_position(x,y) ## TODO: Here we could steal from the next time appropriately, but let's ignore it for now
+		elif action == 'waggle': ## NOTE: this leaves it rotated if 
+			t = (time() - self.start_time) 
+			self.set_image_attributes(rotation=self.rotation + c['amount'] * sin(2.0 * pi * t / c['period']) / 2)
+		elif action == 'circlezoom':
+			t = (time() - self.start_time) 
+			self.set_image_attributes(scale=self.scale + c['amount'] * sin(2.0 * pi * t / c['period'] ) / 2)
+		elif action == 'zoom':
+			t = ifelse(duration==0, 1.0, (time() - self.start_time) / duration)
+			self.set_image_attributes(scale=self.start_scale*(1.-t) + self.start_scale * c['amount'] * t)
+		elif action == 'swap': # here we swap the image for something else; parameters are scale and rotation
+			# This can take a "flag" which is a global variable -- we only swap if the variable is "true" at the time this is evaled
+			# if no flag is specified, we always do the swap
+			self.set_image( c['image'], c['rotation'], c['scale'] ) # takes the file, rotation, scale from parameters
+		elif action == 'rotate': # spin is an interactive action that takes some time
+			t = ifelse(duration==0, 1.0, (time() - self.start_time) / duration)
+			self.set_image_attributes(rotation=self.start_rotation + t * c['amount'] )
+		elif action == 'darken':
+			t = ifelse(duration==0, 1.0, (time() - self.start_time) / duration)
+			self.set_image_attributes(brightness=self.start_brightness*(1.-t)+c['amount']*t)
+		elif action == 'swapblink': # swap between two images
+			if c['first']: # if we are just starting this
+				self.initial_swap_image = self.image_path
+				self.initial_scale = self.scale
+				self.initial_rotation = self.rotation
+				self.initial_brightness = self.brightness
+		
+			period = c['period']
+			t = (time() - c['start_time']) 
+			parity = (1-abs((floor( t / period ) % 2)) < 1e-4) # make a number
+			#print [t, period, self.last_blink_parity]
+			
+			if self.last_blink_parity != parity:
+				self.last_blink_parity = parity
+				if parity: self.set_image(self.initial_swap_image, self.initial_rotation, self.initial_scale)
+				else:      self.set_image(c['image'], c['rotation'], c['scale'], c['brightness']) 				
+		elif action == 'restore': # return to the original image that we loaded
+		
+			## TODO MAKE THIS RESTORE BRIGHTNESS ETC
+			self.set_image(self.initial_imagepath, self.initial_rotation, self.initial_scale, self.initial_brightness)
+		#elif not u: # if the parent could not update this
+			#print "*** Bad CommandableImageSprite action! ", action
+		
+		return False
+		
+		
+	def draw(self):
+		## here is where we process commands
+		#print self.pos
+		if self.visible:
+			w = self.display_image.get_width()
+			h = self.display_image.get_height()
+			self.screen.blit(self.display_image, pygame.Rect(self.get_x() - w/2, self.get_y() - h/2, w, h)) # transform by our coordinates and draw
+
+	
+	
+	
+	

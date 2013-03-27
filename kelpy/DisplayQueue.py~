@@ -1,0 +1,116 @@
+# -*- coding: utf-8 -*-
+
+from time import time
+from kelpy.Miscellaneous import *
+
+class DisplayQueue:
+	"""
+		A displayqueue stores a list of objects and actions to call on them. 
+		It also stores a list of "child(ren)" display queues that get updated at the same time. This allows it
+		to process events simultaneously -- by calling append_simultaneous you create new children.
+		      
+		This returns True on update() when it's all done.
+	"""
+		
+	# each queue stores a bunch of children queues that are sub-processes that are updated whenever we are
+	def __init__(self, obj=None):
+		self.obj = obj
+		self.commands = []
+		self.children = []
+		self.first = True
+		self.snd = None
+		pass
+	
+	def start(self):
+		self.start_time = time()
+		
+	def append(self, **args ):
+		self.commands.append( args )
+	
+	# We push on a simultanous command, simultanous with the command that came before
+	def append_simultaneous(self, **args):
+		args['simultaneous'] = True
+		self.append(**args)
+		
+	# force movement onto the next action
+	def next_action(self):
+		del self.commands[0]
+		self.start_time = -1
+	
+	# clean out the Q
+	def purge(self):
+		self.commands = []
+		self.first = True
+		
+		# and stop sounds
+		if self.snd is not None:
+			self.snd.stop()
+			self.snd = None
+			
+		
+	def update(self):
+		
+		# Cute--update the kids and remove ones that retun True
+		# TODO: maybe a memory hog? Slow?
+		self.children = [ x for x in self.children if not x.update() ]
+		
+		# then update myself
+		if len(self.commands) > 0:
+			"""
+				u - stores whether or not we are done with the updating
+			"""
+			
+			args = self.commands[0]
+			
+			# Handle the children!
+			# while the *next* command is a simultanous one, push it onto my children
+			while len(self.commands) > 1 and self.commands[1].get('simultaneous', False):
+				q = DisplayQueue()
+				q.append(**self.commands[1])
+				self.children.append(q)
+				del self.commands[1]
+				
+			# if we are starting a new command
+			args['first'] = self.first # pass this in in case the update needs the start time
+			if args['obj'] == 'sound': # if this, then we will play a sound file
+				if self.first:
+					# this declaration of a new sound object will make them overlap if multiples are played
+					self.snd = pygame.mixer.Sound( args['file'] )
+					self.snd.set_volume( args.get('volume', 0.5) )
+					self.snd.play()
+					self.start_time = time()
+					args['duration'] = self.snd.get_length() # how long is it? This is what determines when it's done
+					self.first=False
+				
+				u = not args.get('wait', False)
+			elif args['obj'] == 'call': # allow calling arbitrary functions
+				args['function'].__call__()
+				u = True
+			elif args['obj'] == 'block_event': # allow us to queue blocking and allowing events
+				pygame.event.set_blocked(args['type'])
+				u = True # done
+			elif args['obj'] == 'allow_event':
+				pygame.event.set_allowed(args['type'])
+				u = True
+			elif args['obj'] == 'throw_event': # allow queues to throw pygame events
+				pygame.event.post(args['event']);
+				u = True
+			else:
+				# keep track of tehe start time, if this is the first time for this command
+				if self.first: 
+					self.start_time = time() # update the time
+					self.first=False # update this for next time
+				
+				args['start_time'] = self.start_time # pass this as an argument
+				u = args['obj'].update_action(**args)
+				
+			# if u returns true or we have run long enough, purge
+			if u or ( time() -  self.start_time) >= args.get('duration', 0.0): 
+				del self.commands[0] #we're done
+				self.first = True
+			
+			return False # we are not done
+		else:
+			return True and len(self.children)==0 # we are done if self.commands is empty and all children are done
+
+
