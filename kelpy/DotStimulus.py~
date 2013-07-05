@@ -6,7 +6,7 @@ from kelpy.CommandableImageSprite import *
 import pygame
 
 from random import randint
-from pygame.gfxdraw import aacircle, filled_circle
+from pygame.gfxdraw import aacircle 
 
 # For outputting images
 import Image
@@ -82,7 +82,6 @@ class DotStimulus(CommandableSprite):
 				i += 1
 		
 	def to_image(self, f, width=350, height=350):
-		# This will draw these dots as an image. We use a different library here for outputting an image
 		
 		# set up the image
 		im = Image.new('RGB', (self.width, self.height))
@@ -119,24 +118,22 @@ class DotStimulus(CommandableSprite):
 		l = int(self.get_left())
 		t = int(self.get_top())
 		
+		#pygame.draw.circle(Surface, color, pos, radius, width=0): return Rect
+		pygame.draw.rect(self.screen,self.bg_color,self.get_pygame_Rect())
+		
 		if self.circled:
 			if self.border_width == 0: # no border --- just draw the background
 				pygame.draw.circle(self.screen, self.circle_color, (mx, my), min(self.width/2,self.height/2) )
 			else: 
-				filled_circle(self.screen, mx, my, min(self.width/2,self.height/2), (0,0,0) ) # draw a black outer rim
-				aacircle(self.screen, mx, my, min(self.width/2,self.height/2), (0,0,0) ) # draw a black outer rim
-				
-				filled_circle(self.screen, mx, my, min(self.width/2-self.border_width,self.height/2-self.border_width), self.circle_color) 
-				aacircle(self.screen, mx, my, min(self.width/2-self.border_width,self.height/2-self.border_width), self.circle_color) # and the inside the color we want
-				
+				aacircle(self.screen, mx, my, min(self.width/2,self.height/2), self.circle_color)
+		
 		# And draw each dot position
 		for i in xrange(self.N):
 			dx,dy = self.dot_positions[i]
 			r = self.radii[i]
-			
-			# here we draw twice to antialias the edges
-			filled_circle(self.screen, int(dx+l), int(dy+t), int(r), self.dot_color)
-			aacircle(self.screen, int(dx+l), int(dy+t), int(r), self.dot_color)
+			#print dx,dy,  (dx+l, dy+t), r, self.border_width
+			pygame.draw.circle(self.screen, self.dot_color, (dx+l, dy+t), int(r), self.border_width)
+			#aacircle(self.screen, dx+l, dy+t, r, self.dot_color)
 		
 		
 		
