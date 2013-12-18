@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from CommandableImageSprite import *
+from CommandableSprites import *
 from Arrangeable import *
 from time import time
 from random import randint, choice, sample, shuffle
@@ -197,17 +197,12 @@ class ImageClickResponse(CommandableSprite):
 							for ii in range(len(self.children)):
 								if ii == cl:
 									#print "Queing circlezoom"
-									# FOR EXP: self.Q.append(obj=self.children[ii], action='circlezoom', amount=0.05, period=0.5, duration=1.0)
-									#FOR DEMO:
-									self.Q.append(obj=self.children[ii], action='circlezoom', amount=0.01, period=0.5, duration=1.0)
-									
+									self.Q.append(obj=self.children[ii], action='circlezoom', amount=0.05, period=0.5, duration=1.0)
 									self.Q.append(obj=self.children[ii], action='restore')
 									self.finished_responding = True # we are done responding, but there is still stuff on the queue
 									self.enabled = False
 						else:
-							# FOR DEMO:
-							self.Q.append(obj=self.children[cl], action='waggle', amount=1.0, period=0.25, duration=0.75)
-		#					FOR EXP: self.Q.append(obj=self.children[cl], action='waggle', amount=5.0, period=0.25, duration=0.75)
+							self.Q.append(obj=self.children[cl], action='waggle', amount=5.0, period=0.25, duration=0.75)
 							self.Q.append(obj=self.children[cl], action='restore') # restore rotation to 0
 						
 					else: # no feedback

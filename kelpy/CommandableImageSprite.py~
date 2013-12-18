@@ -2,7 +2,6 @@ from CommandableSprite import *
 from pygame.image import *
 import PIL.Image # we use this to load images so we can alter attributes easily
 import PIL.ImageEnhance
-import Image
 from copy import deepcopy
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -42,10 +41,10 @@ class CommandableImageSprite(CommandableSprite):
 		
 	
 	def set_image(self, imagepath, rotation=0, scale=1.0, brightness=1.0):
+		
 		# We use PIL to load images (so we can manipulate them)
-		self.PILimage = PIL.Image.open(imagepath)
-		#self.PILimage = self.PILimage.resize(self.PILimage.size, Image.ANTIALIAS) # Hmm we should antialias here in the future
-		assert self.PILimage.mode in ["RGB", "RGBA"], "*** NOT IN RIGHT MODE:"+self.PILimage.mode # check that its the right mode
+		self.PILimage  = PIL.Image.open(imagepath)
+		assert self.PILimage.mode in ["RGB", "RGBA"] # check that its the right mode
 		
 		self.base_pyimage =  pygame.image.fromstring(self.PILimage.tostring(), self.PILimage.size, self.PILimage.mode)
 		#self.base_image = pygame.image.load(imagepath).convert_alpha()
@@ -119,7 +118,7 @@ class CommandableImageSprite(CommandableSprite):
 		elif action == 'waggle': ## NOTE: this leaves it rotated if 
 			self.set_image_attributes(rotation=self.rotation + c['amount'] * sin(2.0 * pi * t / c['period']) / 2)
 			if c.get('finish',False) is True: self.set_image_attributes(rotation=self.start_rotation)
-		elif action == 'circlescale':
+		elif action == 'circlezoom':
 			self.set_image_attributes(scale=self.scale + c['amount'] * sin(2.0 * pi * t / c['period'] ) / 2)
 			if c.get('finish',False) is True: self.set_image_attributes(scale=self.start_scale)
 		elif action == 'scale':

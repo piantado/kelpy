@@ -164,6 +164,8 @@ def kely_standard_event_loop(screen, *args, **kwargs):
 		Here, each arg gets "update()" called on each loop, and we yeild the current time. 
 		We also process the screen flips, etc. etc. 
 		
+		NOTE: SPACEBAR_CHANGE_EVENT sends the new state, NOT the old state! So if you want the time for lookaways, you have to look at times 
+		TODO: WE SHOULD CHANGE THIS AFTER COMPBABY RUNS SO THAT THE is_space_pressed is the OLD time, so its reporting events (instead of new stats with prior times)
 		If a pygame event of type LOOP_EXIT_EVENT is thrown, then we exit this loop
 	"""
 	

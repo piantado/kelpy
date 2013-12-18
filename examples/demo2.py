@@ -1,50 +1,47 @@
 # -*- coding: utf-8 -*-
+
+"""
+
+	A simple example. One car drives in (irrelevant)
+	Users must click until they get the "right" car. For simplicity, there is no cue to "right"
+"""
+
 import os, sys
-# sys.path.append('/home/piantado/Desktop/mit/Libraries/kelpy/') ## THIS SHOULD POINT TO KELPY
-# sys.path.append('/home/piantado/Desktop/mit/Libraries/kelpy/kelpy') ## THIS SHOULD POINT TO KELPY
 import pygame
-from pygame.locals import *
 from random import randint, choice, sample, shuffle
 from time import time
 
-from copy import copy
-
-from kelpy.CommandableSprites import *
+from kelpy.CommandableImageSprite import *
 from kelpy.Miscellaneous import *
+from kelpy.DisplayQueue import *
+from kelpy.OrderedUpdates import *
 
 IMAGE_SCALE = 0.25
 HOFFSET = 100
 VOFFSET = 100
 
-INCORRECT_SOUND = "sounds/button-1.wav"
-
 ##############################################
 ## Set up pygame
 
-pygame.init()
-#screen = pygame.display.set_mode( (0,0), pygame.FULLSCREEN)
+screen = initialize_kelpy( dimensions=(800,600) )
+WINDOW_WIDTH, WINDOW_HEIGHT = screen.get_size()
 
-screen = pygame.display.set_mode((800, 600))
-
-WINDOW_WIDTH = screen.get_width() #1024
-WINDOW_HEIGHT = screen.get_height() #768
-
+OFF_LEFT = (-300, WINDOW_HEIGHT/2)
 background_color = (140, 140, 140) # 90 # 190
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Run a single trial
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
-# this sets up a trial and returns a set of objects, to be displayed etc. 
-# this returns True if it was right on the first try
-def present_trial(images, correct, sound):
+def present_trial(images, correct):
 	
-	if len(images) != 4: print "*** ERROR! DID NOT SUPPLY 4 IMAGES: ", images
+	assert len(images) == 4, "*** ERROR! DID NOT SUPPLY 4 IMAGES: " + str(images)
 	
 	img = [None] * 4
 	
 	## set the image locations
-	img[0] = CommandableImageSprite( screen, (WINDOW_WIDTH/2-HOFFSET, WINDOW_HEIGHT/2-VOFFSET), images[0], scale=IMAGE_SCALE)
+	## Images here are commandable sprites, so we can tell them what to do using Q below
+	img[0] = CommandableImageSprite( screen, OFF_LEFT, images[0], scale=IMAGE_SCALE)
 	img[1] = CommandableImageSprite( screen, (WINDOW_WIDTH/2-HOFFSET, WINDOW_HEIGHT/2+VOFFSET), images[1], scale=IMAGE_SCALE)
 	img[2] = CommandableImageSprite( screen, (WINDOW_WIDTH/2+HOFFSET, WINDOW_HEIGHT/2-VOFFSET), images[2], scale=IMAGE_SCALE)
 	img[3] = CommandableImageSprite( screen, (WINDOW_WIDTH/2+HOFFSET, WINDOW_HEIGHT/2+VOFFSET), images[3], scale=IMAGE_SCALE)
@@ -52,71 +49,53 @@ def present_trial(images, correct, sound):
 	# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 	# Set up the updates, etc. 
 	
-	dos = pygame.sprite.OrderedUpdates() # like group, but draws in order of adding
-	for i in img:
-		dos.add(i)
+	# A queue of animation operations
+	Q = DisplayQueue()
 	
-	# Play the sound
-	screen.fill(background_color)
-	pygame.display.flip() # display most recently drawn stuff
-	play_sound(sound, wait=True)
+	# Draw a single animation in if you want!
+	Q.append(obj=img[0], action='move', pos=(WINDOW_WIDTH/2-HOFFSET, WINDOW_HEIGHT/2-VOFFSET), duration=3.0)
 	
-	# We should handle everything in here
-	# and then return control to the main loop once we've completed
+	# What order do we draw sprites and things in?
+	dos = OrderedUpdates(*img) # Draw and update in this order
+	
 	start_time = time()
-	while True:
-		screen.fill(background_color)
+	
+	## The standard event loop in kelpy -- this loops infinitely to process interactions
+	## and throws events depending on what the user does
+	for event in kely_standard_event_loop(screen, Q, dos):
 		
-		# Update and redraw all
-		for c in dos:
-			c.update() # maybe nothing happens?
-			c.draw()
-		
-		pygame.display.flip()
-		
-		# process events in pygame
-		for event in pygame.event.get():
+		# If the event is a click:
+		if (  event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]):
 			
-			if (  event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]):
-				
-				# check if each of our images was clicked
-				for x in range(len(img)):
-					if img[x].click_inside(pygame.mouse.get_pos()):
-						
-						if images[x] == correct: 
-							return (time()-start_time)
-						else:
-							play_sound(INCORRECT_SOUND, wait=False)
-						
-						
-						
-			if event.type == QUIT: quit()
-			if event.type == KEYDOWN and event.key == K_ESCAPE: quit()
-		
+			# check if each of our images was clicked
+			for x in range(len(img)):
+				if img[x].click_inside(pygame.mouse.get_pos()):
+					
+					# Make whoever is clicked move into the middle
+					Q.append(obj=img[x], action='move', pos=(WINDOW_WIDTH/2, WINDOW_HEIGHT/2), duration=1.0)
+					
+					#if images[x] == correct: 
+						#return (time()-start_time)
+					
+	
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Main loop
+# Main experiment
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-def run():
+
+# Set up images:
+target_images = [kstimulus("feature_cars/car1_blue_stars.png"),kstimulus("feature_cars/car1_red_circles.png") , kstimulus("feature_cars/car1_red_stars.png"), kstimulus("feature_cars/car2_blue_circles.png")]
+
+# present a number of blocks
+for block in range(10):
+
 	
-	"""
-		Load the excel file etc. 
-	"""
-	
-	target_images = ["images/car1_blue_stars.png","images/car1_red_circles.png","images/car1_red_stars.png","images/car2_blue_circles.png"]
-	target_sounds = ["sounds/reward-2.wav", "sounds/reward-3.wav", "sounds/reward-4.wav", "sounds/fanfare-1.wav"]
+	# Randomize the order
 	shuffle(target_images)
+	targetidx = randint(0,3)
 	
-	for block in range(10):
-		
-		order = range(len(target_images))
-		shuffle(order)
-		
-		for o in order:
-			
-			print present_trial(target_images, target_images[o], target_sounds[o])
-	
-	
-	
+	print block, targetidx, target_images[targetidx], present_trial(target_images, target_images[targetidx])
+
+
 run()
 
 	

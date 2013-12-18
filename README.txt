@@ -21,6 +21,10 @@ CREDITS:
 
 Matthew McGovern is awesome (and made all of the sounds).
 
+DEPENDENCIES:
+	- PIL
+	- pygame
+	- 
 
 
 

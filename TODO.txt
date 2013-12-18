@@ -1,5 +1,9 @@
+- USE ALL OF the glitch artwork!!
+	http://boingboing.net/2013/12/11/glitch.html
+	
 - WE HAVE BEEN FIDDLING WITH HOW ROTATION ETC WORKS IN KELPY SO GO BACK TO KIDLOGIC, COMPOSITIONALITY, ETC AND SEE WHAT WORKS...
 
+- Make the the attention getter have a minimum time
 
 - Add eyetracking support via tobii
 - Add video recording support (e.g. video of the experiment that was run)
