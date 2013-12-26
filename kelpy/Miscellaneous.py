@@ -158,7 +158,7 @@ def clear_screen(screen):
 	pygame.display.flip()
 
 
-def kely_standard_event_loop(screen, *args, **kwargs):
+def kelpy_standard_event_loop(screen, *args, **kwargs):
 	"""
 		This is a cute way to loop indefinitely (or until max time -- TODO implement this), while updating kelpy objects. 
 		Here, each arg gets "update()" called on each loop, and we yeild the current time. 
@@ -191,6 +191,7 @@ def kely_standard_event_loop(screen, *args, **kwargs):
 		
 		if kwargs.get('throw_null_events', False): # these will throw a "NULL" event every iteration, in order to process things outside this loop each time point
 			pygame.event.post(pygame.event.Event(NULL_EVENT))
+		
 		
 		# process all events
 		for event in pygame.event.get():

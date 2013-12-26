@@ -55,7 +55,7 @@ def present_trial(imagepath):
 	
 	## The standard event loop in kelpy -- this loops infinitely to process interactions
 	## and throws events depending on what the user does
-	for event in kely_standard_event_loop(screen, Q, dos, throw_null_events=True):
+	for event in kelpy_standard_event_loop(screen, Q, dos, throw_null_events=True):
 		
 		if( time() - start_time > MAX_DISPLAY_TIME): 
 			break

@@ -1,0 +1,8 @@
+#ignore the following#
+######################
+
+*~
+#ubuntu one temporary files
+
+*.pyc
+

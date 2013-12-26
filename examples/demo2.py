@@ -62,7 +62,7 @@ def present_trial(images, correct):
 	
 	## The standard event loop in kelpy -- this loops infinitely to process interactions
 	## and throws events depending on what the user does
-	for event in kely_standard_event_loop(screen, Q, dos):
+	for event in kelpy_standard_event_loop(screen, Q, dos):
 		
 		# If the event is a click:
 		if (  event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]):
