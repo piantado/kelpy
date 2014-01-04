@@ -123,23 +123,24 @@ def present_trial(car_paths, animal_paths):
 	## They are moved to a shuffled position from the onscreen_positions array.
 	## Note that we first shuffle the array to randomize the positions.
 	shuffle(onscreen_positions)
+	start_time = time()
 	Q.append(obj=img[0], action='move', pos= onscreen_positions[0], duration=1.5)
 	Q.append(obj=img[1], action='move', pos= onscreen_positions[1], duration=1.5)
-		
+	
 	# We store the order that we will draw and update things in this variable 'dos'
 	dos = OrderedUpdates(*img) 
 
 	## And we take a note of the time that the trial starts with this line.
 	## Calling the time() method from the python time library.
-	start_time = time()
-	
+
+		
 	#####################################################
 	##These next few lines are used to print all of our info in a nice and orderly fashion.
 	##the python str method rsplit is used to seperate the filename from the rest of the filepath.
 	## we simply match everything 1 backslash from the end, it returns both items in a list.
 	## we want the last item, so we ask for item 1 from the list. It's repeated for the car and animal images.
-	car_used = car_images[pick1].rsplit('/', 1)[1]
-	animal_used = animal_images[pick2].rsplit('/', 1)[1]
+	car_used = filename(car_images[pick1])
+	animal_used = filename(animal_images[pick2])
 	
 	###############
 	## Then we determine whether the onscreen position for the car was left or right. We deduce that the animal was the opposite.
@@ -150,7 +151,7 @@ def present_trial(car_paths, animal_paths):
 	else:
 		car_position = 'RIGHT'
 		animal_position = 'LEFT'
-		
+	
 	
 	
 
@@ -164,14 +165,15 @@ def present_trial(car_paths, animal_paths):
 			## check if each of our images was clicked.
 			## (we use the function wasClicked from the kelpy EventHandler library to return which item was clicked.)
 			who = who_was_clicked(dos)
+			trial_time = time() - start_time
 			if who is correct:
-			## if the image that was clicked is the 'correct' one, play a sound and print true. 
+			## Print whether the correct item was clicked, which car was used, it's position, which animal was used and it's position, and how long the trial took in seconds.
 				play_sound(sound_yup_path, wait=True, volume=7.0)
-				return True, car_used, car_position, animal_used, animal_position
+				return True, car_used, car_position, animal_used, animal_position, trial_time
 			else:
 			## otherwise print the fail sound and print false.
 				play_sound(sound_nope_path, wait=True, volume=7.0)
-				return False, car_used, car_position, animal_used, animal_position 
+				return False, car_used, car_position, animal_used, animal_position, trial_time
 			break
 ##################################
 ## (end of present trial function)
