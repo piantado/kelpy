@@ -1,7 +1,7 @@
 #Kelpy
 
 
-*KELPY* is the *K*id *E*xperimental *L*ibrary in *PY*thon
+**KELPY** is the **K**id **E**xperimental **L**ibrary in **PY**thon
 
 ##Installation
 Put this library somewhere--mine lives in "/home/piantado/mit/Libraries/kelpy/"
@@ -21,24 +21,20 @@ And you should be ready to use the library
 ##About
 The basic approach of Kelpy is to handle simple animations and things, taking care of the main refresh-display loop in pygame, and letting us just construct sequences of object actions and handle events. Future work will handle fancier counterbalancing, etc. 
 
-**Kelpy is a work in progress, so please be mindful that some demos and classes may not function as intended just yet!**
+*Kelpy is a work in progress, so please be mindful that some demos and classes may not function as intended just yet!*
+
+
+##Dependencies:
+	
++	PIL
++	Pygame
 
 ##Credits:
-*Steven Piantadosi* wrote almost everything.
-*Amanda Yung* is also contributing a great deal to this project.
-*Matthew McGovern* contributed a little bit (and re-wrote these credits).
-
-DEPENDENCIES:
-	- PIL
-	- pygame
+**Steven T. Piantadosi** wrote almost everything.
+**Amanda Yung** and **Matthew McGovern** also contributed to this project.
 
 
-
-
-
-
-
-CITATION:
+##Citation:
 
 If you use this software, I would appreciate a citation:
 @misc{piantadosi2012kelpy,
