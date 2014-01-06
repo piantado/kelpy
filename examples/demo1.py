@@ -15,6 +15,7 @@ from kelpy.CommandableImageSprite import *
 from kelpy.Miscellaneous import *
 from kelpy.DisplayQueue import *
 from kelpy.OrderedUpdates import *
+from kelpy.EventHandler import *
 
 IMAGE_SCALE = 0.25
 
@@ -61,7 +62,7 @@ def present_trial(imagepath):
 			break
 		
 		# If the event is a click:
-		if (  event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]):
+		if is_click(event):
 			break
 	
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -78,7 +79,7 @@ for i in range(10):
 	
 	present_trial(target_images[targetidx])
 	
-	print i, targetidx, target_images[targetidx]
+	print i, targetidx, filename(target_images[targetidx])
 
 
 run()

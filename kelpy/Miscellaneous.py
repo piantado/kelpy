@@ -209,6 +209,9 @@ def kelpy_standard_event_loop(screen, *args, **kwargs):
 				for ai in a: ai.update()
 			else: a.update() # love you, duck typing XXOO
 
+def filename( inputFilepath ):
+	return inputFilepath.rsplit('/', 1)[1]
+
 			
 			
 			

@@ -15,8 +15,9 @@ from kelpy.CommandableImageSprite import *
 from kelpy.Miscellaneous import *
 from kelpy.DisplayQueue import *
 from kelpy.OrderedUpdates import *
+from kelpy.EventHandler import *
 
-IMAGE_SCALE = 0.25
+IMAGE_SCALE = 0.20
 HOFFSET = 100
 VOFFSET = 100
 
@@ -33,7 +34,8 @@ background_color = (140, 140, 140) # 90 # 190
 # Run a single trial
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
-def present_trial(images, correct):
+def present_trial(images, targetidx):
+	
 	
 	assert len(images) == 4, "*** ERROR! DID NOT SUPPLY 4 IMAGES: " + str(images)
 	
@@ -45,7 +47,7 @@ def present_trial(images, correct):
 	img[1] = CommandableImageSprite( screen, (WINDOW_WIDTH/2-HOFFSET, WINDOW_HEIGHT/2+VOFFSET), images[1], scale=IMAGE_SCALE)
 	img[2] = CommandableImageSprite( screen, (WINDOW_WIDTH/2+HOFFSET, WINDOW_HEIGHT/2-VOFFSET), images[2], scale=IMAGE_SCALE)
 	img[3] = CommandableImageSprite( screen, (WINDOW_WIDTH/2+HOFFSET, WINDOW_HEIGHT/2+VOFFSET), images[3], scale=IMAGE_SCALE)
-		
+	correct = img[targetidx]
 	# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 	# Set up the updates, etc. 
 	
@@ -65,18 +67,17 @@ def present_trial(images, correct):
 	for event in kelpy_standard_event_loop(screen, Q, dos):
 		
 		# If the event is a click:
-		if (  event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]):
+		if is_click(event):
 			
 			# check if each of our images was clicked
-			for x in range(len(img)):
-				if img[x].click_inside(pygame.mouse.get_pos()):
+			whom = who_was_clicked(dos)
 					
-					# Make whoever is clicked move into the middle
-					Q.append(obj=img[x], action='move', pos=(WINDOW_WIDTH/2, WINDOW_HEIGHT/2), duration=1.0)
-					
-					#if images[x] == correct: 
-						#return (time()-start_time)
-					
+			if whom is correct: 
+				play_sound(kstimulus('sounds/Beep2.wav'))
+				Q.append(obj=whom, action='move', pos=(WINDOW_WIDTH/2, WINDOW_HEIGHT/2), duration=1.0)
+				return (time()-start_time)
+			if whom is not correct:
+				play_sound(kstimulus('sounds/Error.wav'))
 	
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Main experiment
@@ -93,10 +94,9 @@ for block in range(10):
 	shuffle(target_images)
 	targetidx = randint(0,3)
 	
-	print block, targetidx, target_images[targetidx], present_trial(target_images, target_images[targetidx])
-
-
-run()
+## finally run the thing, also print the block number, the targetidx, and the index of the correct image.
+## the last item is the presen_trial function that actually runs the trial.
+	print block, targetidx, filename(target_images[targetidx]), present_trial(target_images, targetidx)
 
 	
 	
