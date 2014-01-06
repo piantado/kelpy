@@ -42,5 +42,5 @@ This software may be cited as:
 	author={Steven T. Piantadosi},
 	title={ Kelpy: a free library for child experimentation in python},
 	year={2012},
-	howpublished={available from http://web.mit.edu/piantado/www/}
+	howpublished={available from https://github.com/piantado/kelpy/}
 	}

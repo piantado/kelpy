@@ -4,7 +4,7 @@ from random import randint, choice, sample, shuffle
 
 from time import time
 
-from kelpy.CommandableSprites import *
+from kelpy.CommandableSprite import *
 from kelpy.ImageClickResponse import *
 from kelpy.DisplayQueue import *
 from kelpy.AttentionGetter import *
@@ -167,7 +167,7 @@ def present_trial(screen, object_type, object_color, object_pattern, functions, 
 	# NOTE: this controls the z-depth
 	ou = OrderedUpdates(myobj, response1, response2, *displayscreens)
 
-	for event in kely_standard_event_loop(screen, Q, ou, bottom_smile_updates): 
+	for event in kelpy_standard_event_loop(screen, Q, ou, bottom_smile_updates): 
 		if (  event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]):
 				for x in dos: x.clickme(pygame.mouse.get_pos()) # everyone gets to process this:
 		if event.type == QUIT: quit()

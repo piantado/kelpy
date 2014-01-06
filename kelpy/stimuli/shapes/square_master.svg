@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="300"
+   height="300"
+   id="svg2">
+  <defs
+     id="defs4">
+    <filter
+       color-interpolation-filters="sRGB"
+       id="filter3858">
+      <feGaussianBlur
+         id="feGaussianBlur3860"
+         stdDeviation="5"
+         result="result1" />
+      <feComposite
+         in2="result1"
+         operator="arithmetic"
+         k1="0"
+         k2="2"
+         k3="0"
+         k4="0"
+         in="result1"
+         id="feComposite3862" />
+    </filter>
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-752.36218)"
+     id="layer1" />
+  <g
+     transform="matrix(3.0000153,0,0,2.9993596,-7.6276564e-4,0.06327724)"
+     id="layer2">
+    <rect
+       width="97.59375"
+       height="97.59375"
+       x="1.2031239"
+       y="1.2031261"
+       id="rect4301"
+       style="opacity:0.98999999;fill:#ff6600;fill-opacity:1;stroke:#003a00;stroke-width:2.40624785;stroke-opacity:1" />
+  </g>
+</svg>

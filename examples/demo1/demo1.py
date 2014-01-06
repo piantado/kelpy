@@ -2,8 +2,8 @@
 
 """
 
-	A simple example. One car drives in (irrelevant)
-	Users must click until they get the "right" car. For simplicity, there is no cue to "right"
+	A simple example. One car drives in (irrelevant).
+	The task ends when the user clicks the car.
 """
 
 import os, sys
@@ -28,14 +28,16 @@ screen = initialize_kelpy( dimensions=(800,600) )
 WINDOW_WIDTH, WINDOW_HEIGHT = screen.get_size()
 
 OFF_LEFT = (-300, WINDOW_HEIGHT/2)
-background_color = (140, 140, 140) # 90 # 190
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Run a single trial
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
 def present_trial(imagepath):
-	
+	"""
+	This is the main function used to run this demo. It is fed an imagepath and uses this to create a CommandableImageSprite offscreen. This Sprite is later moved onto the screen, where it hangs out until it is clicked.
+
+	"""
 	## Images here are commandable sprites, so we can tell them what to do using Q below
 	img = CommandableImageSprite( screen, OFF_LEFT, imagepath, scale=IMAGE_SCALE)
 		
