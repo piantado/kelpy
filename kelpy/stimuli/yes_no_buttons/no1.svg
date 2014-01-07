@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.1"
+   width="300"
+   height="300"
+   id="svg2">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3757">
+      <stop
+         id="stop3765"
+         style="stop-color:#ff0000;stop-opacity:1"
+         offset="0" />
+      <stop
+         id="stop3811"
+         style="stop-color:#930000;stop-opacity:1"
+         offset="0.32187125" />
+      <stop
+         id="stop3809"
+         style="stop-color:#ef0000;stop-opacity:1"
+         offset="0.77831435" />
+      <stop
+         id="stop3761"
+         style="stop-color:#000400;stop-opacity:1"
+         offset="1" />
+    </linearGradient>
+    <radialGradient
+       cx="188.89853"
+       cy="199.9949"
+       r="139.90105"
+       fx="188.89853"
+       fy="199.9949"
+       id="radialGradient3763"
+       xlink:href="#linearGradient3757"
+       gradientUnits="userSpaceOnUse" />
+    <filter
+       color-interpolation-filters="sRGB"
+       id="filter3821">
+      <feGaussianBlur
+         id="feGaussianBlur3823"
+         stdDeviation="1.1152084" />
+    </filter>
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-752.36218)"
+     id="layer1">
+    <path
+       d="m 328.29958,199.9949 a 139.40105,139.40105 0 1 1 -278.802098,0 139.40105,139.40105 0 1 1 278.802098,0 z"
+       transform="matrix(0.96579353,0,0,0.96579353,-30.365909,708.14748)"
+       id="path2985"
+       style="opacity:0.98999999;fill:url(#radialGradient3763);fill-opacity:1;stroke:#000000;stroke-width:20.80051231;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter3821)" />
+  </g>
+</svg>

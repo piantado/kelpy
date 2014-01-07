@@ -116,23 +116,25 @@ def present_trial(car_paths, animal_paths):
 
 	## This line sets up the display queue (from the kelpy class DisplayQueue(). Think of this as our list of things to happen.
 	Q = DisplayQueue()
-
+	
+	## And we take a note of the time that the trial starts with this line.
+	## Calling the time() method from the python time library.
+	start_time = time()
+	
 	#### These next lines are a script of what is to happen in the experiment.
 
 	## We move the two objects in from their start positions offscreen.
 	## They are moved to a shuffled position from the onscreen_positions array.
 	## Note that we first shuffle the array to randomize the positions.
 	shuffle(onscreen_positions)
-	start_time = time()
+	
 	Q.append(obj=img[0], action='move', pos= onscreen_positions[0], duration=1.5)
 	Q.append(obj=img[1], action='move', pos= onscreen_positions[1], duration=1.5)
 	
 	# We store the order that we will draw and update things in this variable 'dos'
 	dos = OrderedUpdates(*img) 
 
-	## And we take a note of the time that the trial starts with this line.
-	## Calling the time() method from the python time library.
-
+	
 		
 	#####################################################
 	##These next few lines are used to print all of our info in a nice and orderly fashion.
@@ -165,13 +167,15 @@ def present_trial(car_paths, animal_paths):
 			## check if each of our images was clicked.
 			## (we use the function wasClicked from the kelpy EventHandler library to return which item was clicked.)
 			who = who_was_clicked(dos)
-			trial_time = time() - start_time
+			
 			if who is correct:
 			## Print whether the correct item was clicked, which car was used, it's position, which animal was used and it's position, and how long the trial took in seconds.
+				trial_time = time() - start_time
 				play_sound(sound_yup_path, wait=True, volume=7.0)
 				return True, car_used, car_position, animal_used, animal_position, trial_time
 			else:
 			## otherwise print the fail sound and print false.
+				trial_time = time() - start_time
 				play_sound(sound_nope_path, wait=True, volume=7.0)
 				return False, car_used, car_position, animal_used, animal_position, trial_time
 			break

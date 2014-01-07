@@ -114,7 +114,7 @@ def loop_till_key(key=K_RETURN):
 				if event.type == KEYDOWN and event.key == K_ESCAPE: quit()
 
 
-def play_sound(sound, wait=False, volume=0.5):
+def play_sound(sound, wait=False, volume=0.9):
 	#snd = pygame.mixer.Sound( sound )
 	#snd.set_volume( volume )
 	#snd.play()
