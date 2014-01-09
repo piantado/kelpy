@@ -82,26 +82,3 @@ for i in range(10):
 	
 	print i, targetidx, filename(target_images[targetidx])
 
-
-run()
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
