@@ -9,10 +9,11 @@ import random
 import pygame
 from time import time
 from pygame.locals import *
+from kelpy.KelpyScreenObject import *
 
 
 ## Some global variables we care about
-screen, clock, WINDOW_WIDTH, WINDOW_HEIGHT = [None]*4
+screen, clock = [None]*2
 
 OFFSCREEN = [-10000, -10000]
 
@@ -115,22 +116,29 @@ def loop_till_key(key=K_RETURN):
 
 
 def play_sound(sound, wait=False, volume=0.9):
-	#snd = pygame.mixer.Sound( sound )
-	#snd.set_volume( volume )
-	#snd.play()
-					
-	pygame.mixer.music.load(sound)
-	pygame.mixer.music.set_volume(volume)
-	pygame.mixer.music.play()
-	
-	if wait:
-		while pygame.mixer.music.get_busy(): pass
-		
-		
+    """ 
+    Simplifies the pygame sound module into a single function for playing sounds.
+    
+    Set wait to true to tell the program to wait until the sound if finished to continue.
+    This may fix problems where the program ends before a sound finishes playing, and makes it seem like the sound
+    hasn't started playing at all.
+    
+    volume sets the volume, between 0.0 and 1.0 
+    """
+    #snd = pygame.mixer.Sound( sound )
+    #snd.set_volume( volume )
+    pygame.mixer.music.load(sound)
+    pygame.mixer.music.set_volume(volume)
+    pygame.mixer.music.play()
+    if wait:
+        while pygame.mixer.music.get_busy(): pass
+        
+
+
 def initialize_kelpy(dimensions=(1024,768), bg=(250,250,250), fullscreen=False):
 	"""
 		Calls a bunch of pygame functions to set up the screen, etc. 
-		- Fullscreen - if true, we override the dimensions
+		- Fullscreen - if true, we override the dimensions.
 	"""
 	
 	global background_color # change the up-one-level variable
@@ -138,9 +146,10 @@ def initialize_kelpy(dimensions=(1024,768), bg=(250,250,250), fullscreen=False):
 	
 	pygame.init()
 	
-	if fullscreen: screen = pygame.display.set_mode( (0,0), pygame.FULLSCREEN)
-	else:          screen = pygame.display.set_mode(dimensions)
-	
+	if fullscreen: 
+		screen = pygame.display.set_mode( (0,0), pygame.FULLSCREEN)
+	else:
+		screen = pygame.display.set_mode(dimensions)
 	clock = pygame.time.Clock()
 	
 	## And load our icon
@@ -151,7 +160,9 @@ def initialize_kelpy(dimensions=(1024,768), bg=(250,250,250), fullscreen=False):
 	if not pygame.font: print 'Warning, fonts disabled'
 	if not pygame.mixer: print 'Warning, sound disabled'
 	
-	return screen
+	kelpy_screen = KelpyScreenObject(screen)
+	
+	return kelpy_screen
 	
 def clear_screen(screen):
 	screen.fill(background_color)

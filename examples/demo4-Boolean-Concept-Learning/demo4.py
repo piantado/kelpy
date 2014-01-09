@@ -13,12 +13,11 @@ WOFFSET = 200
 HOFFSET = 100
 IMAGE_SCALE = 0.75
 
-screen = initialize_kelpy( dimensions=(800,600) )
+kscreen = initialize_kelpy( dimensions=(800,600) )
 
-WINDOW_WIDTH, WINDOW_HEIGHT = screen.get_size()
 
 OFF_SCREEN = (-300, -300)
-ON_SCREEN = (WINDOW_WIDTH/2 , WINDOW_HEIGHT/2)
+ON_SCREEN = (kscreen.WIDTH/2 , kscreen.HEIGHT/2)
 
 YES_BUTTON_SPOT = (200, 500)
 NO_BUTTON_SPOT = (600, 500)
@@ -37,7 +36,7 @@ def show_correct(correct_image):
 	
 	images = [None] * 1
 	
-	images[0] = CommandableImageSprite( screen, OFF_SCREEN, correct_image, scale=IMAGE_SCALE)
+	images[0] = CommandableImageSprite( kscreen.screen, OFF_SCREEN, correct_image, scale=IMAGE_SCALE)
 	
 	global start_time 
 	start_time = time()
@@ -50,7 +49,7 @@ def show_correct(correct_image):
 	
 	play_sound( kstimulus('sounds/Tada.wav'))
 	
-	for event in kelpy_standard_event_loop(screen, Q, dos):
+	for event in kelpy_standard_event_loop(kscreen, Q, dos):
 		if (time() - start_time) >= MAX_DISPLAY_FOR_DEMO:
 			break
 			
@@ -58,12 +57,12 @@ def present_trial(incorrect_images, correct_image):
 	this_trial = time()
 	images = [None] * 6
 	
-	images[0] = CommandableImageSprite( screen, OFF_SCREEN, correct_image, scale=IMAGE_SCALE)
-	images[1] = CommandableImageSprite( screen, OFF_SCREEN, incorrect_images[0], scale=IMAGE_SCALE)
-	images[2] = CommandableImageSprite( screen, OFF_SCREEN, incorrect_images[1], scale=IMAGE_SCALE)
-	images[3] = CommandableImageSprite( screen, OFF_SCREEN, incorrect_images[2], scale=IMAGE_SCALE)
-	images[4] = CommandableImageSprite( screen, YES_BUTTON_SPOT, YES_BUTTON, scale=BUTTON_SCALE)
-	images[5] = CommandableImageSprite( screen, NO_BUTTON_SPOT, NO_BUTTON, scale=BUTTON_SCALE)
+	images[0] = CommandableImageSprite( kscreen.screen, OFF_SCREEN, correct_image, scale=IMAGE_SCALE)
+	images[1] = CommandableImageSprite( kscreen.screen, OFF_SCREEN, incorrect_images[0], scale=IMAGE_SCALE)
+	images[2] = CommandableImageSprite( kscreen.screen, OFF_SCREEN, incorrect_images[1], scale=IMAGE_SCALE)
+	images[3] = CommandableImageSprite( kscreen.screen, OFF_SCREEN, incorrect_images[2], scale=IMAGE_SCALE)
+	images[4] = CommandableImageSprite( kscreen.screen, YES_BUTTON_SPOT, YES_BUTTON, scale=BUTTON_SCALE)
+	images[5] = CommandableImageSprite( kscreen.screen, NO_BUTTON_SPOT, NO_BUTTON, scale=BUTTON_SCALE)
 
 	correct = images[0]
 	
@@ -75,7 +74,7 @@ def present_trial(incorrect_images, correct_image):
 	
 	Q.append(obj=images[pick], action='move', pos= ON_SCREEN, duration=1.5)
 
-	for event in kelpy_standard_event_loop(screen, Q, dos):
+	for event in kelpy_standard_event_loop(kscreen, Q, dos):
 		if is_click(event):
 			who = who_was_clicked(dos)
 			
