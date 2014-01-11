@@ -1,10 +1,9 @@
 from pygame import Surface
 
-class KelpyScreenObject(Surface):
+class KelpyScreen(Surface):
 	"""
 	this class is going to take a pygame screen object and add some extra parameters to create a kelpy screen object.
-	It does not work, currently. OH WAIT IT DOES WORK!
-	Success!!
+	It does not work correctly, currently.
 	"""
 	
 	def __init__(self, surface):

@@ -45,17 +45,17 @@ VOFFSET = 100
 ##############################################
 ## Set up pygame
 ## this is the initialization line, to set up a screen that we will diplay things on.
-kscreen = initialize_kelpy( dimensions=(800,600) )
+screen = initialize_kelpy( dimensions=(800,600) )
 
 ##############################################
 ## These lines set up a spot to hide things offscreen. When we want to not diplay something, we will
 ## move it to these spots, off the screen.
-OFF_LEFT = (-300, kscreen.HEIGHT/2)
-OFF_RIGHT = (1100, kscreen.HEIGHT/2)
+OFF_LEFT = (-300, screen.get_height()/2)
+OFF_RIGHT = (1100, screen.get_height()/2)
 
 ## Also when we want to display something on screen, they will be sent to these points.
-ON_LEFT = (kscreen.WIDTH/2-HOFFSET, kscreen.HEIGHT/2)
-ON_RIGHT = (kscreen.WIDTH/2+HOFFSET, kscreen.HEIGHT/2)
+ON_LEFT = (screen.get_width()/2-HOFFSET, screen.get_height()/2)
+ON_RIGHT = (screen.get_width()/2+HOFFSET, screen.get_height()/2)
 
 ## Those positions are then stored in arrays so they may be shuffled (randomized).
 onscreen_positions = [ON_LEFT, ON_RIGHT]
@@ -127,8 +127,8 @@ def present_trial(car_paths, animal_paths):
 
 	## We then create our kelpy CommandableImageSprite objects.
 	## These are initialized by passing the object it's screen (to be diplayed on), the start position, the image path, and the scale of the object.
-	img[0] = CommandableImageSprite( kscreen.screen, offscreen_positions[0], car_paths[pick1], scale=IMAGE_SCALE)
-	img[1] = CommandableImageSprite( kscreen.screen, offscreen_positions[1], animal_paths[pick2], scale=IMAGE_SCALE)
+	img[0] = CommandableImageSprite( screen, offscreen_positions[0], car_paths[pick1], scale=IMAGE_SCALE)
+	img[1] = CommandableImageSprite( screen, offscreen_positions[1], animal_paths[pick2], scale=IMAGE_SCALE)
 
 	## We then designate which image is going to be the correct one, and store a reference to that object.
 	## in this case the image assigned to img[1] is always drawn from our pool of animal images.
@@ -177,7 +177,7 @@ def present_trial(car_paths, animal_paths):
 
 	## The standard event loop in kelpy -- this loops infinitely to process interactions
 	## and throws events depending on what the user does
-	for event in kelpy_standard_event_loop(kscreen, Q, dos):
+	for event in kelpy_standard_event_loop(screen, Q, dos):
 		
 		# If the event is a click:
 		if is_click(event):

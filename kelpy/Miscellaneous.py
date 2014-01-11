@@ -9,7 +9,7 @@ import random
 import pygame
 from time import time
 from pygame.locals import *
-from kelpy.KelpyScreenObject import *
+from kelpy.KelpyScreen import *
 
 
 ## Some global variables we care about
@@ -159,9 +159,10 @@ def initialize_kelpy(dimensions=(1024,768), bg=(250,250,250), fullscreen=False):
 	if not pygame.font: print 'Warning, fonts disabled'
 	if not pygame.mixer: print 'Warning, sound disabled'
 	
-	kelpy_screen = KelpyScreenObject(screen)
-	
-	return kelpy_screen
+	#kelpy_screen = KelpyScreen(screen)
+	#return kelpy_screen
+
+	return screen
 	
 def clear_screen(screen):
 	screen.fill(background_color)

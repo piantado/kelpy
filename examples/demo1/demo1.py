@@ -24,9 +24,9 @@ MAX_DISPLAY_TIME = 5.0
 ##############################################
 ## Set up pygame
 
-kscreen = initialize_kelpy( dimensions=(800,600) )
+screen = initialize_kelpy( dimensions=(800,600) )
 
-OFF_LEFT = (-300, kscreen.HEIGHT/2)
+OFF_LEFT = (-300, screen.get_height()/2)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Run a single trial
@@ -38,7 +38,7 @@ def present_trial(imagepath):
 
 	"""
 	## Images here are commandable sprites, so we can tell them what to do using Q below
-	img = CommandableImageSprite( kscreen.screen, OFF_LEFT, imagepath, scale=IMAGE_SCALE)
+	img = CommandableImageSprite( screen, OFF_LEFT, imagepath, scale=IMAGE_SCALE)
 		
 	# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 	# Set up the updates, etc. 
@@ -48,7 +48,7 @@ def present_trial(imagepath):
 	
 	# Draw a single animation in if you want!
 	Q.append(obj=img, action='wait', duration=1.0)
-	Q.append(obj=img, action='move', pos=(kscreen.WIDTH/2, kscreen.HEIGHT/2), duration=0.0)
+	Q.append(obj=img, action='move', pos=(screen.get_width()/2, screen.get_height()/2), duration=0.0)
 	
 	# What order do we draw sprites and things in?
 	dos = OrderedUpdates(img) # Draw and update in this order
@@ -57,7 +57,7 @@ def present_trial(imagepath):
 	
 	## The standard event loop in kelpy -- this loops infinitely to process interactions
 	## and throws events depending on what the user does
-	for event in kelpy_standard_event_loop(kscreen, Q, dos, throw_null_events=True):
+	for event in kelpy_standard_event_loop(screen, Q, dos, throw_null_events=True):
 		
 		if( time() - start_time > MAX_DISPLAY_TIME): 
 			break
