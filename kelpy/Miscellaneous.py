@@ -114,7 +114,7 @@ def loop_till_key(key=K_RETURN):
 				if event.type == KEYDOWN and event.key == K_ESCAPE: quit()
 
 
-def play_sound(sound, wait=False, volume=0.9):
+def play_sound(sound, wait=False, volume=0.65):
     """ 
     Simplifies the pygame sound module into a single function for playing sounds.
     
