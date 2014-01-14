@@ -221,11 +221,27 @@ def kelpy_standard_event_loop(screen, *args, **kwargs):
 			else: a.update() # love you, duck typing XXOO
 
 def filename( inputFilepath ):
+	"""
+		This function returns the filename when passed a full filepath.
+	"""
 	return inputFilepath.rsplit('/', 1)[1]
 
 			
-			
-			
-			
-			
-			
+class Spots():
+	"""
+		This class can be used to call offscreen and onscreen spots to position things on a screen.
+		It is used by the following code:
+		screen = initialize_kelpy( dimensions=(800,600) )  ## INITIALIZE THE SCREEN OBJECT...
+		spots = Spots(screen)   ## FEED THE SCREEN OBJECT TO THE SPOTS OBJECT...
+		print spots.west	## YOU CAN NOW CALL THE POSITIONS FROM THE OBJECT AS ATTRIBUTES! YAY!
+	"""
+	def __init__(self, screen):
+		self.west = (-screen.get_height(),  screen.get_width() /2 )
+		self.northwest = ( -screen.get_height(), -screen.get_width() )
+		self.north = ( screen.get_width()/2, -screen.get_height() )
+		self.northeast = ( screen.get_width() *2, -screen.get_height() )
+		self.east = ( screen.get_width() * 2, screen.get_height()/2 )
+		self.southeast= ( screen.get_width() * 2, screen.get_height() * 2 )
+		self.south = ( screen.get_width()/2 , screen.get_height() * 2 )
+		self.southwest = ( -screen.get_width(), screen.get_height()*2 )
+		self.center = (screen.get_width()/2, screen.get_height()/2 ) 
