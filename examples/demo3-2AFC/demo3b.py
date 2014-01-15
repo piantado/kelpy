@@ -16,7 +16,6 @@
 	This way you can simply pass the filepath relative to that folder as a string to the kstimulus() function (illustrated below):
 	sound_yup_path = kstimulus('sounds/Affirmative.wav')
 	This allows your python scripts to live anywhere on your hard drive and still access the stimuli in the kelpy folder.
-	śř
 	
 """
 
