@@ -166,3 +166,9 @@ class CommandableImageSprite(CommandableSprite):
 			w = self.display_image.get_width()
 			h = self.display_image.get_height()
 			self.screen.blit(self.display_image, pygame.Rect(self.get_x() - w/2, self.get_y() - h/2, w, h)) # transform by our coordinates and draw
+
+	def get_size_xy(self):
+		## returns the image size and x/y spots as a tuple. **Width, Height**
+		
+		return self.display_image.get_width(), self.display_image.get_height(), self.get_x() , self.get_y()
+	

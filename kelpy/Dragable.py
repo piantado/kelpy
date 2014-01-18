@@ -36,7 +36,7 @@ class Dragable(Arrangeable):
 		
 	def register_drop_zone(self, z):
 		"""
-			This will make our dragndrop track the location of z, and when we drag onto it, 
+			This will make our dragndrop track the location of z, and when we drop onto it, 
 			we post a ZONE_EVENT via process_dragndrop
 			
 			z - any Arrangeable. 		"""
@@ -125,4 +125,9 @@ class Dragable(Arrangeable):
 		
 	def update(self):
 		Arrangeable.update(self) # call the update
-		
+	
+	#def easy_setup(self, (w, h, x, y)):
+		#self.set_x(x)
+		#self.set_y(y)
+		#self.set_height(h)
+		#self.set_width(w)

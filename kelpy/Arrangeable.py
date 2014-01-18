@@ -15,7 +15,6 @@ class Arrangeable():
 		self.height = -1
 		self.width  = -1
 		
-
 	def set_x(self, v): self.x = v
 	def set_y(self, v): self.y = v
 	def set_width(self, v): self.width=v

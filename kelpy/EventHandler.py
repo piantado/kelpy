@@ -33,3 +33,14 @@ def who_was_clicked( things ):
 	for x in iter(things, ):
 		if x.click_inside(pygame.mouse.get_pos()):
 			return x
+
+def was_dropped_into_zone(event, **kwargs):
+	if (event.type == ZONE_EVENT and event.direction =='enter'):
+		return True
+
+def who_was_dropped( event, **kwargs):
+	"""
+		if an event returns true in the funtion above, run this to return who was dropped.
+	"""
+	return event.obj
+	

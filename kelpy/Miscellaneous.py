@@ -245,3 +245,8 @@ class Spots():
 		self.south = ( screen.get_width()/2 , screen.get_height() * 2 )
 		self.southwest = ( -screen.get_width(), screen.get_height()*2 )
 		self.center = (screen.get_width()/2, screen.get_height()/2 ) 
+		
+		self.topq1 = ((screen.get_width()/5) * 1, (screen.get_height()/4)*1 )
+		self.topq2 = ((screen.get_width()/5) * 2, (screen.get_height()/4)*1 )
+		self.topq3 = ((screen.get_width()/5) * 3, (screen.get_height()/4)*1 )
+		self.topq4 = ((screen.get_width()/5) * 4, (screen.get_height()/4)*1 )
