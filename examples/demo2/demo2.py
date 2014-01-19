@@ -26,7 +26,12 @@ VOFFSET = 100
 
 screen = initialize_kelpy( dimensions=(800,600) )
 
-OFF_LEFT = (-300, screen.get_height()/2)
+############
+## Generate a bunch of spots to place stuff on screen.
+spot = Spots(screen)
+
+## Set out offscreen spot...
+OFF_LEFT = spot.west
 background_color = (140, 140, 140) # 90 # 190
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,9 +48,9 @@ def present_trial(images, targetidx):
 	## set the image locations
 	## Images here are commandable sprites, so we can tell them what to do using Q below
 	img[0] = CommandableImageSprite( screen, OFF_LEFT, images[0], scale=IMAGE_SCALE)
-	img[1] = CommandableImageSprite( screen, (screen.get_width()/2-HOFFSET, screen.get_height()/2+VOFFSET), images[1], scale=IMAGE_SCALE)
-	img[2] = CommandableImageSprite( screen, (screen.get_width()/2+HOFFSET, screen.get_height()/2-VOFFSET), images[2], scale=IMAGE_SCALE)
-	img[3] = CommandableImageSprite( screen, (screen.get_width()/2+HOFFSET, screen.get_height()/2+VOFFSET), images[3], scale=IMAGE_SCALE)
+	img[1] = CommandableImageSprite( screen, spot.middleq2, images[1], scale=IMAGE_SCALE)
+	img[2] = CommandableImageSprite( screen, spot.topq3, images[2], scale=IMAGE_SCALE)
+	img[3] = CommandableImageSprite( screen, spot.middleq3, images[3], scale=IMAGE_SCALE)
 	correct = img[targetidx]
 	# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 	# Set up the updates, etc. 
@@ -54,7 +59,7 @@ def present_trial(images, targetidx):
 	Q = DisplayQueue()
 	
 	# Draw a single animation in if you want!
-	Q.append(obj=img[0], action='move', pos=(screen.get_width()/2-HOFFSET, screen.get_height()/2-VOFFSET), duration=3.0)
+	Q.append(obj=img[0], action='move', pos=spot.topq2, duration=3.0)
 	
 	# What order do we draw sprites and things in?
 	dos = OrderedUpdates(*img) # Draw and update in this order

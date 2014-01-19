@@ -2,7 +2,7 @@
 
 """
 
-	A simple example. A car appears, and the user may drag it around the screen. If it is dragged onto the car detector, it makes a noise.
+	This is the Fifth Demonstration file for the Kelpy Library. 
 	
 """
 
@@ -25,11 +25,16 @@ IMAGE_SCALE = 0.15
 ## Set up pygame
 
 screen = initialize_kelpy( dimensions=(800,600) )
+
+### Feed the screen to the Spots generator
 spot = Spots(screen)
 
+## The blicket detector will be positioned slightly below the center spot.
 BLICKET_DETECTOR_POSITION = (spot.middle[0], spot.middle[1] + 100) 
+## and we set the blicket_detector's image path
 blicketd_image_path = (kstimulus('feature_tvs/screen_inactive.png'))
 
+## this array holds all of our possible spots to place the possible blickets...
 display_spots = [spot.topq1, spot.topq2, spot.topq3, spot.topq4 ]
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -74,15 +79,28 @@ def present_trial(image1, image2, image3, theblicket):
 	
 	# What order do we draw sprites and things in?
 	dos = OrderedUpdates(*things) # Draw and update in this order
+	start_time = time()
 	
+	##These functions are used to blink the blicket detector on or off, two different versions depending on whether the subject gets the right object or not.
+	
+	def blink_detector_off():	
+		Q.append(obj=blicket_detector, action='swap', image=kstimulus('feature_tvs/screen_inactive.png'), start_time=0, rotation=0, scale=.5, brightness=1.0)
+	def blink_detector_right():
+		Q.append(obj=blicket_detector, action='swap', image=kstimulus('feature_tvs/screen_active_star.png'), rotation=0, scale=.499999999, brightness=1.0)
+		Q.append(obj=blicket_detector, action='wait', duration=1.0 )
+		blink_detector_off()
+	def blink_detector_wrong():
+		Q.append(obj=blicket_detector, action='swap', image=kstimulus('feature_tvs/screen_active.png'), rotation=0, scale=.5, brightness=1.0)
+		Q.append(obj=blicket_detector, action='wait', duration=.4 )
+		blink_detector_off()
+		
 	## The standard event loop in kelpy -- this loops infinitely to process interactions
 	## and throws events depending on what the user does
 	for event in kelpy_standard_event_loop(screen, Q, dos, throw_null_events=True):
 		
-		#################################33
-		##This next line is all you need to make your drag sprites dragable!
-		## This version uses a loop to check over all the dragable items in the things list.
+		## To make the DragSprites dragable, we use a loop to check over all the dragable items in the things list.
 		for i in xrange(4):
+			## all the is required to run the process_dragndrop function during each eventloop cycle.
 			things[i].process_dragndrop(event)
 		
 		######
@@ -91,11 +109,17 @@ def present_trial(image1, image2, image3, theblicket):
 		if was_dropped_into_zone(event):
 			#########
 			## Check who was dropped, whether it was the thing we wanted (which it undoubtedly will be in this example...)
-			if who_was_dropped(event) is blicket:
+			who = who_was_dropped(event)
+			if who is blicket:
 				## Then play a sound! Huzzah!
-				play_sound( kstimulus('sounds/Bing.wav') )
+				play_sound( kstimulus('sounds/Bing.wav'), wait=False )
+				blink_detector_right()
+				print True, time() - start_time, filename(theblicket)
 			else:
-				play_sound( kstimulus('sounds/Bad_Pick.wav') )
+				## You have failed to detect the blicket, therefore you get a red blinky light and a buzzer noise.
+				blink_detector_wrong()
+				play_sound( kstimulus('sounds/Bad_Pick.wav'), wait=False)
+				print False, time() - start_time, filename(who.image_path)
 			
 			## check out the position of the dragging by decommenting the following line:
 			# print drag.position(), drag.get_bottom(), drag.get_right(), drag.get_left(), drag.get_top()
@@ -106,14 +130,9 @@ def present_trial(image1, image2, image3, theblicket):
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Main experiment
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+## Present the trial (shuffle the display spots, also)
+shuffle(display_spots)
+present_trial(kstimulus("feature_cars/car1_blue_stars.png"),kstimulus("feature_cars/car1_red_circles.png") , kstimulus("feature_cars/car1_red_stars.png"), kstimulus("feature_cars/car2_blue_circles.png"))
 
-# Set up images:
-
-
-# present a number of blocks
-for i in range(1):
-	shuffle(display_spots)
-	present_trial(kstimulus("feature_cars/car1_blue_stars.png"),kstimulus("feature_cars/car1_red_circles.png") , kstimulus("feature_cars/car1_red_stars.png"), kstimulus("feature_cars/car2_blue_circles.png"))
-	## print some data at the end.
-	print i, targetidx, filename(target_images[targetidx])
+	
 

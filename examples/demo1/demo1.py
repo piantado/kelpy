@@ -25,8 +25,9 @@ MAX_DISPLAY_TIME = 5.0
 ## Set up pygame
 
 screen = initialize_kelpy( dimensions=(800,600) )
+spot = Spots(screen)
 
-OFF_LEFT = (-300, screen.get_height()/2)
+OFF_LEFT = (spot.west)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Run a single trial
@@ -48,7 +49,7 @@ def present_trial(imagepath):
 	
 	# Draw a single animation in if you want!
 	Q.append(obj=img, action='wait', duration=1.0)
-	Q.append(obj=img, action='move', pos=(screen.get_width()/2, screen.get_height()/2), duration=0.0)
+	Q.append(obj=img, action='move', pos=spot.middle, duration=0.0)
 	
 	# What order do we draw sprites and things in?
 	dos = OrderedUpdates(img) # Draw and update in this order
