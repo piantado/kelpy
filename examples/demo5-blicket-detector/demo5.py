@@ -30,7 +30,7 @@ screen = initialize_kelpy( dimensions=(800,600) )
 spot = Spots(screen)
 
 ## The blicket detector will be positioned slightly below the center spot.
-BLICKET_DETECTOR_POSITION = (spot.middle[0], spot.middle[1] + 100) 
+BLICKET_DETECTOR_POSITION = (spot.center[0], spot.center[1] + 100) 
 ## and we set the blicket_detector's image path
 blicketd_image_path = (kstimulus('feature_tvs/screen_inactive.png'))
 
