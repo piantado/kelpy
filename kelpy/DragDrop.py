@@ -13,7 +13,6 @@ class DragSprite(CommandableImageSprite, Dragable):
 		self.set_y(initial_position[1])
 		self.set_height(self.display_image.get_height())
 		self.set_width(self.display_image.get_width())
-	
 
 
 class DropSprite(CommandableImageSprite, Arrangeable):
@@ -28,3 +27,4 @@ class DropSprite(CommandableImageSprite, Arrangeable):
 		self.set_y(initial_position[1])
 		self.set_height(self.display_image.get_height())
 		self.set_width(self.display_image.get_width())
+

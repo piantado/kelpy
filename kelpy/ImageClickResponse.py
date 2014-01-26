@@ -14,19 +14,25 @@ from Miscellaneous import *
 import sys
 
 import pygame.mixer #for sound
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# A bunch of images you can respond to
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
-# if correct is an index, then we keep clicking until correct
-# otherwise we just record one response
+"""
+	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	# A bunch of images you can respond to
+	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+	# if correct is an index, then we keep clicking until correct
+	# otherwise we just record one response
+"""
 
 class ImageClickResponse(CommandableSprite):
+	"""
+		
+	"""
 	
 	def __init__(self, screen, init_position, imagepaths, randomize=True, feedback=True, correct=-1,  rotation=0, scale=1.0, pre="", correct_sound=None, incorrect_sound=None):
 		
 		"""
-			Here, 'pre' is a string that is printed before any output lines
+			This is a sprite with responses built in.
+			screen: the screen to display the sprite onto.
+			
 		"""
 		
 		CommandableSprite.__init__(self, screen, init_position)

@@ -10,7 +10,10 @@ from copy import deepcopy
 # (in a sequence)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 class CommandableImageSprite(CommandableSprite):
+	"""
+		The CommandableImageSprite is a simplified version of the pygame sprite. It is commandable in that it will follow a series of commands that are laid out for it in the DisplayQueue class.
 	
+	"""
 	def __init__(self, screen, init_position, imagepath, rotation=0, scale=1.0, brightness=1.0, isdraggable=False):
 		""" Create a new object.
 		
@@ -21,6 +24,23 @@ class CommandableImageSprite(CommandableSprite):
 		init_position:
 		A vec2d or a pair specifying the initial position
 		of the creep on the screen.
+		
+		imagepath:
+		The filepath of the image to be displayed.
+		
+		rotation:
+		The value of the initial rotation of the image. Default is 0.
+		
+		scale:
+		The scale of the image to be used, from 0 to 1 (or beyond to enlarge, beware pixelation!). Default is 1.
+		
+		brightness:
+		Initial brightness of the object. Default is 1.0
+		
+		isdraggable:
+		Boolean to set whether the object is draggable. Set to false. 
+		NOTE however that to create dragable sprites, use the DragSprite and DropSprite classes in the DragDrop module. 
+		
 		"""
 		CommandableSprite.__init__(self, screen, init_position, isdraggable=isdraggable)
 		
@@ -42,6 +62,10 @@ class CommandableImageSprite(CommandableSprite):
 		
 	
 	def set_image(self, imagepath, rotation=0, scale=1.0, brightness=1.0):
+		"""
+			This funciton is used to load and set the Image part of the CommandableImageSprite.
+			It uses some fanciness from the Pygame library to handle the altering (rotating, scaling, brightness) of the image.
+		"""
 		# We use PIL to load images (so we can manipulate them)
 		self.PILimage = PIL.Image.open(imagepath)
 		#self.PILimage = self.PILimage.resize(self.PILimage.size, Image.ANTIALIAS) # Hmm we should antialias here in the future
@@ -160,7 +184,9 @@ class CommandableImageSprite(CommandableSprite):
 		
 		
 	def draw(self):
-		## here is where we process commands
+		"""
+			This function is where we process commands.
+		"""
 		#print self.pos
 		if self.visible:
 			w = self.display_image.get_width()
@@ -168,7 +194,9 @@ class CommandableImageSprite(CommandableSprite):
 			self.screen.blit(self.display_image, pygame.Rect(self.get_x() - w/2, self.get_y() - h/2, w, h)) # transform by our coordinates and draw
 
 	def get_size_xy(self):
-		## returns the image size and x/y spots as a tuple. **Width, Height**
+		"""
+			returns the image size and x/y spots as a tuple. **Width, Height**
+		"""
 		
 		return self.display_image.get_width(), self.display_image.get_height(), self.get_x() , self.get_y()
 	

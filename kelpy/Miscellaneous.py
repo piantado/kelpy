@@ -9,7 +9,6 @@ import random
 import pygame
 from time import time
 from pygame.locals import *
-from kelpy.KelpyScreen import *
 
 
 ## Some global variables we care about
@@ -29,6 +28,7 @@ NULL_EVENT            = pygame.USEREVENT + 0x3
 ZONE_EVENT            = pygame.USEREVENT + 0x4
 EXIT_KELPY_STANDARD_EVENT_LOOP            = pygame.USEREVENT + 0x5 # this event is for exiting loops, after completing some queue event
 KELPY_USER_EVENT      = pygame.USEREVENT + 0x6
+SLIDE_EVENT = pygame.USEREVENT + 0x7
 
 #pygame.mixer.pre_init(44100,-16,2, 1024 * 3) # sometimes we get scratchy sound -- use this from http://archives.seul.org/pygame/users/Oct-2003/msg00076.html
 def ifelse(x,y,z):

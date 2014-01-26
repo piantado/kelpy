@@ -2,8 +2,8 @@ import pygame
 from kelpy.Miscellaneous import *
 
 """
-These functions are designed to be fed a kelpy OrderedUpdate list (as illustrated in the demos, usually named 'dos')
-They are to be placed within the kelpy_standard_event_loop and will signal whether a mouse click has occurred (is_click), and what object was clicked (who_was_clicked).
+	These functions are designed to be fed a kelpy OrderedUpdate list (as illustrated in the demos, usually named 'dos')
+	They are to be placed within the kelpy_standard_event_loop and will signal whether a mouse click has occurred (is_click), and what object was clicked (who_was_clicked).
 """
 
 def is_click( event ):

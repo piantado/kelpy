@@ -32,15 +32,23 @@ class DisplayQueue:
 		self.start_time = time()
 		
 	def append(self, **args ):
+		"""
+			Append a single command onto the queue.
+		"""
 		self.commands.append( args )
 	
-	# We push on a simultanous command, simultanous with the command that came before
 	def append_simultaneous(self, **args):
+		"""
+			# Push on a simultanous command, simultaneous with the command that came before
+		"""
 		args['simultaneous'] = True
 		self.append(**args)
 		
-	# force movement onto the next action
+	
 	def next_action(self):
+		"""
+			# force movement onto the next action
+		"""
 		del self.commands[0]
 		self.start_time = -1
 	

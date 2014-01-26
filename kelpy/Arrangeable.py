@@ -2,12 +2,18 @@
 import pygame
 from pygame import Rect
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# For arranging stuff on the screen
-# This uses the width.height and pos (position)
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""
+	For arranging stuff on the screen
+	This uses the width.height and pos (position)
+"""
 
 class Arrangeable():
+	
+	"""
+		The Arrangeable class serves as a base for other classes.
+		It contains a bunch of functions and methods that will store and return an objects position and whether it has been clicked or not.
+		They are fairly self explanatory, and are inherited by the CommandableSprite and Dragable classes.
+	"""
 	
 	def __init__(self):
 		self.x = 0
@@ -57,17 +63,27 @@ class Arrangeable():
 			self.set_width(a)
 			self.set_height(b)	
 		
-	# check if a click is inside of you and on an image
+
 	def clicked(self, event, button=1):
-		#print event
+		"""
+			Clicked will check if a click is inside of the arrangeable and on an image.
+		"""
+		#print event  ## decomment to debug event happenings...
 		""" check if a pygame event clicks me (whether or not it is a click event"""
 		return event.type == pygame.MOUSEBUTTONDOWN and event.button == button and self.click_inside( event.pos )
 		
 	def click_inside(self, point):
+		"""
+			click_inside returns whether the arrangeable is inside a specified point.
+		"""
 		return self.is_inside(point)
+	
 	def is_inside(self, point):
+		"""
+			is inside runs a bounds check to verify that a point is withing the boundaries of the arrangeable.
+		"""
 		x, y = point
-		#print point, self.get_right(), self.get_left(), self.get_top(), self.get_bottom()
+		#print point, self.get_right(), self.get_left(), self.get_top(), self.get_bottom() #### decomment to debug, shows the positions of an object.
 		return (x < self.get_right() and x > self.get_left() and y > self.get_top() and y < self.get_bottom())	
 	
 	

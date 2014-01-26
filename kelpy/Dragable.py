@@ -21,7 +21,6 @@ class Dragable(Arrangeable):
 		self.clickstart = None  # where were we when the clicking started?
 		self.isdragging = False # are we currently being dragged?
 		self.can_we_drag = True
-		
 		self.drag_zones = []
 		self.drop_zones = []
 		
@@ -126,8 +125,4 @@ class Dragable(Arrangeable):
 	def update(self):
 		Arrangeable.update(self) # call the update
 	
-	#def easy_setup(self, (w, h, x, y)):
-		#self.set_x(x)
-		#self.set_y(y)
-		#self.set_height(h)
-		#self.set_width(w)
+	
