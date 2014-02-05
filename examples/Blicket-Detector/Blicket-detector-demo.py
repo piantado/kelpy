@@ -25,9 +25,9 @@ IMAGE_SCALE = 0.15
 ## Set up pygame
 
 screen = initialize_kelpy( dimensions=(800,600) )
-
-### Feed the screen to the Spots generator
 spot = Spots(screen)
+### Feed the screen to the Spots generator
+#spot = Spots(screen)
 
 ## The blicket detector will be positioned slightly below the center spot.
 BLICKET_DETECTOR_POSITION = (spot.center[0], spot.center[1] + 100) 
@@ -41,15 +41,15 @@ display_spots = [spot.topq1, spot.topq2, spot.topq3, spot.topq4 ]
 # Run a single trial
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
-## This demo uses two special classes that inherit from the CommandableImageSprite class and the Dragable class.
-## They are the DragSprite and DropSprite classes, which are available from the line " from kelpy.DragDrop import * "
-## These classes allow dragging and dropping. They will throw events when these actions happen, which are then picked up in the event loop.
+"""
+ 	This demo uses two special classes that inherit from the CommandableImageSprite class and the Dragable class.
+	They are the DragSprite and DropSprite classes, which are available from the line " from kelpy.DragDrop import * "	
+	These classes allow dragging and dropping. They will throw events when these actions happen, which are then picked up in the event loop.
+"""
 
 def present_trial(image1, image2, image3, theblicket):
 	"""
 		This is the main function used to run this demo. It is fed an imagepath and uses this to create a CommandableImageSprite offscreen. This Sprite is later moved onto the screen, where it hangs out until it is clicked.
-
-	"""
 	#####
 	## First we create all of our objects, a bunch of DragSprites and a DropSprite.
 	
@@ -58,6 +58,7 @@ def present_trial(image1, image2, image3, theblicket):
 	
 	## The positions are randomized before the trial starts, so they are not always in the same place.
 	## NOTE: Right now, this version does not have a demonstration of the blicket.
+	"""
 	thing1 = DragSprite( screen, display_spots[0], image1, scale=IMAGE_SCALE )
 	thing2 = DragSprite( screen, display_spots[1], image2, scale=IMAGE_SCALE )
 	thing3 = DragSprite( screen, display_spots[2], image3, scale=IMAGE_SCALE )
@@ -100,6 +101,7 @@ def present_trial(image1, image2, image3, theblicket):
 		
 		for thing in reversed(things):
 			if thing.process_dragndrop(event):
+				bring_clicked_to_top(thing, things, dos)
 				break
 		
 		## To make the DragSprites dragable, we use a loop to check over all the dragable items in the things list.

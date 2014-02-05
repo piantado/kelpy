@@ -53,10 +53,10 @@ class ImageClickResponse(CommandableSprite):
 		self.imagepaths = copy(imagepaths)
 		
 		# assume we are given a string since that is easier to compare with shuffles
-		if isinstance(correct, int):
-			self.correct = self.imagepaths[i]
-		else:
-			self.correct = correct
+		#if isinstance(correct, int):
+			#self.correct = self.imagepaths[i]
+		#else:
+		self.correct = correct
 		
 		# randomize the order
 		random.shuffle(self.imagepaths)

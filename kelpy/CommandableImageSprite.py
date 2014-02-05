@@ -4,18 +4,24 @@ import PIL.Image # we use this to load images so we can alter attributes easily
 import PIL.ImageEnhance
 import Image
 from copy import deepcopy
+""" CommandableImageSprite (inherits from CommandableSprite)
+	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	# The CommandableImageSprite is used to display commandable sprites on a screen.
+	# 
+	#
+	#This extends sprites by making them commandable, so that they will do things at certain times
+	# (in a sequence)
+	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+"""
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# This extends sprites by making them commandable, so that they will do things at certain times
-# (in a sequence)
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 class CommandableImageSprite(CommandableSprite):
 	"""
-		The CommandableImageSprite is a simplified version of the pygame sprite. It is commandable in that it will follow a series of commands that are laid out for it in the DisplayQueue class.
+		The CommandableImageSprite is a simplified version of the pygame sprite. 
+		It is commandable in that it will follow a series of commands that are laid out for it in the DisplayQueue class.
 	
 	"""
 	def __init__(self, screen, init_position, imagepath, rotation=0, scale=1.0, brightness=1.0, isdraggable=False):
-		""" Create a new object.
+		""" Create a new object with the following properties:
 		
 		screen: 
 		The screen on which the creep lives (must be a 
@@ -39,6 +45,7 @@ class CommandableImageSprite(CommandableSprite):
 		
 		isdraggable:
 		Boolean to set whether the object is draggable. Set to false. 
+		
 		NOTE however that to create dragable sprites, use the DragSprite and DropSprite classes in the DragDrop module. 
 		
 		"""
@@ -80,7 +87,7 @@ class CommandableImageSprite(CommandableSprite):
 		
 	def set_image_attributes(self, rotation=None, scale=None, brightness=None):
 		"""
-			update the image attributes. Note: This does not load it from the disk -- it only re-loads from the PIL stored self.PILimage
+			update the image attributes. Note: This does not load the image from the disk -- it only re-loads from the PIL stored self.PILimage
 		"""
 		if rotation is None: rotation = self.rotation
 		if scale is None:    scale    = self.scale

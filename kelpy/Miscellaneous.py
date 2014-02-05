@@ -30,6 +30,8 @@ EXIT_KELPY_STANDARD_EVENT_LOOP            = pygame.USEREVENT + 0x5 # this event 
 KELPY_USER_EVENT      = pygame.USEREVENT + 0x6
 SLIDE_EVENT = pygame.USEREVENT + 0x7
 
+spot = None
+
 #pygame.mixer.pre_init(44100,-16,2, 1024 * 3) # sometimes we get scratchy sound -- use this from http://archives.seul.org/pygame/users/Oct-2003/msg00076.html
 def ifelse(x,y,z):
 	if x: return y
@@ -134,6 +136,7 @@ def play_sound(sound, wait=False, volume=0.65):
         
 
 
+
 def initialize_kelpy(dimensions=(1024,768), bg=(250,250,250), fullscreen=False):
 	"""
 		Calls a bunch of pygame functions to set up the screen, etc. 
@@ -161,6 +164,7 @@ def initialize_kelpy(dimensions=(1024,768), bg=(250,250,250), fullscreen=False):
 	
 	#kelpy_screen = KelpyScreen(screen)
 	#return kelpy_screen
+	
 
 	return screen
 	
@@ -236,6 +240,10 @@ class Spots():
 		print spots.west	## YOU CAN NOW CALL THE POSITIONS FROM THE OBJECT AS ATTRIBUTES! YAY!
 	"""
 	def __init__(self, screen):
+		"""
+			This initializes everything.
+		"""
+		## offscreen spots
 		self.west = (-screen.get_height(),  screen.get_width() /2 )
 		self.northwest = ( -screen.get_height(), -screen.get_width() )
 		self.north = ( screen.get_width()/2, -screen.get_height() )
@@ -262,3 +270,15 @@ class Spots():
 		self.bottomq4 = ((screen.get_width()/5) * 4, (screen.get_height()/5)*4 )
 
 		self.center = ((screen.get_width() /2 ), (screen.get_height() /2 ) )
+
+def bring_clicked_to_top(clicked, things, dos):
+	"""
+		This function can be used when processing dran and drops to bring the clicked object to the top layer.
+		clicked: the clicked object (use in sequence with an 'if object.processdragndrop(event): ' command.
+		things: the list of all objects that are checked for updates.
+		dos: a Kelpy OrderedUpdates list.
+	"""
+	things.remove(clicked)
+	things.append(clicked)
+	dos.remove(clicked)
+	dos.append(clicked)

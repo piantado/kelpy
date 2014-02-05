@@ -46,4 +46,6 @@ def who_was_dropped( event, **kwargs):
 		if an event returns true in the funtion above, run this to return who was dropped.
 	"""
 	return event.obj
-	
+
+
+
