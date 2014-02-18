@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files>
+  <file name="8bp022.gif" source="derivative">
+    <format>Animated GIF</format>
+    <original>8bp022-13-yuppster-pecan-medley.mp3</original>
+    <md5>88944a09db68edd82257433b7400604e</md5>
+    <mtime>1062890134</mtime>
+    <size>11940</size>
+    <crc32>d8bb486f</crc32>
+    <sha1>d45b9b0bcbc71f8db96a2843e9c2adfb9b68fb8a</sha1>
+  </file>
+  <file name="8bp022large.gif" source="original">
+    <format>GIF</format>
+    <md5>8b857f87fbd5852f17f9e2bbba0ce9a4</md5>
+    <mtime>1062890136</mtime>
+    <size>62617</size>
+    <crc32>7126f0a</crc32>
+    <sha1>607d300a889f6e50f97258c31140544b9e27283c</sha1>
+  </file>
+  <file name="8bp022_rules.conf" source="original">
+    <format>Rules</format>
+    <md5>6c6da25dbec014e39afd8c759b43ca4b</md5>
+    <mtime>1077086389</mtime>
+    <size>7</size>
+    <crc32>f30b3210</crc32>
+    <sha1>bc87893129439e714de015c252807bf274eb7c04</sha1>
+  </file>
+  <file name="8bp022-12-yuppster-mellophe-my-dog-at-it-remix-of-nullsleep.mp3" source="original">
+    <format>MP3</format>
+    <md5>b52109f8fc1b538ba1b74de4fbc401ea</md5>
+    <mtime>1062743783</mtime>
+    <size>2676939</size>
+    <crc32>c8e4371d</crc32>
+    <sha1>3c078c6848c166cdfdd2c592c07cc9461e488105</sha1>
+    <length>167.3</length>
+  </file>
+  <file name="8bp022-09-yuppster-pretty-awful.mp3" source="original">
+    <format>MP3</format>
+    <md5>16dc9b9fa882a1e831dd50709e8cab08</md5>
+    <mtime>1062743425</mtime>
+    <size>1408400</size>
+    <crc32>a44fc35a</crc32>
+    <sha1>3bbba76825b3dc2b88b63050d0a7e6c32779ad4e</sha1>
+    <length>88.02</length>
+  </file>
+  <file name="8bp022-11-yuppster-rain-conductor.mp3" source="original">
+    <format>MP3</format>
+    <md5>8350624828d4dd8c5ea4e320b6c7a3cc</md5>
+    <mtime>1062743730</mtime>
+    <size>5991953</size>
+    <crc32>2ec91cde</crc32>
+    <sha1>c77671aabae32eb650b9f81cb3d6fbe029d8af88</sha1>
+    <length>249.66</length>
+  </file>
+  <file name="8bp022-03-yuppster-five-stars.mp3" source="original">
+    <format>MP3</format>
+    <md5>44fd5f65f800fb218c69ee36166a1a77</md5>
+    <mtime>1062743078</mtime>
+    <size>1463565</size>
+    <crc32>909fc195</crc32>
+    <sha1>ad497771c1df8da1a768db72599aa0e509e143c1</sha1>
+    <length>91.47</length>
+  </file>
+  <file name="8bp022_meta.xml" source="metadata">
+    <format>XML</format>
+    <mtime>1310388806</mtime>
+    <size>1078</size>
+    <md5>2c912d9aa1110e76f5884511a749f037</md5>
+    <crc32>6b587c57</crc32>
+    <sha1>e131a51ebe90b6a6f114595e7843471debc2be6f</sha1>
+  </file>
+  <file name="8bp022-06-yuppster-freecellplus.mp3" source="original">
+    <format>MP3</format>
+    <md5>ff1391e02f95442314609cd8b953ce74</md5>
+    <mtime>1062743256</mtime>
+    <size>2645141</size>
+    <crc32>3a678b19</crc32>
+    <sha1>ef987067e6271b139bd84f2aba830aabda495fe5</sha1>
+    <length>165.32</length>
+  </file>
+  <file name="8bp022-08-yuppster-im-gonna-to-football-tackle-you.mp3" source="original">
+    <format>MP3</format>
+    <md5>2da44818f78acd4f8c87342cf817882e</md5>
+    <mtime>1062743395</mtime>
+    <size>2976600</size>
+    <crc32>7b60312c</crc32>
+    <sha1>739189bfa8d2cdece0ddc2150dca152e23bf39f6</sha1>
+    <length>186.03</length>
+  </file>
+  <file name="8bp022-02-yuppster-lbc-mission.mp3" source="original">
+    <format>MP3</format>
+    <md5>0258987ee96c722415e9df30bc57a5eb</md5>
+    <mtime>1062743048</mtime>
+    <size>687419</size>
+    <crc32>19c6ac3b</crc32>
+    <sha1>a7a2308662d1447a2a1f2d530e68ae3a51a9b28a</sha1>
+    <length>28.64</length>
+  </file>
+  <file name="8bp022-01-yuppster-mirror-eyed-girl-street-samuari.mp3" source="original">
+    <format>MP3</format>
+    <md5>3101295d1a164f932697d5c3bbe60ca0</md5>
+    <mtime>1062743032</mtime>
+    <size>1899104</size>
+    <crc32>76d2f023</crc32>
+    <sha1>056cb0d7b5738b85a969146f85696ebe87c24d1d</sha1>
+    <length>118.69</length>
+  </file>
+  <file name="8bp022-10-yuppster-my-favorite-james-taylor-song.mp3" source="original">
+    <format>MP3</format>
+    <md5>95acaa3ec9d8f0596938f69d05f1d65a</md5>
+    <mtime>1062743615</mtime>
+    <size>9811070</size>
+    <crc32>b0c6b6f4</crc32>
+    <sha1>2da993775a72e3a68ce6ccbd121cafa5c97573fe</sha1>
+    <length>613.19</length>
+  </file>
+  <file name="8bp022-04-yuppster-take-one-for-the-team.mp3" source="original">
+    <format>MP3</format>
+    <md5>3ab0e4e715fa45851481aace142871db</md5>
+    <mtime>1062743176</mtime>
+    <size>4943509</size>
+    <crc32>1b34cf22</crc32>
+    <sha1>5e014d6d920d19a423f297d870675f8ee460d964</sha1>
+    <length>308.96</length>
+  </file>
+  <file name="8bp022-13-yuppster-pecan-medley.mp3" source="original">
+    <format>MP3</format>
+    <md5>7c7a92f06fbcaa869373f1bdbae70c8f</md5>
+    <mtime>1062744050</mtime>
+    <size>14246017</size>
+    <crc32>beacef7a</crc32>
+    <sha1>f44d7456e67f70e0de0ca1100abc1b39724a0e97</sha1>
+    <length>890.37</length>
+  </file>
+  <file name="8bp022-05-yuppster-urspache.mp3" source="original">
+    <format>MP3</format>
+    <md5>81acd91db3a117a5f6c61a8dd1cf01ab</md5>
+    <mtime>1062743199</mtime>
+    <size>1164309</size>
+    <crc32>13066f06</crc32>
+    <sha1>d782e7753a6965b7308a74198320bdbc0d7fb6c9</sha1>
+    <length>72.76</length>
+  </file>
+  <file name="8bp022-07-yuppster-xitram.mp3" source="original">
+    <format>MP3</format>
+    <md5>bfc4744bafd5fa1bcb3a20f31e225c2d</md5>
+    <mtime>1062743328</mtime>
+    <size>3526611</size>
+    <crc32>f9428e13</crc32>
+    <sha1>0ed020b18596dcfc10937c335d83e42effcafa4e</sha1>
+    <length>220.41</length>
+  </file>
+  <file name="8bp022_reviews.xml" source="metadata">
+    <format>Metadata</format>
+    <mtime>1348870966</mtime>
+    <size>1010</size>
+    <md5>f92c6c3e65c4775590aa51d01ed2bf7d</md5>
+    <crc32>681105d5</crc32>
+    <sha1>bc9f63ad6f64cd7cd0d66f7c0c907eb05ba76fee</sha1>
+  </file>
+  <file name="8bp022_files.xml" source="metadata">
+    <format>XML</format>
+    <md5>8629423bf6597326b7b5eec3072a9ee1</md5>
+  </file>
+</files>

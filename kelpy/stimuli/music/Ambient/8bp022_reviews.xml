@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reviews itemIdentifier="8bp022">
+  <review review_id="7210">
+    <review_id>7210</review_id>
+    <reviewbody>A really wicked mix of bleeps, beats and emotions.
+Another set of tracks from the 8bps that makes me wonder why I'm not paying anything for it.</reviewbody>
+    <reviewtitle>weiveR fo eltiT</reviewtitle>
+    <reviewer>`oliver</reviewer>
+    <reviewdate>2003-11-07 07:40:29</reviewdate>
+    <createdate>2003-11-07 07:40:29</createdate>
+    <stars>4</stars>
+  </review>
+  <review>
+    <reviewbody>For what a simple work this is I am usually happy to hear Yuppster's My New Album when I am in one of my less than serious moods.</reviewbody>
+    <reviewtitle>Yuppster's 'My New Album'</reviewtitle>
+    <reviewer>BenjaminS.T.</reviewer>
+    <reviewdate>2012-09-28 22:22:45</reviewdate>
+    <createdate>2012-09-28 22:22:45</createdate>
+    <stars>4</stars>
+  </review>
+  <info>
+    <num_reviews>2</num_reviews>
+    <avg_rating>4.00</avg_rating>
+  </info>
+</reviews>
