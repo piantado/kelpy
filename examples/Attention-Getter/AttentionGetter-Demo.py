@@ -2,8 +2,10 @@
 
 """
 
-	A simple example. One car drives in (irrelevant).
-	The task ends when the user clicks the car.
+	This is a modified version of the simple DisplaySomething demo.
+	It makes use of the gif_attention_getter function of the AttentionGetter class to play a simple gif animation.
+	Most of the code in unchanged, as this class is extremely simple to use. The new portions of the code will be marked with NOTE tags!
+	
 """
 
 import os, sys
@@ -16,7 +18,7 @@ from kelpy.Miscellaneous import *
 from kelpy.DisplayQueue import *
 from kelpy.OrderedUpdates import *
 from kelpy.EventHandler import *
-from kelpy.AttentionGetter import *
+from kelpy.AttentionGetter import *  ## NOTE: This demo makes use of the AttentionGetter class, and the gif_attention_getter function of that class.
 
 IMAGE_SCALE = 0.25
 
@@ -28,6 +30,7 @@ MAX_DISPLAY_TIME = 5.0
 screen = initialize_kelpy( dimensions=(800,600) )
 spot = Spots(screen)
 
+OFF_LEFT = (spot.west)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Run a single trial
@@ -38,20 +41,21 @@ def present_trial(imagepath):
 	This is the main function used to run this demo. It is fed an imagepath and uses this to create a CommandableImageSprite offscreen. This Sprite is later moved onto the screen, where it hangs out until it is clicked.
 
 	"""
-	
-	
+	## Images here are commandable sprites, so we can tell them what to do using Q below
+	img = CommandableImageSprite( screen, OFF_LEFT, imagepath, scale=IMAGE_SCALE)
+		
 	# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 	# Set up the updates, etc. 
-	
-	images = [ kstimulus('common_objects/fries.png'), kstimulus('common_objects/umbrella.png'), kstimulus('common_objects/lightbulb.png'), kstimulus('common_objects/bicycle.png') ]
 	
 	# A queue of animation operations
 	Q = DisplayQueue()
 	
 	# Draw a single animation in if you want!
+	Q.append(obj=img, action='wait', duration=1.0)
+	Q.append(obj=img, action='move', pos=spot.center, duration=0.0)
 	
 	# What order do we draw sprites and things in?
-	dos = OrderedUpdates() # Draw and update in this order
+	dos = OrderedUpdates(img) # Draw and update in this order
 	
 	start_time = time()
 	
@@ -59,13 +63,12 @@ def present_trial(imagepath):
 	## and throws events depending on what the user does
 	for event in kelpy_standard_event_loop(screen, Q, dos, throw_null_events=True):
 		
-		gif_attention_getter(screen, spot.center, images)
-		
 		if( time() - start_time > MAX_DISPLAY_TIME): 
 			break
 		
 		# If the event is a click:
-		
+		if is_click(event):
+			break
 	
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Main experiment
@@ -74,11 +77,23 @@ def present_trial(imagepath):
 # Set up images:
 target_images = [kstimulus("feature_cars/car1_blue_stars.png"),kstimulus("feature_cars/car1_red_circles.png") , kstimulus("feature_cars/car1_red_stars.png"), kstimulus("feature_cars/car2_blue_circles.png")]
 
+
+#######################################################################
+###
+##
+### NOTE The following code lines are used to set up the attention getter:
+##	You must set up an array of GIF images. This array will be passed as a paremeter to the function later.
+###
+images = [ kstimulus('/gifs/191px-Seven_segment_display-animated.gif'), kstimulus('gifs/Laurel_&_Hardy_dancing.gif'), kstimulus('gifs/240px-Phenakistoscope_3g07690b.gif') ]
+
+
 # present a number of blocks
 for i in range(10):
-	
 	targetidx = randint(0,len(target_images)-1)
 	
-	present_trial(target_images[targetidx])
+	gif_attention_getter(screen, spot.center, images)  ###NOTE: This is the only thing you have to run to use the function!
+														### Also notice that it is not run within the main loop of the experiment. Easy right?
 	
+	present_trial(target_images[targetidx])  ## <---- This is the function that actually runs the experiment. 
 	print i, targetidx, filename(target_images[targetidx])
+

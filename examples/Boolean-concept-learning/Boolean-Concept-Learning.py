@@ -62,7 +62,7 @@ BUTTON_SCALE = 0.3
 """	
 images = []
 
-
+### This function can be used to run a demonstration routine before the actualy task that will show either a correct or incorrect object and play the 'correct' or 'incorrect' sound.
 def show_demo(stimuli):
 	"""
 		This function demonstrates an object without yes or no buttons for a few seconds
@@ -215,7 +215,7 @@ load_via_itertool(images)
 ## it will run 25 times, with a demonstration of the rule running 5 times throughout.
 for x in range(5):
 	shuffle(images)	
-	show_demo( images[0] ) 
+	##show_demo( images[0] )    ## Decomment to turn the demonstration routine on.
 	shuffle(images)	
 	for i in xrange(5):
 		start_time = time()

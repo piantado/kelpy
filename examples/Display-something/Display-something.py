@@ -74,12 +74,11 @@ def present_trial(imagepath):
 # Set up images:
 target_images = [kstimulus("feature_cars/car1_blue_stars.png"),kstimulus("feature_cars/car1_red_circles.png") , kstimulus("feature_cars/car1_red_stars.png"), kstimulus("feature_cars/car2_blue_circles.png")]
 
+
 # present a number of blocks
 for i in range(10):
-	
 	targetidx = randint(0,len(target_images)-1)
-	
+		
 	present_trial(target_images[targetidx])
-	
 	print i, targetidx, filename(target_images[targetidx])
 
