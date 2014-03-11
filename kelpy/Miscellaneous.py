@@ -244,15 +244,14 @@ class Spots():
 			This initializes everything.
 		"""
 		## offscreen spots
-		self.west = (-screen.get_height(),  screen.get_width() /2 )
-		self.northwest = ( -screen.get_height(), -screen.get_width() )
+		self.west = (-screen.get_width(),  screen.get_height() /2 )
+		self.northwest = ( -screen.get_width(), -screen.get_height() )
 		self.north = ( screen.get_width()/2, -screen.get_height() )
 		self.northeast = ( screen.get_width() *2, -screen.get_height() )
 		self.east = ( screen.get_width() * 2, screen.get_height()/2 )
 		self.southeast= ( screen.get_width() * 2, screen.get_height() * 2 )
 		self.south = ( screen.get_width()/2 , screen.get_height() * 2 )
 		self.southwest = ( -screen.get_width(), screen.get_height()*2 )
-		self.center = (screen.get_width()/2, screen.get_height()/2 ) 
 		
 		self.topq1 = ((screen.get_width()/5) * 1, (screen.get_height()/5)*2 )
 		self.topq2 = ((screen.get_width()/5) * 2, (screen.get_height()/5)*2 )
