@@ -42,5 +42,20 @@ class OrderedUpdates(pygame.sprite.OrderedUpdates):
 				return True
 		
 		return False
+
+
+	def process_follow(self, event):
+		"""
+			The first Followable sprite will update its position based on eye gaze.
+			Only one sprite should be followable at a time I'm assuming; perhaps 
+			integrate this feature with whether the sprite is currently visible or not.
+		"""
+		for o in reversed(self.sprites()):
+			#check if the object has a "is_following" attribute; specific to Followable class
+			if hasattr(o, 'is_following') and o.process_follow(event):
+				return True
+		
+		return False
+
 		
 		

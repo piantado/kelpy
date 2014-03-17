@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from time import time
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#	Some miscellaneous useful functions for getting info on a group of TobiiSprites. These functions are designed to be fed a kelpy OrderedUpdate list (as illustrated in the demos, usually named 'dos')
+#	This contain some functions for getting eye tracking data on a group of TobiiSprites. These functions are designed to be fed a kelpy OrderedUpdate list (as illustrated in the demos, usually named 'dos')
+#
+#	This also contains the class Lookaway that keeps track of lookaway time when used within the kelpy event loop
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def looking_at_what(things):
@@ -39,3 +42,35 @@ def looking_proportions(things, trial_time):
 		
 	return proportions
 
+
+class Lookaway():
+
+	"""
+	Keeps track of lookaway time
+
+	"""
+
+	def __init__(self, tobii_controller):
+		self.tobii_controller = tobii_controller
+
+		#initialize variables that need to be tracked over time
+		self.current_lookaway_time = 0
+		self.last_lookaway_timepoint = -1
+
+	def update_lookaway(self):
+		"""
+		Call this within the kelpy loop to keep track of lookaway time
+		
+		"""
+		if None in self.tobii_controller.get_center_gaze():
+			current_time = time() 
+			if (self.last_lookaway_timepoint != -1):
+				self.current_lookaway_time = self.current_lookaway_time + (current_time - self.last_lookaway_timepoint) 
+
+			self.last_lookaway_timepoint = current_time
+			
+		else:
+			self.current_lookaway_time = 0
+			self.last_lookaway_timepoint = -1
+
+		return self.current_lookaway_time
