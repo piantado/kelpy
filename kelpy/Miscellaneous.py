@@ -30,6 +30,9 @@ EXIT_KELPY_STANDARD_EVENT_LOOP            = pygame.USEREVENT + 0x5 # this event 
 KELPY_USER_EVENT      = pygame.USEREVENT + 0x6
 SLIDE_EVENT = pygame.USEREVENT + 0x7
 
+# use double buffering by default
+DEFAULT_DISPLAY_MODE_FLAGS = pygame.DOUBLEBUF | pygame.HWSURFACE
+
 spot = None
 
 #pygame.mixer.pre_init(44100,-16,2, 1024 * 3) # sometimes we get scratchy sound -- use this from http://archives.seul.org/pygame/users/Oct-2003/msg00076.html
@@ -149,9 +152,9 @@ def initialize_kelpy(dimensions=(1024,768), bg=(250,250,250), fullscreen=False):
 	pygame.init()
 	
 	if fullscreen: 
-		screen = pygame.display.set_mode( (0,0), pygame.FULLSCREEN)
+		screen = pygame.display.set_mode( (0,0), DEFAULT_DISPLAY_MODE_FLAGS | pygame.FULLSCREEN)
 	else:
-		screen = pygame.display.set_mode(dimensions)
+		screen = pygame.display.set_mode(dimensions, DEFAULT_DISPLAY_MODE_FLAGS)
 	clock = pygame.time.Clock()
 	
 	## And load our icon
