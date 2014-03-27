@@ -24,10 +24,10 @@ IMAGE_SCALE = 0.15
 ##############################################
 ## Set up pygame
 
-screen = initialize_kelpy( dimensions=(800,600) )
-spot = Spots(screen)
+screen, spots = initialize_kelpy( dimensions=(800,600) )
 
-BLICKET_DETECTOR_POSITION = (spot.middle[0], spot.middle[1] + 100) 
+
+BLICKET_DETECTOR_POSITION = (spots.center[0], spots.center[1] + 100) 
 blicketd_image_path = (kstimulus('feature_tvs/screen_inactive.png'))
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Run a single trial
@@ -45,7 +45,7 @@ def present_trial(imagepath):
 	
 	## The two items in this demo are the Thing (our dragable DragSprite) and the blicket_detector, the drop-zone-able DropSprite.
 	
-	thing = DragSprite( screen, spot.topq1, imagepath, scale=IMAGE_SCALE)
+	thing = DragSprite( screen, spots.a1, imagepath, scale=IMAGE_SCALE)
 	blicket_detector = DropSprite( screen,  BLICKET_DETECTOR_POSITION, blicketd_image_path, scale = .5)
 	
 	## then we stick those in a list so we can add them to the ordered update list and have them appear on the screen.

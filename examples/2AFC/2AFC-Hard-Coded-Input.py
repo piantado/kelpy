@@ -35,23 +35,23 @@ from kelpy.EventHandler import *
 ##The following are constants that are used to set up the size and arrangement of images later.
 ##
 IMAGE_SCALE = 0.25
-HOFFSET = 200
+HOFFSET = 150
 VOFFSET = 100
 
 ##############################################
 ## Set up pygame
 ## this is the initialization line, to set up a screen that we will diplay things on.
-screen = initialize_kelpy( dimensions=(800,600) )
+screen, spots = initialize_kelpy( dimensions=(800,600) )
 
 ##############################################
 ## These lines set up a spot to hide things off screen. When we want to not diplay something, we will
 ## move it to these spots, off the screen.
-OFF_LEFT = (-300, screen.get_height()/2)
-OFF_RIGHT = (1100, screen.get_height()/2)
+OFF_LEFT = spots.west
+OFF_RIGHT = spots.east
 
 ## Also when we want to display something on screen, they will be sent to these points.
-ON_LEFT = (screen.get_width()/2-HOFFSET, screen.get_height()/2)
-ON_RIGHT = (screen.get_width()/2+HOFFSET, screen.get_height()/2)
+ON_LEFT = (spots.center[0]-HOFFSET,spots.center[1])
+ON_RIGHT = (spots.center[0]+HOFFSET,spots.center[1])
 
 ## Those positions are then stored in arrays so they may be shuffled (randomized).
 onscreen_positions = [ON_LEFT, ON_RIGHT]

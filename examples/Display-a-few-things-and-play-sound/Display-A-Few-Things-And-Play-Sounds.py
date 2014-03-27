@@ -24,11 +24,11 @@ VOFFSET = 100
 ##############################################
 ## Set up pygame
 
-screen = initialize_kelpy( dimensions=(800,600) )
+screen, spot = initialize_kelpy( dimensions=(800,600) )
 
 ############
 ## Generate a bunch of spots to place stuff on screen.
-spot = Spots(screen)
+
 
 ## Set out offscreen spot...
 OFF_LEFT = spot.west
@@ -48,9 +48,9 @@ def present_trial(images, targetidx):
 	## set the image locations
 	## Images here are commandable sprites, so we can tell them what to do using Q below
 	img[0] = CommandableImageSprite( screen, OFF_LEFT, images[0], scale=IMAGE_SCALE)
-	img[1] = CommandableImageSprite( screen, spot.middleq2, images[1], scale=IMAGE_SCALE)
-	img[2] = CommandableImageSprite( screen, spot.topq3, images[2], scale=IMAGE_SCALE)
-	img[3] = CommandableImageSprite( screen, spot.middleq3, images[3], scale=IMAGE_SCALE)
+	img[1] = CommandableImageSprite( screen, spot.b2, images[1], scale=IMAGE_SCALE)
+	img[2] = CommandableImageSprite( screen, spot.a3, images[2], scale=IMAGE_SCALE)
+	img[3] = CommandableImageSprite( screen, spot.b3, images[3], scale=IMAGE_SCALE)
 	correct = img[targetidx]
 	# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 	# Set up the updates, etc. 
@@ -59,7 +59,7 @@ def present_trial(images, targetidx):
 	Q = DisplayQueue()
 	
 	# Draw a single animation in if you want!
-	Q.append(obj=img[0], action='move', pos=spot.topq2, duration=3.0)
+	Q.append(obj=img[0], action='move', pos=spot.a2, duration=3.0)
 	
 	# What order do we draw sprites and things in?
 	dos = OrderedUpdates(*img) # Draw and update in this order

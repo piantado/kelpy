@@ -24,8 +24,8 @@ MAX_DISPLAY_TIME = 5.0
 ##############################################
 ## Set up pygame
 
-screen = initialize_kelpy( dimensions=(800,600) )
-spot = Spots(screen)
+screen, spot = initialize_kelpy( dimensions=(800,600) )
+
 
 OFF_LEFT = (spot.west)
 
@@ -72,10 +72,17 @@ def present_trial(imagepath):
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
 # Set up images:
-target_images = [kstimulus("feature_cars/car1_blue_stars.png"),kstimulus("feature_cars/car1_red_circles.png") , kstimulus("feature_cars/car1_red_stars.png"), kstimulus("feature_cars/car2_blue_circles.png")]
-
-
+target_images = [kstimulus("feature_cars/car1_blue_stars.png"),
+kstimulus("feature_cars/car1_red_circles.png") , 
+kstimulus("feature_cars/car1_red_stars.png"),
+ kstimulus("feature_cars/car2_blue_circles.png"),
+ kstimulus("glitch-npcs/regular/npc_salmon.png"),
+ kstimulus("glitch-npcs/regular/npc_jabba.png"),
+kstimulus("glitch-npcs/regular/npc_myopic_frog.png"),
+kstimulus("glitch-npcs/regular/npc_piggy.png")]
 # present a number of blocks
+
+shuffle(target_images)
 for i in range(10):
 	targetidx = randint(0,len(target_images)-1)
 		

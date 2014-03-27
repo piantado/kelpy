@@ -25,9 +25,8 @@ MAX_DISPLAY_TIME = 5.0
 ##############################################
 ## Set up pygame
 
-screen = initialize_kelpy( dimensions=(1024,768) )
+screen, spot = initialize_kelpy( dimensions=(1024,768) )
 
-spot = Spots(screen)
 
 #CENTER = (screen.get_width()/2, screen.get_height()/2)
 

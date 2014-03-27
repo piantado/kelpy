@@ -45,18 +45,16 @@ VOFFSET = 100
 ## Set up pygame
 ## this is the initialization line, to set up a screen that we will diplay things on.
 # the tobii eyetracker requires the screen to be fullsized for accurate gaze points
-screen = initialize_kelpy( dimensions = (1024, 768) )
+screen, spot = initialize_kelpy( dimensions = (1024, 768) )
 
 ##############################################
 ## This line fetches the size of the screen (the one we just created) and assigns 
 ## the values to some constants that we can refer to later.
 WINDOW_WIDTH, WINDOW_HEIGHT = screen.get_size()
 
-spot = Spots(screen)
-
 ## Those positions are then stored in arrays so they may be shuffled (randomized).
 #check the spot values to figure out where they actually are...
-onscreen_positions = [spot.middleq1, spot.middleq4]
+onscreen_positions = [spot.b1, spot.b4]
 offscreen_positions = [spot.west, spot.east]
 
 ##############################################

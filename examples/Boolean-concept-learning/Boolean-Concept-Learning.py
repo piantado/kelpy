@@ -30,12 +30,10 @@ import csv
 """
 ###################################
 ## First we set up our screen.
-screen = initialize_kelpy( dimensions=(800,600) )
+screen, spots= initialize_kelpy( dimensions=(800,600) )
 
 ##################
 ##Generate some spots to place things using the Spots()
-
-spot = Spots(screen)
 
 #################
 ## and then set up some constants for our images, their scale and where they will be placed
@@ -43,13 +41,13 @@ spot = Spots(screen)
 WOFFSET = 200
 HOFFSET = 100
 IMAGE_SCALE = 0.75
-OFF_SCREEN = spot.northwest
-ON_SCREEN = spot.center
+OFF_SCREEN = spots.northwest
+ON_SCREEN = spots.center
 
 ##################
 ## Followed by some constants for our buttons, their placement on screen, their images, and their scale.
-YES_BUTTON_SPOT = spot.bottomq1
-NO_BUTTON_SPOT = spot.bottomq4
+YES_BUTTON_SPOT = spots.c1
+NO_BUTTON_SPOT = spots.c4
 YES_BUTTON = kstimulus('yes_no_buttons/yes1.png')
 NO_BUTTON = kstimulus('yes_no_buttons/no1.png')
 BUTTON_SCALE = 0.3

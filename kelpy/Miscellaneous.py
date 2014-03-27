@@ -9,7 +9,7 @@ import random
 import pygame
 from time import time
 from pygame.locals import *
-
+from kelpy.StandardLocations import *
 
 ## Some global variables we care about
 screen, clock = [None]*2
@@ -162,11 +162,10 @@ def initialize_kelpy(dimensions=(1024,768), bg=(250,250,250), fullscreen=False):
 	if not pygame.font: print 'Warning, fonts disabled'
 	if not pygame.mixer: print 'Warning, sound disabled'
 	
-	#kelpy_screen = KelpyScreen(screen)
-	#return kelpy_screen
+	locations = StandardLocations( screen )
 	
 
-	return screen
+	return screen, locations
 	
 def clear_screen(screen):
 	screen.fill(background_color)
@@ -230,45 +229,6 @@ def filename( inputFilepath ):
 	"""
 	return inputFilepath.rsplit('/', 1)[1]
 
-			
-class Spots():
-	"""
-		This class can be used to call offscreen and onscreen spots to position things on a screen.
-		It is used by the following code:
-		screen = initialize_kelpy( dimensions=(800,600) )  ## INITIALIZE THE SCREEN OBJECT...
-		spots = Spots(screen)   ## FEED THE SCREEN OBJECT TO THE SPOTS OBJECT...
-		print spots.west	## YOU CAN NOW CALL THE POSITIONS FROM THE OBJECT AS ATTRIBUTES! YAY!
-	"""
-	def __init__(self, screen):
-		"""
-			This initializes everything.
-		"""
-		## offscreen spots
-		self.west = (-screen.get_width(),  screen.get_height() /2 )
-		self.northwest = ( -screen.get_width(), -screen.get_height() )
-		self.north = ( screen.get_width()/2, -screen.get_height() )
-		self.northeast = ( screen.get_width() *2, -screen.get_height() )
-		self.east = ( screen.get_width() * 2, screen.get_height()/2 )
-		self.southeast= ( screen.get_width() * 2, screen.get_height() * 2 )
-		self.south = ( screen.get_width()/2 , screen.get_height() * 2 )
-		self.southwest = ( -screen.get_width(), screen.get_height()*2 )
-		
-		self.topq1 = ((screen.get_width()/5) * 1, (screen.get_height()/5)*2 )
-		self.topq2 = ((screen.get_width()/5) * 2, (screen.get_height()/5)*2 )
-		self.topq3 = ((screen.get_width()/5) * 3, (screen.get_height()/5)*2)
-		self.topq4 = ((screen.get_width()/5) * 4, (screen.get_height()/5)*2 )
-		
-		self.middleq1 = ((screen.get_width()/5) * 1, (screen.get_height()/5)*3 )
-		self.middleq2 = ((screen.get_width()/5) * 2, (screen.get_height()/5)*3 )
-		self.middleq3 = ((screen.get_width()/5) * 3, (screen.get_height()/5)*3 )
-		self.middleq4 = ((screen.get_width()/5) * 4, (screen.get_height()/5)*3 )
-		
-		self.bottomq1 = ((screen.get_width()/5) * 1, (screen.get_height()/5)*4 )
-		self.bottomq2 = ((screen.get_width()/5) * 2, (screen.get_height()/5)*4 )
-		self.bottomq3 = ((screen.get_width()/5) * 3, (screen.get_height()/5)*4 )
-		self.bottomq4 = ((screen.get_width()/5) * 4, (screen.get_height()/5)*4 )
-
-		self.center = ((screen.get_width() /2 ), (screen.get_height() /2 ) )
 
 def bring_clicked_to_top(clicked, things, dos):
 	"""

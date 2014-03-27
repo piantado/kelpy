@@ -22,9 +22,8 @@ IMAGE_SCALE = 0.25
 ##############################################
 ## Set up pygame
 
-screen = initialize_kelpy( dimensions=(800,600) )
+screen, spot= initialize_kelpy( dimensions=(800,600) )
 
-spot = Spots(screen)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Run a single trial

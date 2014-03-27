@@ -24,18 +24,18 @@ IMAGE_SCALE = 0.15
 ##############################################
 ## Set up pygame
 
-screen = initialize_kelpy( dimensions=(800,600) )
-spot = Spots(screen)
+screen, spots = initialize_kelpy( dimensions=(800,600) )
+
 ### Feed the screen to the Spots generator
 #spot = Spots(screen)
 
 ## The blicket detector will be positioned slightly below the center spot.
-BLICKET_DETECTOR_POSITION = (spot.center[0], spot.center[1] + 100) 
+BLICKET_DETECTOR_POSITION = (spots.center[0], spots.center[1] + 100) 
 ## and we set the blicket_detector's image path
 blicketd_image_path = (kstimulus('feature_tvs/screen_inactive.png'))
 
 ## this array holds all of our possible spots to place the possible blickets...
-display_spots = [spot.topq1, spot.topq2, spot.topq3, spot.topq4 ]
+display_spots = [spots.a1, spots.a2, spots.a3, spots.a4 ]
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Run a single trial

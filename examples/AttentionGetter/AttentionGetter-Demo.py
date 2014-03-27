@@ -27,10 +27,8 @@ MAX_DISPLAY_TIME = 5.0
 ##############################################
 ## Set up pygame
 
-screen = initialize_kelpy( dimensions=(800,600) )
-spot = Spots(screen)
-
-OFF_LEFT = (spot.west)
+screen, spots = initialize_kelpy( dimensions=(800,600) )
+sOFF_LEFT = (spots.west)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Run a single trial
@@ -91,7 +89,7 @@ images = [ kstimulus('/gifs/191px-Seven_segment_display-animated.gif'), kstimulu
 for i in range(10):
 	targetidx = randint(0,len(target_images)-1)
 	
-	gif_attention_getter(screen, spot.center, images)  ###NOTE: This is the only thing you have to run to use the function!
+	gif_attention_getter(screen, spots.center, images)  ###NOTE: This is the only thing you have to run to use the function!
 														### Also notice that it is not run within the main loop of the experiment. Easy right?
 	
 	present_trial(target_images[targetidx])  ## <---- This is the function that actually runs the experiment. 

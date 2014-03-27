@@ -2,3 +2,7 @@ feature_cars/car1_blue_stars.png,animals/zebra.png
 feature_cars/car1_red_circles.png,animals/giraffe.png
 feature_cars/car3_blue_circles.png,animals/giraffe.png
 feature_cars/car4_red_circles.png,animals/zebra.png
+feature_cars/car3_blue_circles.png,glitch-npcs/regular/caterpillar.png,
+feature_cars/car3_blue_circles.png,glitch-npcs/regular/chick.png
+feature_cars/car4_red_circles.png,glitch-npcs/regular/npc_crab.png,
+feature_cars/car3_blue_circles.png,glitch-npcs/regular/npc_salmon.png

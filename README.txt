@@ -28,6 +28,7 @@ Dependencies:
 	
 +	PIL
 +	Pygame
++	Tobii SDK
 
 Credits:
 
