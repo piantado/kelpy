@@ -37,6 +37,8 @@ class TobiiSprite(CommandableImageSprite, Followable):
 		if not None in gaze_point:
 			#see if gaze is inside image
 			if self.is_inside(gaze_point):
+				self.is_following = True
+				## print self.is_inside(gaze_point) #############
 				return True
 				
 		#otherwise not being looked at

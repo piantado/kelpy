@@ -28,6 +28,7 @@ The basic approach of Kelpy is to handle simple animations and things, taking ca
 	
 +	PIL
 +	Pygame
++	Tobii SDK
 
 ##Credits:
 
