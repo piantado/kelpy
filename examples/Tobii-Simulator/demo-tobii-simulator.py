@@ -65,7 +65,7 @@ def present_trial(imagepath):
 	## The standard event loop in kelpy -- this loops infinitely to process interactions
 	## and throws events depending on what the user does
 	for event in kelpy_standard_event_loop(screen, Q, dos, throw_null_events=True):
-		## This is all you have to do to allow dragging!!
+		img.is_following = img.is_looked_at()
 		img.process_follow(event)
 		pass
 		
