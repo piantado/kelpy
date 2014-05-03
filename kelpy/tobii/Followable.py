@@ -29,7 +29,7 @@ class Followable(Arrangeable):
 
 	def process_follow(self, event):
 	#currently does nothing with event for now, but could in the future
-		if self.is_following is False:
+		if self.is_following is False :
 			return False
 		else:
 			gaze_point = self.tobii_controller.get_center_gaze()
@@ -39,6 +39,9 @@ class Followable(Arrangeable):
 				return True
 			else:
 				return False
+	
+
+
 
 
 			

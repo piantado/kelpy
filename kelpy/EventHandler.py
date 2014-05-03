@@ -28,6 +28,8 @@ def who_was_clicked( things ):
 	
 	Keep in mind this function is not designed to handle clicks on multiple objects, ie if there are two sprites on top of each other, it will return the first one in the ordered updates list.
 	This may mean the item on the bottom will be returned first, if it is in line to be checked first.
+
+	To handle these cases, make use of the 
 	
 	"""
 	for x in iter(things, ):
@@ -47,5 +49,15 @@ def who_was_dropped( event, **kwargs):
 	"""
 	return event.obj
 
-
+def bring_clicked_to_top(clicked, things, dos):
+	"""
+		This function can be used when processing dran and drops to bring the clicked object to the top layer.
+		clicked: the clicked object (use in sequence with an 'if object.processdragndrop(event): ' command.
+		things: the list of all objects that are checked for updates.
+		dos: a Kelpy OrderedUpdates list.
+	"""
+	things.remove(clicked)
+	things.append(clicked)
+	dos.remove(clicked)
+	dos.append(clicked)
 

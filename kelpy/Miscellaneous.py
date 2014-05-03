@@ -233,14 +233,14 @@ def filename( inputFilepath ):
 	return inputFilepath.rsplit('/', 1)[1]
 
 
-def bring_clicked_to_top(clicked, things, dos):
-	"""
-		This function can be used when processing dran and drops to bring the clicked object to the top layer.
-		clicked: the clicked object (use in sequence with an 'if object.processdragndrop(event): ' command.
-		things: the list of all objects that are checked for updates.
-		dos: a Kelpy OrderedUpdates list.
-	"""
-	things.remove(clicked)
-	things.append(clicked)
-	dos.remove(clicked)
-	dos.append(clicked)
+# def bring_clicked_to_top(clicked, things, dos):
+# 	"""
+# 		This function can be used when processing dran and drops to bring the clicked object to the top layer.
+# 		clicked: the clicked object (use in sequence with an 'if object.processdragndrop(event): ' command.
+# 		things: the list of all objects that are checked for updates.
+# 		dos: a Kelpy OrderedUpdates list.
+# 	"""
+# 	things.remove(clicked)
+# 	things.append(clicked)
+# 	dos.remove(clicked)
+# 	dos.append(clicked)c

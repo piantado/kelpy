@@ -2,8 +2,8 @@
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Tobii sim controller for kelpy
-#		this controller is intended to be used as a simple development tool to simulate basic
-#		gaze input from a tobii eye tracker. it simply returns a tuple of the mouse's position.
+#		this controller is intended to be used as a simple development tool to simulate 
+#		gaze input from a tobii eye tracker. it returns a tuple of the mouse's position.
 #		
 #		this version does not simulate a full range of tobii data, like the validity codes or depth or anything fancy.
 #
@@ -15,7 +15,7 @@ import pygame
 from pygame.locals import *
 
 
-## This is a tobii simulator made mostly from bandaids and tape. It is very unsophisticated at the moment.
+## This is a tobii simulator made mostly from bandaids and tape.
 
 
 class TobiiSimController:
