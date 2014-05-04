@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 
 """
+	This is the video test demo from the kelpy library. We make use of an earlier demo to show how to use the video recording function in this library.
+	The way the video recording works is a little complicated, but can be scripted to be run somewhat easily.
 
-	This is the *exact same demo* as the normal 'blicket detector' except for one thing below.\/ \/ \/
+	Other than the video recording function, this demo is unchanged.
+	Keep in mind this is the *exact same demo* as the normal 'blicket detector' except for one thing below.\/ \/ \/
+	The thing is marked somewhat clearly
 	
 """
 
@@ -18,13 +22,22 @@ from kelpy.OrderedUpdates import *
 from kelpy.EventHandler import *
 from kelpy.Dragable import *
 from kelpy.DragDrop import *
-import kelpy.ScreenVideoRecorder  ###################THIS THING! <<<---------- <<<------------ <<-----
-###### by importing the kelpy.ScreenVideoRecorder you tell that program to screen grab every frame.
+############################################################################
+import kelpy.ScreenVideoRecorder  ###################THIS THING! <<<---------- <<<------------ 
+###### To make the recording function work, you simply import the library . 
+##### by importing the kelpy.ScreenVideoRecorder you tell that program to screen grab every frame.
 #### This will make a folder full of bitmaps in the directory with your script.
-#### You then have to run the ScreenVideoRecorder on it's own in that folder directory and point it to the folder
-### filled with bitmaps. It will compile all the stuff into an avi.
-### This process will become simpler soon!!!
-##########################################################################################3333
+### You then have to run the ScreenVideoRecorder on it's own in that folder directory and point it to the folder
+## filled with bitmaps. It will compile all the stuff into an avi.
+#
+##
+####
+#####
+######
+#######
+########
+#########					only old stuff after this!
+###########################################################################
 
 IMAGE_SCALE = 0.15
 
@@ -42,24 +55,9 @@ display_spots = [spots.a1, spots.a2, spots.a3, spots.a4 ]
 # Run a single trial
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
-"""
- 	This demo uses two special classes that inherit from the CommandableImageSprite class and the Dragable class.
-	They are the DragSprite and DropSprite classes, which are available from the line " from kelpy.DragDrop import * "	
-	These classes allow dragging and dropping. They will throw events when these actions happen, which are then picked up in the event loop.
-"""
 
 def present_trial(image1, image2, image3, theblicket):
-	"""
-		This is the main function used to run this demo. It is fed an imagepath and uses this to create a CommandableImageSprite offscreen. This Sprite is later moved onto the screen, where it hangs out until it is clicked.
-	#####
-	## First we create all of our objects, a bunch of DragSprites and a DropSprite.
 	
-	## one of our sprites has been designated as the Blicket, it will always be the last filepath passed into the function.
-	## This should make it easier when I (or you) implement a csv reader to input the stimuli later.
-	
-	## The positions are randomized before the trial starts, so they are not always in the same place.
-	## NOTE: Right now, this version does not have a demonstration of the blicket.
-	"""
 	thing1 = DragSprite( screen, display_spots[0], image1, scale=IMAGE_SCALE )
 	thing2 = DragSprite( screen, display_spots[1], image2, scale=IMAGE_SCALE )
 	thing3 = DragSprite( screen, display_spots[2], image3, scale=IMAGE_SCALE )
@@ -134,8 +132,7 @@ def present_trial(image1, image2, image3, theblicket):
 			# print drag.position(), drag.get_bottom(), drag.get_right(), drag.get_left(), drag.get_top()
 
 ###################
-###NOTE: Right now if multiple DragSprites are on top of each other, they all get clicked and dragged. This is not ideal, and a way to only click the one on top should be implemented.
-	
+###
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Main experiment
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	

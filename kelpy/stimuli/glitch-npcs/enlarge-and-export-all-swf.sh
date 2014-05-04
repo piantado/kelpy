@@ -30,10 +30,10 @@ do
 				
 				echo exporting $j as $filename.png
 				let "counter += 1"
-				# The following line opens an SWF scaled 5x it's normal size, and takes a screenshot of the last frame.
+				# The following line opens an SWF scaled 7x it's normal size, and takes a screenshot of the last frame.
 				# we enable rendering with the -r1 argument.
 				# We use the -t.1 to set the video to timeout and close after .1 second. Otherwise, it would loop forever. We don't want to wait that long.
-				gnash -s15 -r1 -t.15 --screenshot last --screenshot-file $filename.png $j
+				gnash -s7 -r1 -t.15 --screenshot last --screenshot-file $filename.png $j
 				convert -transparent white $filename.png $filename.png ## convert the new image to the same new image, just with the white background removed.
 			fi
 		done	
