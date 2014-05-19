@@ -3,7 +3,9 @@
 """
 
 	Eyetracker Demo 2
-	This is a demo that makes use of registered look zones to make some events happen.
+	This is a demo that makes use of the TobiiSprite's ability to use registered drag and drop zones. 
+	It displays a drum and a stick. Look at the stick to pick it up, bang it against the drum to make it play! 
+
 """
 
 import os, sys
@@ -49,17 +51,13 @@ def present_trial(imagepath):
 
 	img.register_drag_zone(drum)
 
-	images = [img, drum]
+	images = [drum, img]
 
 	# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 	# Set up the updates, etc. 
 	
 	# A queue of animation operations
 	Q = DisplayQueue()
-	
-	# Draw a single animation in if you want!
-	Q.append(obj=img, action='wait', duration=1.0)
-	Q.append(obj=img, action='move', pos=spot.center, duration=0.0)
 	
 	# What order do we draw sprites and things in?
 	dos = OrderedUpdates(images) # Draw and update in this order
@@ -70,19 +68,13 @@ def present_trial(imagepath):
 	## and throws events depending on what the user does
 	for event in kelpy_standard_event_loop(screen, Q, dos, throw_null_events=True):
 		
-		img.is_following =  img.is_looked_at()
-		img.process_follow(event)
+		img.is_following =  img.is_looked_at()  #NOTE: We turn on following as soon as the sprite it looked at. This also turns it off when the sprite it not looked at any longer.
+		img.process_follow(event)   ## pretty simple, right?
 
-		if was_dropped_into_zone(event):
-			print "Working somewhat!"
+		if was_dragged_into_zone(event):  ## This is a function located in the EventHandler, it looks for drag zone events.
+			print "Nice Drumming!"
 			play_sound(kstimulus("sounds/Button-Reverb.wav"))
 
-		if( time() - start_time > MAX_DISPLAY_TIME): 
-			pass
-		
-		# If the event is a click:
-		if is_click(event):
-			pass
 	
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Main experiment
@@ -90,9 +82,7 @@ def present_trial(imagepath):
 
 
 
-# present a number of blocks
-
-
+# for this one we only present one block.
 
 present_trial(kstimulus("common_objects/glitch_misc/beam.png"))
 		
