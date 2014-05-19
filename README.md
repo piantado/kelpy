@@ -1,7 +1,7 @@
 #Kelpy
 
 
-**KELPY** is the **K**id **E**xperimental **L**ibrary in **PY**thon
+**KELPY** is the Kid Experimental Library in PYthon
 
 ##Installation
 Put this library somewhere--mine lives in "/home/piantado/mit/Libraries/kelpy/"
