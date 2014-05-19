@@ -1,12 +1,23 @@
 #ignore the following#
+
 ######################
 
+
+
 *~
+
 #ubuntu one temporary files
 
+
+
 *.pyc
+
 #python class files
 
+
+
 *.kate-swc
-some weird kind of kwrite temp file
+
+#kwrite temp files
+
 
