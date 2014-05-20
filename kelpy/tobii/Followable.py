@@ -37,8 +37,11 @@ class Followable(Dragable):
 			if not None in gaze_point:
 				self.set_x(gaze_point[0])
 				self.set_y(gaze_point[1])	
+			## Band-aid to allow the followable to process drag zones properly.
+			## NOTE: Processing following and drag n drop uses different loops, so if, for some reason, an object is both followable and drag-n-droppable,
+			## it would require two different loops to process those interactions.
+			## They would, as it is currently written, use the same list of drag and drop zones. 
 
-			## Band-aid to allow the followable to process drag zones properly... let's see if it works
 				for z in self.drag_zones:
 					wasinz = z.is_inside( oldxy )
 					newpos = ( (self.x), (self.y) ) 
@@ -49,6 +52,10 @@ class Followable(Dragable):
 						pygame.event.post(pygame.event.Event(ZONE_EVENT, motion="drag", direction="exit", obj=self, zone=z))
 					
 				return True
+
+
+
+
 			else:
 				return False
 	

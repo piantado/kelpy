@@ -21,6 +21,7 @@ from kelpy.EventHandler import *
 from kelpy.Dragable import *
 from kelpy.DragDrop import *
 from kelpy.tobii.TobiiSimController import *
+from kelpy.tobii.TobiiController import *
 from kelpy.tobii.TobiiSprite import *
 
 IMAGE_SCALE = 0.25
@@ -34,6 +35,22 @@ screen, spot = initialize_kelpy( dimensions=(800,600) )
 
 OFF_LEFT = (spot.west)
 
+##############################################
+## setup and activate tobii
+
+# this creates a TobiiController that calls the actual Tobii SDK code
+tobii_controller = TobiiController(screen)
+#tobii_controller = TobiiSimController(screen)
+
+# this searches for the tobii eyetracker that is connected.
+# It times out based on the given amount of seconds (the default is 1,000 seconds) and exits this program
+tobii_controller.wait_for_find_eyetracker(3)
+
+#set the name of the data file that will output all of the Tobii data
+tobii_controller.set_data_file('testdata.tsv')
+#activate the first tobii eyetracker that was found
+tobii_controller.activate(tobii_controller.eyetrackers.keys()[0])
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Run a single trial
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
@@ -44,8 +61,9 @@ def present_trial(imagepath):
 
 	"""
 	## Images here are commandable sprites, so we can tell them what to do using Q below
-	tobii_sim = TobiiSimController(screen)
-	img = TobiiSprite( screen, spot.center, imagepath, tobii_sim, scale=IMAGE_SCALE)
+	#tobii = TobiiSimController(screen)
+	
+	img = TobiiSprite( screen, spot.center, imagepath, tobii, scale=IMAGE_SCALE)
 	
 	drum = DropSprite(screen, (609,407), kstimulus("common_objects/drum.png"), scale=IMAGE_SCALE)
 
@@ -63,18 +81,26 @@ def present_trial(imagepath):
 	dos = OrderedUpdates(images) # Draw and update in this order
 	
 	start_time = time()
+	#start tracking
+	tobii_controller.start_tracking()	
 	
 	## The standard event loop in kelpy -- this loops infinitely to process interactions
 	## and throws events depending on what the user does
 	for event in kelpy_standard_event_loop(screen, Q, dos, throw_null_events=True):
 		
 		img.is_following =  img.is_looked_at()  #NOTE: We turn on following as soon as the sprite it looked at. This also turns it off when the sprite it not looked at any longer.
-		img.process_follow(event)   ## pretty simple, right?
+		img.process_follow(event)   ## simple, right?
 
-		if was_dragged_into_zone(event):  ## This is a function located in the EventHandler, it looks for drag zone events.
+		if was_dragged_into_zone(event):  ## This is a function located in the EventHandler that watches for drag zone events.
 			print "Nice Drumming!"
 			play_sound(kstimulus("sounds/Button-Reverb.wav"))
 
+		if event.type == QUIT:
+			tobii_controller.close_data_file()
+			tobii_controller.destroy()
+				
+		
+	tobii_controller.stop_tracking()
 	
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Main experiment
@@ -86,3 +112,8 @@ def present_trial(imagepath):
 
 present_trial(kstimulus("common_objects/glitch_misc/beam.png"))
 		
+
+#make sure the TobiiController has closed the data file and removed itself
+tobii_controller.close_data_file()
+tobii_controller.destroy()
+

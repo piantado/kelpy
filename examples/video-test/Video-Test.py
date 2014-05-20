@@ -27,11 +27,11 @@ import kelpy.ScreenVideoRecorder  ###################THIS THING! <<<---------- <
 ###### To make the recording function work, you simply import the library . 
 ##### by importing the kelpy.ScreenVideoRecorder you tell that program to screen grab every frame.
 #### This will make a folder full of bitmaps in the directory with your script.
-### You then have to run the ScreenVideoRecorder on it's own in that folder directory and point it to the folder
+### You then have to run the ScreenVideoRecorder.py on it's own in that folder's parent directory and point it to the folder with an argument
 ## filled with bitmaps. It will compile all the stuff into an avi.
 #
-##
-####
+##Or alternatively, you can run your experiment with the run-kelpy.py script
+#### this will automatically pick out the latest folder and run the video compiler after the experiment has finished.
 #####
 ######
 #######
