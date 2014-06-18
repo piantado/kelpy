@@ -34,6 +34,9 @@ def who_was_clicked( things ):
 		if x.click_inside(pygame.mouse.get_pos()):
 			return x
 
+def was_clicked(x):
+	return x.click_inside(pygame.mouse.get_pos())
+
 def was_dropped_into_zone( event, *args, **kwargs):
 	"""
 		This function returns true if an event in the event loop signals that a Drop ZONE_EVENT has taken place, ie. if a DragSprite has been dropped onto a registered DropSprite.

@@ -76,7 +76,7 @@ class CommandableImageSprite(CommandableSprite):
 		# We use PIL to load images (so we can manipulate them)
 		self.PILimage = PIL.Image.open(imagepath)
 		#self.PILimage = self.PILimage.resize(self.PILimage.size, Image.ANTIALIAS) # Hmm we should antialias here in the future
-		assert self.PILimage.mode in ["RGB", "RGBA"], "*** NOT IN RIGHT MODE:"+self.PILimage.mode # check that its the right mode
+		#assert self.PILimage.mode in ["RGB", "RGBA"], "*** NOT IN RIGHT MODE:"+self.PILimage.mode # check that its the right mode
 		
 		self.base_pyimage =  pygame.image.fromstring(self.PILimage.tostring(), self.PILimage.size, self.PILimage.mode)
 		#self.base_image = pygame.image.load(imagepath).convert_alpha()
