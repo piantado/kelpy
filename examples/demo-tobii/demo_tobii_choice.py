@@ -30,6 +30,7 @@ from kelpy.OrderedUpdates import *
 from kelpy.EventHandler import *
 
 from kelpy.tobii.TobiiController import *
+from kelpy.tobii.TobiiSimController import *
 from kelpy.tobii.TobiiSprite import *
 from kelpy.tobii.TobiiWatcher import *
 
@@ -82,18 +83,19 @@ with open('stimuli_pairings.csv', 'rb') as f:
 ##############################################
 ## setup and activate tobii
 
-# this creates a TobiiController that calls the actual Tobii SDK code
-tobii_controller = TobiiController(screen)
+ # this creates a TobiiController that calls the actual Tobii SDK code
+ tobii_controller = TobiiController(screen)
+#tobii_controller = TobiiSimController(screen)
 
-# this searches for the tobii eyetracker that is connected.
-# It times out based on the given amount of seconds (the default is 1,000 seconds) and exits this program
-tobii_controller.wait_for_find_eyetracker(3)
+ # this searches for the tobii eyetracker that is connected.
+ # It times out based on the given amount of seconds (the default is 1,000 seconds) and exits this program
+ tobii_controller.wait_for_find_eyetracker(3)
 
 #set the name of the data file that will output all of the Tobii data
-tobii_controller.set_data_file('testdata.tsv')
+ tobii_controller.set_data_file('testdata.tsv')
 
-#activate the first tobii eyetracker that was found
-tobii_controller.activate(tobii_controller.eyetrackers.keys()[0])
+ #activate the first tobii eyetracker that was found
+ tobii_controller.activate(tobii_controller.eyetrackers.keys()[0])
 
 ##############################################
 #This is the function we will eventually use to run the trial.
@@ -173,7 +175,7 @@ def present_trial(car_paths, animal_paths):
 		animal_position = 'LEFT'
 
 	#start tracking
-	tobii_controller.start_tracking()	
+	 tobii_controller.start_tracking()	
 	
 
 	## The standard event loop in kelpy -- this loops infinitely to process interactions
@@ -188,11 +190,11 @@ def present_trial(car_paths, animal_paths):
 		#this is set specifically for the tobii controller; otherwise the program hangs
 		#since the text file is not closed
 		if event.type == QUIT:
-			tobii_controller.close_data_file()
-			tobii_controller.destroy()
+			 tobii_controller.close_data_file()
+			 tobii_controller.destroy()
 			
 	
-	tobii_controller.stop_tracking()
+	 tobii_controller.stop_tracking()
 	
 	chosen = None
 	max_value = 0.0;

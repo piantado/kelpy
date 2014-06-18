@@ -1,7 +1,7 @@
 #Kelpy
 
 
-**KELPY** is the **K**id **E**xperimental **L**ibrary in **PY**thon
+**KELPY** is the Kid Experimental Library in PYthon
 
 ##Installation
 Put this library somewhere--mine lives in "/home/piantado/mit/Libraries/kelpy/"
@@ -11,7 +11,7 @@ Set the PYTHONPATH environment variable to point to LOTlib/:
 
 	export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/mit/Libraries/kelpy
 
-You can put this into your .bashrc file to make it loaded automatically when you open a terminal. On ubuntu and most linux, this is:
+You can put this into your .bashrc file to make it load automatically when you open a terminal. On ubuntu and most linux, this is:
 
 	echo 'export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/mit/Libraries/kelpy' >> ~/.bashrc
 

@@ -69,8 +69,8 @@ class TobiiSprite(CommandableImageSprite, Followable):
 
 		#update position if set to following eye gaze
 		#Followable.update(self)
-		
 
+	
 			
 		
 		

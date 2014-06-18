@@ -48,6 +48,7 @@ class CommandableImageSprite(CommandableSprite):
 		
 		NOTE however that to create dragable sprites, use the DragSprite and DropSprite classes in the DragDrop module. 
 		
+		!
 		"""
 		CommandableSprite.__init__(self, screen, init_position, isdraggable=isdraggable)
 		
@@ -180,7 +181,7 @@ class CommandableImageSprite(CommandableSprite):
 			if self.last_blink_parity != parity:
 				self.last_blink_parity = parity
 				if parity: self.set_image(self.initial_swap_image, self.initial_rotation, self.initial_scale)
-				else:      self.set_image(c['image'], c['rotation'], c['scale'], c['brightness']) 				
+				else:      self.set_image( c['image'], c['rotation'], c['scale'], c['brightness'] ) 				
 		elif action == 'restore': # return to the original image that we loaded
 			self.set_image(self.initial_imagepath, self.initial_rotation, self.initial_scale, self.initial_brightness)
 		else: # if the parent could not update this
