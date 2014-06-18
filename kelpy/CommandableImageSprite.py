@@ -190,6 +190,10 @@ class CommandableImageSprite(CommandableSprite):
 			
 		return True
 		
+	def update(self):
+		# Define an update so that I can be passed on my own to keply standard event loop
+		CommandableSprite.update(self)
+		self.draw()
 		
 	def draw(self):
 		"""
