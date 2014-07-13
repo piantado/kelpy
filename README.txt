@@ -15,6 +15,8 @@ You can put this into your .bashrc file to make it load automatically when you o
 
 	echo 'export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/mit/Libraries/kelpy' >> ~/.bashrc
 
+PYTHONPATH="${PYTHONPATH}:/path/to/some/cool/python/package/:/path/to/another/cool/python/package/"
+export PYTHONPATH
 
 And you should be ready to use the library
 

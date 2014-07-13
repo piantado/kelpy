@@ -48,7 +48,7 @@ class CommandableImageSprite(CommandableSprite):
 		
 		NOTE however that to create dragable sprites, use the DragSprite and DropSprite classes in the DragDrop module. 
 		
-		!
+		
 		"""
 		CommandableSprite.__init__(self, screen, init_position, isdraggable=isdraggable)
 		
