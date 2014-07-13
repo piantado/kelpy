@@ -23,6 +23,7 @@ class OrderedUpdates(pygame.sprite.OrderedUpdates):
 	
 	def update(self):
 		# Like all kelpy, we will have an update function that does everything important
+		## TODO: SHOUDL WE PROCESS DRAGNDROP HERE?
 		for x in self:
 			x.update()
 			x.draw()
