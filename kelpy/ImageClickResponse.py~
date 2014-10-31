@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from CommandableSprites import *
+from CommandableImageSprite import *
 from Arrangeable import *
 from time import time
 from random import randint, choice, sample, shuffle

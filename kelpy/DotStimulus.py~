@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
 
+# TODO: This has not really been tested with non-circled. 
 
-from kelpy.CommandableSprites import *
+from kelpy.CommandableImageSprite import *
 import pygame
 
 from random import randint
-from pygame.gfxdraw import aacircle 
+from pygame.gfxdraw import aacircle, filled_circle
 
 # For outputting images
 import Image
 import ImageDraw
 import numpy
+
+PI = 3.1415926535
 
 class DotStimulus(CommandableSprite):
 	"""
@@ -43,12 +46,12 @@ class DotStimulus(CommandableSprite):
 			
 			# pi R^2 = A
 			if circled: A = self.width * self.height
-			else:       A = 3.1415926535 * ((self.width-2.*pad)/2.)**2.0 ## TODO: Make this really the area of the ellipse
+			else:       A = PI * ((self.width-2.*pad)/2.)**2.0 
 			
-			self.radii = numpy.sqrt(A * sizes / 3.1415926535)
+			self.radii = numpy.sqrt(A * sizes / PI)
 				
-			circlearea = numpy.sum( self.radii**2.0 * 3.1415926535)
-			print A, circlearea
+			circlearea = numpy.sum( self.radii**2.0 * PI)
+			#print A, circlearea
 			assert( abs( area*A/circlearea - 1) < 0.01)
 			
 			#assert(
@@ -79,6 +82,7 @@ class DotStimulus(CommandableSprite):
 				i += 1
 		
 	def to_image(self, f, width=350, height=350):
+		# This will draw these dots as an image. We use a different library here for outputting an image
 		
 		# set up the image
 		im = Image.new('RGB', (self.width, self.height))
@@ -105,31 +109,34 @@ class DotStimulus(CommandableSprite):
 	
 			TODO: THIS IS OUTDATED -- DO NOT USE 
 	"""
-	#def update(self):
+	def update(self):
 	
-		#CommandableSprite.update(self)
+		CommandableSprite.update(self)
 		
-		#mx = self.get_x()
-		#my = self.get_y()
+		mx = int(self.get_x())
+		my = int(self.get_y())
 		
-		#l = self.get_left()
-		#t = self.get_top()
+		l = int(self.get_left())
+		t = int(self.get_top())
 		
-		##pygame.draw.circle(Surface, color, pos, radius, width=0): return Rect
-		#pygame.draw.rect(self.screen,self.bg_color,self.get_pygame_Rect())
-		
-		#if self.circled:
-			#if self.circle_width == 0: # no border --- just draw the background
-				#pygame.draw.circle(self.screen, self.circle_color, (mx, my), min(self.width/2,self.height/2) )
-			#else: 
+		if self.circled:
+			if self.border_width == 0: # no border --- just draw the background
+				pygame.draw.circle(self.screen, self.circle_color, (mx, my), min(self.width/2,self.height/2) )
+			else: 
+				filled_circle(self.screen, mx, my, min(self.width/2,self.height/2), (0,0,0) ) # draw a black outer rim
+				aacircle(self.screen, mx, my, min(self.width/2,self.height/2), (0,0,0) ) # draw a black outer rim
+				
+				filled_circle(self.screen, mx, my, min(self.width/2-self.border_width,self.height/2-self.border_width), self.circle_color) 
+				aacircle(self.screen, mx, my, min(self.width/2-self.border_width,self.height/2-self.border_width), self.circle_color) # and the inside the color we want
+				
+		# And draw each dot position
+		for i in xrange(self.N):
+			dx,dy = self.dot_positions[i]
+			r = self.radii[i]
 			
-			
-			##aacircle(self.screen, mx, my, min(self.width/2,self.height/2), self.circle_color)
-		
-		#for dx,dy in self.dot_positions:
-			##print dx,dy
-			#pygame.draw.circle(self.screen, self.dot_color, (dx+l, dy+t), self.radius, self.circle_width)
-			##aacircle(self.screen, dx+l, dy+t, self.radius, self.dot_color)
+			# here we draw twice to antialias the edges
+			filled_circle(self.screen, int(dx+l), int(dy+t), int(r), self.dot_color)
+			aacircle(self.screen, int(dx+l), int(dy+t), int(r), self.dot_color)
 		
 		
 		

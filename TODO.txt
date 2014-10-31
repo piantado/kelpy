@@ -1,3 +1,5 @@
+Compile to javascript: http://gatc.ca/projects/pyjsdl/
+
 https://www.iconfinder.com/
 
 http://gatc.ca/projects/pyjsdl/
