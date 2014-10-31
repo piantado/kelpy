@@ -9,11 +9,11 @@ Put this library somewhere--mine lives in "/home/piantado/mit/Libraries/kelpy/"
 
 Set the PYTHONPATH environment variable to point to LOTlib/:
 
-	export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/mit/Libraries/kelpy
+	export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/Libraries/kelpy-master
 
 You can put this into your .bashrc file to make it load automatically when you open a terminal. On ubuntu and most linux, this is:
 
-	echo 'export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/mit/Libraries/kelpy' >> ~/.bashrc
+	echo 'export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/Libraries/kelpy-master' >> ~/.bashrc
 
 
 And you should be ready to use the library
