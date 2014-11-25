@@ -151,6 +151,12 @@ class CommandableImageSprite(CommandableSprite):
 		elif action == 'waggle': ## NOTE: this leaves it rotated if 
 			self.set_image_attributes(rotation=self.rotation + c['amount'] * sin(2.0 * pi * t / c['period']) / 2)
 			if c.get('finish',False) is True: self.set_image_attributes(rotation=self.start_rotation)
+		elif action == 'wiggle': ## a variation on waggle to have more oscillatory motion
+			#takes duration (in seconds, how long the motion is),
+			#amount (in degrees, the max change in rotation),
+			#and cycles (the number of cycles completed during the duration)
+			self.set_image_attributes(rotation=self.start_rotation + c['amount'] * sin(c['cycles'] * (2.0 * pi) * t))
+			if c.get('finish',False) is True: self.set_image_attributes(rotation=self.start_rotation)
 		elif action == 'circlescale':
 			self.set_image_attributes(scale=self.scale + c['amount'] * sin(2.0 * pi * t / c['period'] ) / 2)
 			if c.get('finish',False) is True: self.set_image_attributes(scale=self.start_scale)
