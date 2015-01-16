@@ -5,7 +5,7 @@ from kelpy.Miscellaneous import *
 
 class DisplayQueue:
 	"""
-		A displayqueue stores a list of objects and actions to call on them. 
+		A DisplayQueue stores a list of objects and actions to call on them. 
 		It also stores a list of "child(ren)" display queues that get updated at the same time. This allows it
 		to process events simultaneously -- by calling append_simultaneous you create new children.
 		      
@@ -74,7 +74,10 @@ class DisplayQueue:
 		"""
 		
 		# Cute--update the kids and remove ones that retun True
-		self.children = [ x for x in self.children if not x.update() ]
+		#self.children = [ x for x in self.children if not x.update() ]
+
+		for x in self.children:
+			x.update()
 		
 		# then update myself
 		if len(self.commands) > 0:
