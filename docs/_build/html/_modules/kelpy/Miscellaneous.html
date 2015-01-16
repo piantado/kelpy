@@ -1,0 +1,416 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>kelpy.Miscellaneous &mdash; kelpy 0.1 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="kelpy 0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="fa fa-home"> kelpy</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../install.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../expt-setup.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../expt-setup.html#key-components">Key Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../expt-setup.html#other-useful-classes-functions">Other Useful Classes/Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../expt-setup.html#code-reference">Code Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../stimulus-types.html">Stimulus Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../stimulus-types.html#sprites">Sprites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../stimulus-types.html#other-visuals">Other Visuals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../stimulus-types.html#sounds">Sounds</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">kelpy</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>kelpy.Miscellaneous</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <h1>Source code for kelpy.Miscellaneous</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Some miscellaneous useful functions</span>
+<span class="sd">	</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">pygame.locals</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">kelpy.StandardLocations</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c">## Some global variables we care about</span>
+<span class="n">screen</span><span class="p">,</span> <span class="n">clock</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span>
+
+<span class="n">OFFSCREEN</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10000</span><span class="p">,</span> <span class="o">-</span><span class="mi">10000</span><span class="p">]</span>
+
+<span class="n">Infinity</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s">&quot;inf&quot;</span><span class="p">)</span>
+
+<span class="n">tab</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>
+<span class="n">background_color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">)</span>
+
+<span class="n">SPACEBAR_CHANGE_EVENT</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">USEREVENT</span> <span class="o">+</span> <span class="mh">0x1</span> <span class="c"># called by our main loop when space bar changes state (pressed to unpressed, etc)</span>
+<span class="k">def</span> <span class="nf">is_space_pressed</span><span class="p">():</span> <span class="k">return</span> <span class="n">pygame</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">get_pressed</span><span class="p">()[</span><span class="n">K_SPACE</span><span class="p">]</span>
+<span class="n">SPACEBAR_NOHOLD_EVENT</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">USEREVENT</span> <span class="o">+</span> <span class="mh">0x2</span> <span class="c"># called by our main loop whenever the spacebar is NOT held down</span>
+<span class="n">NULL_EVENT</span>            <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">USEREVENT</span> <span class="o">+</span> <span class="mh">0x3</span>
+<span class="n">ZONE_EVENT</span>            <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">USEREVENT</span> <span class="o">+</span> <span class="mh">0x4</span>
+<span class="n">EXIT_KELPY_STANDARD_EVENT_LOOP</span>            <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">USEREVENT</span> <span class="o">+</span> <span class="mh">0x5</span> <span class="c"># this event is for exiting loops, after completing some queue event</span>
+<span class="n">KELPY_USER_EVENT</span>      <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">USEREVENT</span> <span class="o">+</span> <span class="mh">0x6</span>
+<span class="n">SLIDE_EVENT</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">USEREVENT</span> <span class="o">+</span> <span class="mh">0x7</span>
+
+<span class="c"># use double buffering by default</span>
+<span class="n">DEFAULT_DISPLAY_MODE_FLAGS</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">DOUBLEBUF</span> <span class="o">|</span> <span class="n">pygame</span><span class="o">.</span><span class="n">HWSURFACE</span>
+
+<span class="n">spot</span> <span class="o">=</span> <span class="bp">None</span>
+
+<span class="c">#pygame.mixer.pre_init(44100,-16,2, 1024 * 3) # sometimes we get scratchy sound -- use this from http://archives.seul.org/pygame/users/Oct-2003/msg00076.html</span>
+<span class="k">def</span> <span class="nf">ifelse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">x</span><span class="p">:</span> <span class="k">return</span> <span class="n">y</span>
+	<span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">z</span>
+	
+	
+<span class="k">def</span> <span class="nf">q</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">&quot;</span>
+
+<span class="k">def</span> <span class="nf">die</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+	<span class="k">print</span>  <span class="o">&gt;&gt;</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">x</span>
+	<span class="n">quit</span><span class="p">()</span>
+	
+<span class="k">def</span> <span class="nf">flip</span><span class="p">():</span> <span class="k">return</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">);</span>
+
+<span class="k">def</span> <span class="nf">kstimulus</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Returns the stimulus for a path f (relative to the kelpy stimulus file)</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	
+	<span class="n">f</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span> <span class="n">__file__</span> <span class="p">)</span><span class="o">+</span><span class="s">&quot;/stimuli/&quot;</span>
+	
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="o">+</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="k">else</span><span class="p">:</span>              
+		<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+			<span class="c">#print &quot;A=&quot;,a, a[1], a[1] == &#39;.&#39;, f[-1] != &#39;/&#39; and a[1] != &#39;.&#39; and a[1] != &#39;/&#39;</span>
+			<span class="k">if</span> <span class="n">f</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;/&#39;</span> <span class="ow">and</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;.&#39;</span> <span class="ow">and</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;/&#39;</span><span class="p">:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="o">+</span><span class="s">&quot;_&quot;</span><span class="o">+</span><span class="n">a</span> <span class="c"># don&#39;t append when we ar a slash or an extension</span>
+			<span class="k">else</span><span class="p">:</span>            <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="o">+</span><span class="n">a</span>
+	
+	<span class="k">return</span> <span class="n">f</span>
+
+<span class="k">def</span> <span class="nf">next_alphabetical</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Returns the next string in alphabetical order ( &quot;aab&quot; -&gt; &quot;aac&quot;, etc)</span>
+<span class="sd">		From http://stackoverflow.com/questions/932506/how-can-i-get-the-next-string-in-alphanumeric-ordering-in-python</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">strip_zs</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">strip_zs</span><span class="p">:</span> <span class="k">return</span> <span class="n">strip_zs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">strip_zs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;a&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">strip_zs</span><span class="p">))</span>
+	<span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="s">&#39;a&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+	
+<span class="n">blankcursor_strings</span> <span class="o">=</span> <span class="p">(</span>               <span class="c">#sized 24x24</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">,</span>
+      <span class="s">&quot;                        &quot;</span><span class="p">)</span>
+<span class="n">blank_cursor</span><span class="o">=</span><span class="n">pygame</span><span class="o">.</span><span class="n">cursors</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">blankcursor_strings</span><span class="p">,</span> <span class="n">black</span><span class="o">=</span><span class="s">&#39;X&#39;</span><span class="p">,</span> <span class="n">white</span><span class="o">=</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="n">xor</span><span class="o">=</span><span class="s">&#39;o&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">xor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">y</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span> <span class="p">(</span><span class="ow">not</span> <span class="n">x</span><span class="p">)</span> <span class="ow">and</span> <span class="n">y</span> <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">sample1</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="k">return</span> <span class="n">sample_one</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">sample_one</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> 
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># use the list you were given</span>
+	<span class="k">else</span><span class="p">:</span>             <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>   <span class="c"># treat the arguments as a list</span>
+
+<span class="k">def</span> <span class="nf">loop_till_key</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">K_RETURN</span><span class="p">):</span>
+	
+	<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">pygame</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">get_pressed</span><span class="p">()[</span><span class="n">key</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="k">return</span>
+		
+		<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+				<span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">QUIT</span><span class="p">:</span> <span class="n">quit</span><span class="p">()</span>
+				<span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">KEYDOWN</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">K_ESCAPE</span><span class="p">:</span> <span class="n">quit</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">play_sound</span><span class="p">(</span><span class="n">sound</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">volume</span><span class="o">=</span><span class="mf">0.65</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Simplifies the pygame sound module into a single function for playing sounds.</span>
+<span class="sd">    </span>
+<span class="sd">    Set wait to true to tell the program to wait until the sound if finished to continue.</span>
+<span class="sd">    This may fix problems where the program ends before a sound finishes playing, and makes it seem like the sound</span>
+<span class="sd">    hasn&#39;t started playing at all.</span>
+<span class="sd">    </span>
+<span class="sd">    volume sets the volume, between 0.0 and 1.0 </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">#snd = pygame.mixer.Sound( sound )</span>
+    <span class="c">#snd.set_volume( volume )</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">music</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">sound</span><span class="p">)</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">music</span><span class="o">.</span><span class="n">set_volume</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">music</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">wait</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">music</span><span class="o">.</span><span class="n">get_busy</span><span class="p">():</span> <span class="k">pass</span>
+        
+
+
+
+<div class="viewcode-block" id="initialize_kelpy"><a class="viewcode-back" href="../../expt-setup.html#kelpy.Miscellaneous.initialize_kelpy">[docs]</a><span class="k">def</span> <span class="nf">initialize_kelpy</span><span class="p">(</span><span class="n">dimensions</span><span class="o">=</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span><span class="mi">768</span><span class="p">),</span> <span class="n">bg</span><span class="o">=</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="mi">250</span><span class="p">),</span> <span class="n">fullscreen</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Calls a bunch of pygame functions to set up the screen, etc. </span>
+<span class="sd">		</span>
+<span class="sd">		Args:</span>
+<span class="sd">			* dimensions: the width and height dimensions of the kelpy window in pixels</span>
+<span class="sd">			* bg: the background color in RGB</span>
+<span class="sd">			* fullscreen: if set to True, ignores the window dimension argument and creates a fullscreen kelpy window</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">			* screen: a reference to the created pygame screen object</span>
+<span class="sd">			* locations: a reference to the ``StandardLocations`` object for stimulus placement</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	
+	<span class="k">global</span> <span class="n">background_color</span> <span class="c"># change the up-one-level variable</span>
+	<span class="n">background_color</span> <span class="o">=</span> <span class="n">bg</span>
+	
+	<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+	
+	<span class="k">if</span> <span class="n">fullscreen</span><span class="p">:</span> 
+		<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">DEFAULT_DISPLAY_MODE_FLAGS</span> <span class="o">|</span> <span class="n">pygame</span><span class="o">.</span><span class="n">FULLSCREEN</span><span class="p">)</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="n">dimensions</span><span class="p">,</span> <span class="n">DEFAULT_DISPLAY_MODE_FLAGS</span><span class="p">)</span>
+	<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+	
+	<span class="c">## And load our icon</span>
+	<span class="n">icon</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">kstimulus</span><span class="p">(</span><span class="s">&quot;icons/icon_100x100.png&quot;</span><span class="p">))</span>
+	<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_icon</span><span class="p">(</span><span class="n">icon</span><span class="p">)</span>
+	<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s">&quot;Kelpy&quot;</span><span class="p">)</span>
+	
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="p">:</span> <span class="k">print</span> <span class="s">&#39;Warning, fonts disabled&#39;</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="p">:</span> <span class="k">print</span> <span class="s">&#39;Warning, sound disabled&#39;</span>
+	
+	<span class="n">locations</span> <span class="o">=</span> <span class="n">StandardLocations</span><span class="p">(</span> <span class="n">screen</span> <span class="p">)</span>
+	
+
+	<span class="k">return</span> <span class="n">screen</span><span class="p">,</span> <span class="n">locations</span>
+	</div>
+<span class="k">def</span> <span class="nf">clear_screen</span><span class="p">(</span><span class="n">screen</span><span class="p">):</span>
+	<span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">background_color</span><span class="p">)</span>
+	<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="kelpy_standard_event_loop"><a class="viewcode-back" href="../../expt-setup.html#kelpy.Miscellaneous.kelpy_standard_event_loop">[docs]</a><span class="k">def</span> <span class="nf">kelpy_standard_event_loop</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		This is a cute way to loop indefinitely, while updating kelpy objects. </span>
+<span class="sd">		Here, each arg gets &quot;update()&quot; called on each loop, and we yield the current time. </span>
+<span class="sd">		We also process the screen flips, etc. </span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+		
+	<span class="c">#NOTE: SPACEBAR_CHANGE_EVENT sends the new state, NOT the old state! So if you want the time for lookaways, you have to look at times </span>
+	
+	<span class="c">#TODO: WE SHOULD CHANGE THIS AFTER COMPBABY RUNS SO THAT THE is_space_pressed is the OLD time, so its reporting events (instead of new stats with prior times)</span>
+	<span class="c">#If a pygame event of type LOOP_EXIT_EVENT is thrown, then we exit this loop</span>
+
+	<span class="c">#TODO: loop until a given max time</span>
+	
+	
+	<span class="c"># Make events for when spacebar changes status</span>
+	<span class="n">old_is_space_pressed</span> <span class="o">=</span> <span class="n">is_space_pressed</span>
+	<span class="n">start_space_up</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s">&quot;-inf&quot;</span><span class="p">)</span>
+	<span class="n">last_space_change_time</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s">&quot;-inf&quot;</span><span class="p">)</span>
+	<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+		<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span> <span class="c"># display the previous cycle</span>
+		
+		<span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;throw_spacebar_events&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
+			<span class="c"># handle space press events -- throw changes and throw all holds</span>
+			<span class="n">sp</span> <span class="o">=</span> <span class="n">is_space_pressed</span><span class="p">()</span>
+			<span class="k">if</span> <span class="n">old_is_space_pressed</span> <span class="o">!=</span> <span class="n">sp</span><span class="p">:</span>
+				<span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+				<span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">SPACEBAR_CHANGE_EVENT</span><span class="p">,</span> <span class="n">is_space_pressed</span><span class="o">=</span><span class="n">sp</span><span class="p">,</span> <span class="n">time_changed</span><span class="o">=</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">last_space_change_time</span><span class="p">)))</span>
+				<span class="n">old_is_space_pressed</span> <span class="o">=</span> <span class="n">sp</span>
+				<span class="n">last_space_change_time</span> <span class="o">=</span> <span class="n">t</span>
+				
+				<span class="k">if</span> <span class="ow">not</span> <span class="n">sp</span><span class="p">:</span> <span class="n">start_space_up</span> <span class="o">=</span> <span class="n">t</span> <span class="c"># record the time of space press starting</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="n">sp</span><span class="p">:</span> <span class="c"># post the spacebar hold event</span>
+				<span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">SPACEBAR_NOHOLD_EVENT</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="p">(</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start_space_up</span><span class="p">)))</span>
+		
+		<span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;throw_null_events&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span> <span class="c"># these will throw a &quot;NULL&quot; event every iteration, in order to process things outside this loop each time point</span>
+			<span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">NULL_EVENT</span><span class="p">))</span>
+		
+		
+		<span class="c"># process all events</span>
+		<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+			
+			<span class="k">yield</span> <span class="n">event</span> <span class="c"># so we can handle EXIT, etc., outside, but don&#39;t have to</span>
+			
+			<span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">QUIT</span><span class="p">:</span> <span class="n">quit</span><span class="p">()</span>
+			<span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">KEYDOWN</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">K_ESCAPE</span><span class="p">:</span> <span class="n">quit</span><span class="p">()</span>
+			<span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">EXIT_KELPY_STANDARD_EVENT_LOOP</span><span class="p">:</span> <span class="k">return</span> <span class="c"># we are done with this loop</span>
+			
+		<span class="c"># fill the background and update everything</span>
+		<span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">background_color</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> 
+				<span class="k">for</span> <span class="n">ai</span> <span class="ow">in</span> <span class="n">a</span><span class="p">:</span> <span class="n">ai</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+			<span class="k">else</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">update</span><span class="p">()</span> <span class="c"># love you, duck typing XXOO</span>
+</div>
+<span class="k">def</span> <span class="nf">filename</span><span class="p">(</span> <span class="n">inputFilepath</span> <span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		This function returns the filename when passed a full filepath.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">return</span> <span class="n">inputFilepath</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Steven T. Piantadosi, Matthew McGovern, and Amanda Yung.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

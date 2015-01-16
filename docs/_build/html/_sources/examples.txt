@@ -1,0 +1,11 @@
+Examples
+========
+
+.. toctree::
+	:maxdepth: 1
+
+	2AFC
+	AttentionGetter
+	Blicket-Detector
+	Boolean-concept-learning
+	demo-tobii

@@ -1,0 +1,319 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>kelpy.DisplayQueue &mdash; kelpy 0.1 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="kelpy 0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="fa fa-home"> kelpy</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../install.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../expt-setup.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../expt-setup.html#key-components">Key Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../expt-setup.html#other-useful-classes-functions">Other Useful Classes/Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../expt-setup.html#code-reference">Code Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../stimulus-types.html">Stimulus Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../stimulus-types.html#sprites">Sprites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../stimulus-types.html#other-visuals">Other Visuals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../stimulus-types.html#sounds">Sounds</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">kelpy</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>kelpy.DisplayQueue</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <h1>Source code for kelpy.DisplayQueue</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">kelpy.Miscellaneous</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="DisplayQueue"><a class="viewcode-back" href="../../expt-setup.html#kelpy.DisplayQueue.DisplayQueue">[docs]</a><span class="k">class</span> <span class="nc">DisplayQueue</span><span class="p">:</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		A DisplayQueue stores a list of objects and actions to call on them. </span>
+<span class="sd">		It also stores a list of &quot;child(ren)&quot; display queues that get updated at the same time. This allows it</span>
+<span class="sd">		to process events simultaneously -- by calling append_simultaneous you create new children.</span>
+<span class="sd">		      </span>
+<span class="sd">		This returns True on update() when it&#39;s all done.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+		
+	<span class="c"># each queue stores a bunch of children queues that are sub-processes that are updated whenever we are</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">commands</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="bp">True</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">finish</span> <span class="o">=</span> <span class="bp">False</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">snd</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="k">pass</span>
+	
+<div class="viewcode-block" id="DisplayQueue.is_empty"><a class="viewcode-back" href="../../expt-setup.html#kelpy.DisplayQueue.DisplayQueue.is_empty">[docs]</a>	<span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			Return true if we (and all our kids) have no pending operations		</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">])</span>
+		</div>
+	<span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+		
+<div class="viewcode-block" id="DisplayQueue.append"><a class="viewcode-back" href="../../expt-setup.html#kelpy.DisplayQueue.DisplayQueue.append">[docs]</a>	<span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span> <span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			Append a single command onto the queue.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">args</span> <span class="p">)</span>
+	</div>
+<div class="viewcode-block" id="DisplayQueue.append_simultaneous"><a class="viewcode-back" href="../../expt-setup.html#kelpy.DisplayQueue.DisplayQueue.append_simultaneous">[docs]</a>	<span class="k">def</span> <span class="nf">append_simultaneous</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			# Push on a simultanous command, simultaneous with the command that came before</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">args</span><span class="p">[</span><span class="s">&#39;simultaneous&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+		
+	</div>
+<div class="viewcode-block" id="DisplayQueue.next_action"><a class="viewcode-back" href="../../expt-setup.html#kelpy.DisplayQueue.DisplayQueue.next_action">[docs]</a>	<span class="k">def</span> <span class="nf">next_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			# force movement onto the next action</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+	
+	<span class="c"># clean out the Q</span></div>
+	<span class="k">def</span> <span class="nf">purge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">commands</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="bp">True</span>
+		
+		<span class="c"># and stop sounds</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">snd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">snd</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">snd</span> <span class="o">=</span> <span class="bp">None</span>
+			
+		
+<div class="viewcode-block" id="DisplayQueue.update"><a class="viewcode-back" href="../../expt-setup.html#kelpy.DisplayQueue.DisplayQueue.update">[docs]</a>	<span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			Update on DisplayQueues returns true when we are done with the queue</span>
+<span class="sd">			</span>
+<span class="sd">			This is structured as a tree, so that each DisplayQueue has a bunch of children, which update at the same time.</span>
+<span class="sd">			This is how we handle simultaneous events</span>
+<span class="sd">			</span>
+<span class="sd">			self.update() returns True when we are done running</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		
+		<span class="c"># Cute--update the kids and remove ones that retun True</span>
+		<span class="c">#self.children = [ x for x in self.children if not x.update() ]</span>
+
+		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+			<span class="n">x</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+		
+		<span class="c"># then update myself</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+			
+			<span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+			
+			<span class="c"># Handle the children!</span>
+			<span class="c"># while the *next* command is a simultanous one, push it onto my children</span>
+			<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;simultaneous&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
+				<span class="n">q</span> <span class="o">=</span> <span class="n">DisplayQueue</span><span class="p">()</span>
+				<span class="n">q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+				<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+			
+			<span class="c">## Here are some things we can process immediately</span>
+			<span class="c">## Some specialized functions we can implement here without going into a displayqueue</span>
+			<span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;obj&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;sound&#39;</span><span class="p">:</span> <span class="c"># if this, then we will play a sound file</span>
+				<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">:</span>
+					<span class="c"># this declaration of a new sound object will make them overlap if multiples are played</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">snd</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]</span> <span class="p">)</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">snd</span><span class="o">.</span><span class="n">set_volume</span><span class="p">(</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;volume&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span> <span class="p">)</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">snd</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+					<span class="n">args</span><span class="p">[</span><span class="s">&#39;duration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snd</span><span class="o">.</span><span class="n">get_length</span><span class="p">()</span> <span class="c"># how long is it? This is what determines when it&#39;s done</span>
+					
+					<span class="c">## The rest is handled below</span>
+					
+				<span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;wait&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">finish</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># we are done with this command</span>
+			
+			<span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;obj&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;call&#39;</span><span class="p">:</span> <span class="c"># allow calling arbitrary functions</span>
+				<span class="n">args</span><span class="p">[</span><span class="s">&#39;function&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">__call__</span><span class="p">()</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">finish</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># we are done with this command</span>
+			<span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;obj&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;block_event&#39;</span><span class="p">:</span> <span class="c"># allow us to queue blocking and allowing events</span>
+				<span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">set_blocked</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">])</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">finish</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># we are done with this command</span>
+			<span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;obj&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;allow_event&#39;</span><span class="p">:</span>
+				<span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">set_allowed</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">])</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">finish</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># we are done with this command</span>
+			<span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;obj&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;throw_event&#39;</span><span class="p">:</span> <span class="c"># allow queues to throw pygame events</span>
+				<span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;event&#39;</span><span class="p">]);</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">finish</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># we are done with this command</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="c">###################################################</span>
+				<span class="c">## Otherwise, we can update it by the object</span>
+				
+				<span class="c"># If this is the first loop for this command</span>
+				<span class="c"># keep track of the start time</span>
+				<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">:</span> 
+					<span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="c"># update the time</span>
+				
+				<span class="c">## Now we define some default variables which are appended (overwritten) and passed as args</span>
+				<span class="n">args</span><span class="p">[</span><span class="s">&#39;first&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span>   <span class="c"># Is this the first iteration?</span>
+				<span class="n">args</span><span class="p">[</span><span class="s">&#39;finish&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">finish</span> <span class="c"># Is this the last iteration?</span>
+				<span class="n">args</span><span class="p">[</span><span class="s">&#39;start_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="c"># pass this as an argument</span>
+				<span class="n">args</span><span class="p">[</span><span class="s">&#39;obj&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update_action</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span> <span class="c"># call update action on the object</span>
+				
+			<span class="c"># if u returns true or we have run long enough,</span>
+			<span class="c"># set the self.finish tag so that next loop around, we will </span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">finish</span><span class="p">:</span>
+				<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c">#we&#39;re done with this command</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="bp">True</span> <span class="c"># next loop we start the next command</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">finish</span> <span class="o">=</span> <span class="bp">False</span> <span class="c"># must reset this</span>
+			<span class="k">elif</span> <span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span>  <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;duration&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">):</span> 
+				<span class="c"># We must loop one more time to finalize (e.g. allow &quot;finish&quot; to be passed in)</span>
+				<span class="c"># so this does not exit--we have one more loop</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">finish</span> <span class="o">=</span> <span class="bp">True</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="bp">False</span> <span class="c"># reset this</span>
+				
+		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span> <span class="c"># we are done if self.commands is empty and all children are done</span>
+</pre></div></div></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Steven T. Piantadosi, Matthew McGovern, and Amanda Yung.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
