@@ -8,6 +8,11 @@ Kelpy experiments follow a basic structure:
 	#. Add animations to the ``DisplayQueue``.
 	#. Run the ``kelpy_standard_event_loop`` and check for task/user events.
 
+You should always include the following kelpy modules:
+
+	* ``kelpy.OrderedUpdates``
+	* ``kelpy.DisplayQueue``
+	* ``kelpy.EventHandler``
 
 Key Components
 -----------------
@@ -29,7 +34,7 @@ Alternatively, you can also set the kelpy screen to fullscreen::
 
 
 
-OrderedUpdates()
+OrderedUpdates
 ~~~~~~~~~~~~~~~~~~~
 
 OrderedUpdates takes a list of kelpy sprites (e.g., `CommandableImageSprite`) and uses the list order as the order to draw/update the sprites. This order is important when stimuli overlap, such as when needing an occluder to hide an image:
@@ -51,8 +56,9 @@ In this example, ``reward`` is drawn first since it is at [0]. ``occluder`` is t
 For the kelpy screen to recognize this ``OrderedUpdates`` list, the ``dos`` object must be passed to the ``kelpy_standard_event_loop`` (see :ref:`kelpy-standard-event-loop`).
 
 
+.. _display-queue:
 
-DisplayQueue()
+DisplayQueue
 ~~~~~~~~~~~~~~~~~~~
 
 The DisplayQueue stores the order of stimulus events that will occur during the ``kelpy_standard_event_loop``. Kelpy sprites have certain actions they can perform, such as moving or rotating, which can be executed in the order specified in the DisplayQueue:
@@ -112,7 +118,7 @@ Other Useful Classes/Functions
 
 .. _standard-locations:
 
-StandardLocations()
+StandardLocations
 ~~~~~~~~~~~~~~~~~~~~
 
 Once a kelpy screen is created, a ``StandardLocations`` object is returned along with a reference to the screen object itself. ``StandardLocations`` has several pre-defined properties that refer to spots both on and off the screen, based on the dimensions of the kelpy window. These spots can be used for image placement. Description of available positions:

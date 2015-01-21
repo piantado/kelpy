@@ -23,6 +23,11 @@ The basic approach of Kelpy is to handle simple animations and things, taking ca
 
 *Kelpy is a work in progress, so please be mindful that some demos and classes may not function as intended just yet!*
 
+##Documentation
+Kelpy documentation can be found at:
+http://kelpy.readthedocs.org/en/latest/
+
+(or checking out the docs directory; the index page is at docs/_build/html/index.html)
 
 ##Dependencies:
 	

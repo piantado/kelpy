@@ -1,210 +1,545 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Stimulus Types &mdash; kelpy 0.1 documentation</title>
-  
-
-  
-  
-
-  
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
-  
-  
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-
-  
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="top" title="kelpy 0.1 documentation" href="index.html"/>
-        <link rel="next" title="Credits" href="credits.html"/>
-        <link rel="prev" title="Getting Started" href="expt-setup.html"/> 
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
-
-</head>
-
-<body class="wy-body-for-nav" role="document">
-
-  <div class="wy-grid-for-nav">
-
+    <title>Stimulus Types &mdash; kelpy 0.1 documentation</title>
     
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        <a href="index.html" class="fa fa-home"> kelpy</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-      </div>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kelpy 0.1 documentation" href="index.html" />
+    <link rel="next" title="Credits" href="credits.html" />
+    <link rel="prev" title="Getting Started" href="expt-setup.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="credits.html" title="Credits"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="expt-setup.html" title="Getting Started"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kelpy 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        
-        
-            <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="install.html#dependencies">Dependencies</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="expt-setup.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="expt-setup.html#key-components">Key Components</a></li>
-<li class="toctree-l2"><a class="reference internal" href="expt-setup.html#other-useful-classes-functions">Other Useful Classes/Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="expt-setup.html#code-reference">Code Reference</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Stimulus Types</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#sprites">Sprites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#other-visuals">Other Visuals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sounds">Sounds</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-</ul>
-
-        
-      </div>
-      &nbsp;
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">kelpy</a>
-      </nav>
-
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Stimulus Types</li>
-      <li class="wy-breadcrumbs-aside">
-        
-          <a href="_sources/stimulus-types.txt" rel="nofollow"> View page source</a>
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
             
   <div class="section" id="stimulus-types">
 <span id="id1"></span><h1>Stimulus Types<a class="headerlink" href="#stimulus-types" title="Permalink to this headline">¶</a></h1>
-<p>There are several different types of stimuli in kelpy. Here is an overview of the types:</p>
+<p>There are several different kinds of stimuli in kelpy. Here is an overview of the types:</p>
 <div class="section" id="sprites">
 <h2>Sprites<a class="headerlink" href="#sprites" title="Permalink to this headline">¶</a></h2>
+<p>Sprites are an image that can be manipulated either by the code and/or the user, depending on the type of sprite. Each type of sprite has its own set of actions which are executed using the <tt class="docutils literal"><span class="pre">DisplayQueue</span></tt>&#8216;s <tt class="docutils literal"><span class="pre">append()</span></tt>. All sprites extend the parent class <tt class="docutils literal"><span class="pre">CommandableSprite</span></tt>, which has a basic set of actions inherited by all other sprites:</p>
+<p>CommandableSprite actions:</p>
+<ul>
+<li><p class="first"><strong>move</strong> - Moves the sprite linearly from its current location to the specified location in a given amount of time.</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>duration</em> - Seconds to take until at the new position. Default is 0 (so movement is instantaneous).</li>
+<li><em>pos</em> - A tuple containing the (x,y) coordinates of the new position</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>wait</strong> - Simply waits in the current position.</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>duration</em> - Seconds to wait. If no other command action is given afterwards, the sprite will continue to wait indefinitely. Default is 0.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>hide</strong> - Immediately hides the sprite.</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>duration</em> - Seconds to wait. This does not specifically control how long the sprite is hidden until it appears again. In order to make the sprite visible again, use the command <tt class="docutils literal"><span class="pre">show</span></tt>.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>show</strong> - Immediately shows the sprite if it is not already visible.</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>duration</em> - Seconds to wait. This does not specifically control how long the sprite is visible until it is hidden. In order to stop drawing the sprite, use the command <tt class="docutils literal"><span class="pre">hide</span></tt>.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
 <div class="section" id="commandableimagesprite">
 <h3>CommandableImageSprite<a class="headerlink" href="#commandableimagesprite" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Requires module <tt class="docutils literal"><span class="pre">kelpy.CommandableImageSprite</span></tt></p>
+</div>
+<p>A <tt class="docutils literal"><span class="pre">CommandableImageSprite</span></tt> displays an image that can be manipulated by translation, rotation, and scaling.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sprite</span> <span class="o">=</span> <span class="n">CommandableImageSprite</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">init_position</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">brightness</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>screen</dt>
+<dd><p class="first last">A reference to the kelpy screen object.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>init_position</dt>
+<dd><p class="first last">A tuple that contains the (x,y) coordinates for the initial position of the sprite.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>imagepath</dt>
+<dd><p class="first last">The filepath of the image to be displayed.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>rotation</dt>
+<dd><p class="first last">The value of the initial rotation of the sprite. Default is 0.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>scale</dt>
+<dd><p class="first last">The scale of the image to be used, from 0 to 1 (or beyond to enlarge, beware pixelation!). Default is 1.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>brightness</dt>
+<dd><p class="first last">Initial brightness of the image. Default is 1.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Returns:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>sprite</dt>
+<dd><p class="first last">A reference to the created <tt class="docutils literal"><span class="pre">CommandableImageSprite</span></tt> object</p>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="docutils">
+<dt>CommandableImageSprite actions:</dt>
+<dd><em>(Inherits all actions from ``CommandableSprite``, plus...)</em></dd>
+</dl>
+<ul>
+<li><p class="first"><strong>waggle</strong> - Jiggles the image for a given amount of time. The animation looks like a swing upwards to the right and then back down to its original position.</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>duration</em> - The duration of the waggle motion in seconds.</li>
+<li><em>amount</em> - The amount of rotation ( units: ???).</li>
+<li><em>period</em> - A number from 0-1 that indicates the proportion of the duration that is the length of a cycle (where a cycle is rotating counterclockwise for the given amount and then back to the original position). For example, if the period is 1, then it will go through one cycle; if 0.5, then it will go through 2 cycles. Note: the image will automatically go back to its original position after the duration time has passed (resulting in jerky motion if there are not whole cycles).</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>wagglemove</strong> - A <tt class="docutils literal"><span class="pre">waggle</span></tt> action in combination with a <tt class="docutils literal"><span class="pre">move</span></tt> action</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>duration</em> - The duration of the waggle-move motion in seconds.</li>
+<li><em>amount</em> - The amount of rotation ( units: ???).</li>
+<li><em>period</em> - The length of a cycle in seconds (where a cycle is rotating counterclockwise for the given amount and then back to the original position). Note: if the duration is not a multiple of the period, the image will automatically go back to its original position after the duration time has passed (resulting in jerky motion).</li>
+<li><em>pos</em> - A tuple containing the (x,y) coordinates of the new position for the sprite.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>wiggle</strong> - A modification of the <tt class="docutils literal"><span class="pre">waggle</span></tt> action. This motion is oscillatory (moves to the right and then to the left past the original position, like a pendulum).</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>duration</em> - The duration of the wiggle motion in seconds.</li>
+<li><em>amount</em> - The maximum amount of rotation in degrees (i.e., the amplitude).</li>
+<li><em>cycles</em> - The number of cycles completed in the given duration. Can also use half cycles. Like the waggle action, the sprite will always end at its original position.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>circlescale</strong> - This grows and shrinks the sprite repeatedly for a given duration.</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>duration</em> - The duration of the circlescale animation.</li>
+<li><em>amount</em> - The amount of the scaling (units: ???)</li>
+<li><em>period</em> - A number from 0-1 that indicates the proportion of the duration that is the length of a cycle (where a cycle is growing and then shrinking back to its original size). For example, if the period is 1, then it will go through one cycle; if 0.5, then it will go through 2 cycles. Note: the image will automatically go back to its original size after the duration time has passed (resulting in jerky motion if there are not whole cycles).</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>scale</strong> - This scales the image by the given number over an optionally specified time.</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>duration</em> - The time it takes to scale the image, in seconds.</li>
+<li><em>amount</em> - The amount to scale the image. For example, 0.5 shrinks the image to half its size; 2 would double its size.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>swap</strong> - Swaps the current image for a different image.</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>image</em> - The filepath for the new image.</li>
+<li><em>rotation</em> - The initial rotation of the new image.</li>
+<li><em>scale</em> - The initial scale of the new image.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>rotate</strong> - Rotates the image.</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>amount</em> - The degrees of rotation.</li>
+<li><em>duration</em> - The time it takes to rotate the image for the given amount.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>darken</strong> - Fades the color of the image.</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>amount</em> - A number between 0-1 to indicate how faded the image should be (0 makes the image disappear).</li>
+<li><em>duration</em> - The time it takes to fade the image, in seconds.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>swapblink</strong> - Swap between two images.</p>
+<blockquote>
+<div><p>Properties:</p>
+<ul class="simple">
+<li><em>duration</em> -</li>
+<li><em>period</em> -</li>
+<li><em>image</em> -</li>
+<li><em>rotation</em> -</li>
+<li><em>scale</em> -</li>
+<li><em>brightness</em> -</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>restore</strong> - Return the sprite to the original image it was created with.</p>
+<blockquote>
+<div><p><em>(No properties necessary)</em></p>
+</div></blockquote>
+</li>
+</ul>
 </div>
 <div class="section" id="dragsprite">
 <h3>DragSprite<a class="headerlink" href="#dragsprite" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Requires module <tt class="docutils literal"><span class="pre">kelpy.DragDrop</span></tt></p>
+</div>
+<p><tt class="docutils literal"><span class="pre">DragSprite</span></tt> is a subtype of <tt class="docutils literal"><span class="pre">CommandableImageSprite</span></tt>. It can be dragged by the user when it is clicked/touched. It is created with the same arguments as a <tt class="docutils literal"><span class="pre">CommandableImageSprite</span></tt> and also inherits the same command actions. In order to use a <tt class="docutils literal"><span class="pre">DragSprite</span></tt>, you must also call <tt class="docutils literal"><span class="pre">process_dragndrop()</span></tt> in your kelpy event loop:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create the DragSprite</span>
+<span class="n">draggy</span> <span class="o">=</span> <span class="n">DragSprite</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">init_position</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">)</span>
+
+<span class="c"># add the sprite to an OrderedUpdates object</span>
+<span class="n">dos</span> <span class="o">=</span> <span class="n">OrderedUpdates</span><span class="p">(</span><span class="n">draggy</span><span class="p">)</span>
+
+<span class="c"># make the DisplayQueue (no need to add any actions)</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">DisplayQueue</span><span class="p">()</span>
+
+<span class="c"># run the kelpy event loop</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kelpy_standard_event_loop</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">dos</span><span class="p">):</span>
+        <span class="c">#check for any drag events and update the sprite&#39;s position</span>
+        <span class="n">draggy</span><span class="o">.</span><span class="n">process_dragndrop</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When using other sprites with a <tt class="docutils literal"><span class="pre">DragSprite</span></tt>, it is useful to employ <tt class="docutils literal"><span class="pre">bring_clicked_to_top()</span></tt>. This ensures the currently dragged sprite will be drawn on top of other sprites.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">draggy1</span> <span class="o">=</span> <span class="n">DragSprite</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">init_position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">imagepath</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">draggy2</span> <span class="o">=</span> <span class="n">DragSprite</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">init_position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">imagepath</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">draggy3</span> <span class="o">=</span> <span class="n">DragSprite</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">init_position</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">imagepath</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="c"># create a list of the sprites for easy reference later</span>
+<span class="n">sprites</span> <span class="o">=</span> <span class="p">[</span><span class="n">draggy1</span><span class="p">,</span> <span class="n">draggy2</span><span class="p">,</span> <span class="n">draggy3</span><span class="p">]</span>
+<span class="n">dos</span> <span class="o">=</span> <span class="n">OrderedUpdates</span><span class="p">(</span><span class="n">sprites</span><span class="p">)</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">DisplayQueue</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kelpy_standard_event_loop</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">dos</span><span class="p">):</span>
+        <span class="c"># use reversed() in order to get the sprite on top</span>
+        <span class="c"># (objects first in the array are drawn first,</span>
+        <span class="c"># and thus under the other objects)</span>
+        <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">sprites</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">sprite</span><span class="o">.</span><span class="n">process_dragndrop</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+                        <span class="n">bring_clicked_to_top</span><span class="p">(</span><span class="n">sprite</span><span class="p">,</span> <span class="n">sprites</span><span class="p">,</span> <span class="n">dos</span><span class="p">)</span>
+                        <span class="k">break</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="dropsprite">
 <h3>DropSprite<a class="headerlink" href="#dropsprite" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Requires module <tt class="docutils literal"><span class="pre">kelpy.DragDrop</span></tt></p>
+</div>
+<p><tt class="docutils literal"><span class="pre">DropSprite</span></tt> is also a subtype of <tt class="docutils literal"><span class="pre">CommandableImageSprite</span></tt> and should be used in conjunction with <tt class="docutils literal"><span class="pre">DragSprite</span></tt>. They can detect when <tt class="docutils literal"><span class="pre">DragSprites</span></tt> are dropped on top of them.</p>
+<p>Like a <tt class="docutils literal"><span class="pre">DragSprite</span></tt>, a <tt class="docutils literal"><span class="pre">DropSprite</span></tt> is created with the same arguments as a <tt class="docutils literal"><span class="pre">CommandableImageSprite</span></tt>. To use <tt class="docutils literal"><span class="pre">DropSprites</span></tt>, you must also call <tt class="docutils literal"><span class="pre">register_drop_zone()</span></tt> for your <tt class="docutils literal"><span class="pre">DragSprites</span></tt> in addition to <tt class="docutils literal"><span class="pre">was_dropped_into_zone()</span></tt> in the kelpy event loop. Check which sprite is on a DropSprite with <tt class="docutils literal"><span class="pre">who_was_dropped()</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">draggy1</span> <span class="o">=</span> <span class="n">DragSprite</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">init_position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">imagepath</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">draggy2</span> <span class="o">=</span> <span class="n">DragSprite</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">init_position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">imagepath</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">drop_zone</span> <span class="o">=</span> <span class="n">DropSprite</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">init_position</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">imagepath</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="c"># register drop zone for the DragSprites</span>
+<span class="n">draggy1</span><span class="o">.</span><span class="n">register_drop_zone</span><span class="p">(</span><span class="n">drop_zone</span><span class="p">)</span>
+<span class="n">draggy2</span><span class="o">.</span><span class="n">register_drop_zone</span><span class="p">(</span><span class="n">drop_zone</span><span class="p">)</span>
+
+<span class="n">sprites</span> <span class="o">=</span> <span class="p">[</span><span class="n">draggy1</span><span class="p">,</span> <span class="n">draggy2</span><span class="p">,</span> <span class="n">drop_zone</span><span class="p">]</span>
+<span class="n">dos</span> <span class="o">=</span> <span class="n">OrderedUpdates</span><span class="p">(</span><span class="n">sprites</span><span class="p">)</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">DisplayQueue</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kelpy_standard_event_loop</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">dos</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">sprites</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">sprite</span><span class="o">.</span><span class="n">process_dragndrop</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+                        <span class="n">bring_clicked_to_top</span><span class="p">(</span><span class="n">sprite</span><span class="p">,</span> <span class="n">sprites</span><span class="p">,</span> <span class="n">dos</span><span class="p">)</span>
+                        <span class="k">break</span>
+
+        <span class="c"># check if a sprite was dropped into a registered drop zone</span>
+        <span class="k">if</span> <span class="n">was_dropped_into_zone</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+                <span class="c"># optionally can check who was dropped</span>
+                <span class="n">who</span> <span class="o">=</span> <span class="n">who_was_dropped</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">who</span> <span class="ow">is</span> <span class="n">draggy1</span><span class="p">:</span>
+                        <span class="c"># do something</span>
+                <span class="k">else</span><span class="p">:</span>
+                        <span class="c"># do something else</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="textsprite">
 <h3>TextSprite<a class="headerlink" href="#textsprite" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Requires module <tt class="docutils literal"><span class="pre">kelpy.TextSprite</span></tt></p>
+</div>
+<p><tt class="docutils literal"><span class="pre">TextSprite</span></tt> is for displaying text in the kelpy screen. It only inherits actions from <tt class="docutils literal"><span class="pre">CommandableSprite</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">text</span> <span class="o">=</span> <span class="n">TextSprite</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">screen</span><span class="p">,</span> <span class="n">init_position</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>text</dt>
+<dd><p class="first last">The string of text to be displayed.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>screen</dt>
+<dd><p class="first last">A reference to the kelpy screen object.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>init_position</dt>
+<dd><p class="first last">A tuple that contains the (x,y) coordinates for the initial position of the text (the text is automatically centered at this point).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="other-visuals">
 <h2>Other Visuals<a class="headerlink" href="#other-visuals" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="attentiongetter">
 <h3>AttentionGetter<a class="headerlink" href="#attentiongetter" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Requires module <tt class="docutils literal"><span class="pre">kelpy.AttentionGetter</span></tt></p>
+</div>
+<p>An <tt class="docutils literal"><span class="pre">AttentionGetter</span></tt> displays an animated .gif image and optionally plays sound simultaneously. This is particularly useful when running infant studies in order to get the participant&#8217;s attention back to the screen. Unlike the kelpy sprites, <tt class="docutils literal"><span class="pre">AttentionGetters</span></tt> are not manipulated within the kelpy event loop.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#just call the function and you&#39;re done!</span>
+<span class="n">gif_attention_getter</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">images</span><span class="p">,</span> <span class="n">sounds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">keypress</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">stop_music</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">background_color</span><span class="o">=</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">),</span> <span class="n">duration</span><span class="o">=</span><span class="mf">4.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>screen</dt>
+<dd><p class="first last">A reference to the kelpy screen object.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>position</dt>
+<dd><p class="first last">A tuple that contains the (x,y) coordinates for the initial position of the text (the text is automatically centered at this point).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>images</dt>
+<dd><p class="first last">Can either be one .gif image filepath or a list of .gif image filepaths to use for the attention getter. If it is a list, the .gif used is selected randomly.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>sounds</dt>
+<dd><p class="first last">Can either be one sound filepath or a list of sound filepaths. If it is a list, then the sound used is selected randomly. Default is no sound.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>keypress</dt>
+<dd><p class="first last">A pygame keypress code that triggers the attention getter to stop and disappear. Default is no keypress reaction. See the list of key code constants:
+<a class="reference external" href="http://www.pygame.org/docs/ref/key.html">http://www.pygame.org/docs/ref/key.html</a></p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>stop_music</dt>
+<dd><p class="first last">If True, the music stops after the .gif is played. Otherwise if False, the music continues to play even after the .gif ends. Default is True.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>background_color</dt>
+<dd><p class="first last">RGB color of the background that the .gif is displayed on. Default is white.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>duration</dt>
+<dd><p class="first last">The duration in seconds the .gif plays for (unless there is a keypress which stops it earlier). Default is 4 seconds.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="sounds">
 <h2>Sounds<a class="headerlink" href="#sounds" title="Permalink to this headline">¶</a></h2>
 <p>Sounds are simply played using <tt class="docutils literal"><span class="pre">play_sound()</span></tt>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">play_sound</span><span class="p">(</span><span class="n">kstimulus</span><span class="p">(</span><span class="s">&#39;sounds/Tada.wav&#39;</span><span class="p">),</span> <span class="n">wait</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">volume</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<p>..note:: No additional kelpy module required.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">play_sound</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">volume</span><span class="o">=</span><span class="mf">0.65</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Arguments:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>filepath</dt>
+<dd><p class="first last">The filepath for the sound file to be played.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>wait</dt>
+<dd><p class="first last">If True, the program will wait until the sound is finished playing before it continues. Default is False.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>volume</dt>
+<dd><p class="first last">A number from 0-1 that sets the sound&#8217;s volume level. Default is 0.65.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 
 
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="credits.html" class="btn btn-neutral float-right" title="Credits"/>Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="expt-setup.html" class="btn btn-neutral" title="Getting Started"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2015, Steven T. Piantadosi, Matthew McGovern, and Amanda Yung.
-    </p>
-  </div>
-
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
-</footer>
         </div>
       </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Stimulus Types</a><ul>
+<li><a class="reference internal" href="#sprites">Sprites</a><ul>
+<li><a class="reference internal" href="#commandableimagesprite">CommandableImageSprite</a></li>
+<li><a class="reference internal" href="#dragsprite">DragSprite</a></li>
+<li><a class="reference internal" href="#dropsprite">DropSprite</a></li>
+<li><a class="reference internal" href="#textsprite">TextSprite</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-visuals">Other Visuals</a><ul>
+<li><a class="reference internal" href="#attentiongetter">AttentionGetter</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sounds">Sounds</a></li>
+</ul>
+</li>
+</ul>
 
-    </section>
-
-  </div>
-  
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
-
-</body>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="expt-setup.html"
+                        title="previous chapter">Getting Started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="credits.html"
+                        title="next chapter">Credits</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/stimulus-types.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="credits.html" title="Credits"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="expt-setup.html" title="Getting Started"
+             >previous</a> |</li>
+        <li><a href="index.html">kelpy 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Steven T. Piantadosi, Matthew McGovern, and Amanda Yung.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
 </html>

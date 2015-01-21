@@ -2,13 +2,13 @@ import pygame
 from pygame.locals import *
 
 class StandardLocations():
-		"""
-		This class can be used to call offscreen and onscreen locations to position things on a screen.
-		It is used by the following code:
-		screen = initialize_kelpy( dimensions=(800,600) ) ## INITIALIZE THE SCREEN OBJECT...
-		spots = Spots(screen) ## FEED THE SCREEN OBJECT TO THE StandardLocations OBJECT...
-		print spots.west ## YOU CAN NOW CALL THE POSITIONS FROM THE OBJECT AS ATTRIBUTES! YAY!
-		"""
+	"""
+	This class can be used to call offscreen and onscreen locations to position things on a screen.
+	It is used by the following code:
+	screen = initialize_kelpy( dimensions=(800,600) ) ## INITIALIZE THE SCREEN OBJECT...
+	spots = Spots(screen) ## FEED THE SCREEN OBJECT TO THE StandardLocations OBJECT...
+	print spots.west ## YOU CAN NOW CALL THE POSITIONS FROM THE OBJECT AS ATTRIBUTES! YAY!
+	"""
 	def __init__(self, screen):
 		"""
 			This initializes everything.
