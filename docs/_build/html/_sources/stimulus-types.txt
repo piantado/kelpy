@@ -312,9 +312,10 @@ Arguments:
 Sounds
 ----------------
 
-Sounds are simply played using ``play_sound()``:
-
 .. note:: No additional kelpy module required.
+
+
+Sounds are simply played using ``play_sound()``:
 
 .. code-block:: python
 
