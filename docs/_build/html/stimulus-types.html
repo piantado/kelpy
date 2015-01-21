@@ -149,10 +149,10 @@
 </dl>
 </li>
 </ul>
-<dl class="docutils">
-<dt>CommandableImageSprite actions:</dt>
-<dd><em>(Inherits all actions from ``CommandableSprite``, plus...)</em></dd>
-</dl>
+<div class="section" id="commandableimagesprite-actions">
+<h4>CommandableImageSprite actions<a class="headerlink" href="#commandableimagesprite-actions" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><em>(Inherits all actions from ``CommandableSprite``, plus...)</em></div></blockquote>
 <ul>
 <li><p class="first"><strong>waggle</strong> - Jiggles the image for a given amount of time. The animation looks like a swing upwards to the right and then back down to its original position.</p>
 <blockquote>
@@ -232,16 +232,16 @@
 </ul>
 </div></blockquote>
 </li>
-<li><p class="first"><strong>swapblink</strong> - Swap between two images.</p>
+<li><p class="first"><strong>swapblink</strong> - Swap between two images repeatedly.</p>
 <blockquote>
 <div><p>Properties:</p>
 <ul class="simple">
-<li><em>duration</em> -</li>
-<li><em>period</em> -</li>
-<li><em>image</em> -</li>
-<li><em>rotation</em> -</li>
-<li><em>scale</em> -</li>
-<li><em>brightness</em> -</li>
+<li><em>duration</em> - The duration of the swapping animation in seconds.</li>
+<li><em>period</em> - The duration an image is displayed on the screen before it is swapped in seconds.</li>
+<li><em>image</em> - The filepath for the new image.</li>
+<li><em>rotation</em> - The rotation value of the new image in degrees.</li>
+<li><em>scale</em> - The scale value of the new image.</li>
+<li><em>brightness</em> - The brightness value of the new image.</li>
 </ul>
 </div></blockquote>
 </li>
@@ -251,6 +251,7 @@
 </div></blockquote>
 </li>
 </ul>
+</div>
 </div>
 <div class="section" id="dragsprite">
 <h3>DragSprite<a class="headerlink" href="#dragsprite" title="Permalink to this headline">¶</a></h3>
@@ -439,7 +440,10 @@
 <div class="section" id="sounds">
 <h2>Sounds<a class="headerlink" href="#sounds" title="Permalink to this headline">¶</a></h2>
 <p>Sounds are simply played using <tt class="docutils literal"><span class="pre">play_sound()</span></tt>:</p>
-<p>..note:: No additional kelpy module required.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">No additional kelpy module required.</p>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">play_sound</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">volume</span><span class="o">=</span><span class="mf">0.65</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -479,7 +483,10 @@
   <ul>
 <li><a class="reference internal" href="#">Stimulus Types</a><ul>
 <li><a class="reference internal" href="#sprites">Sprites</a><ul>
-<li><a class="reference internal" href="#commandableimagesprite">CommandableImageSprite</a></li>
+<li><a class="reference internal" href="#commandableimagesprite">CommandableImageSprite</a><ul>
+<li><a class="reference internal" href="#commandableimagesprite-actions">CommandableImageSprite actions</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#dragsprite">DragSprite</a></li>
 <li><a class="reference internal" href="#dropsprite">DropSprite</a></li>
 <li><a class="reference internal" href="#textsprite">TextSprite</a></li>

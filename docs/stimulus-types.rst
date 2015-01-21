@@ -74,7 +74,9 @@ Returns:
 * sprite
 	A reference to the created ``CommandableImageSprite`` object
 
-CommandableImageSprite actions:
+CommandableImageSprite actions
+################################
+
 	*(Inherits all actions from ``CommandableSprite``, plus...)*
 
 * **waggle** - Jiggles the image for a given amount of time. The animation looks like a swing upwards to the right and then back down to its original position.
@@ -139,16 +141,16 @@ CommandableImageSprite actions:
 	* *amount* - A number between 0-1 to indicate how faded the image should be (0 makes the image disappear).
 	* *duration* - The time it takes to fade the image, in seconds.
 
-* **swapblink** - Swap between two images.
+* **swapblink** - Swap between two images repeatedly.
 
 	Properties:
 
-	* *duration* - 
-	* *period* - 
-	* *image* -
-	* *rotation* -
-	* *scale* - 
-	* *brightness* -
+	* *duration* - The duration of the swapping animation in seconds.
+	* *period* - The duration an image is displayed on the screen before it is swapped in seconds.
+	* *image* - The filepath for the new image.
+	* *rotation* - The rotation value of the new image in degrees.
+	* *scale* - The scale value of the new image.
+	* *brightness* - The brightness value of the new image.
 
 * **restore** - Return the sprite to the original image it was created with.
 
@@ -312,7 +314,7 @@ Sounds
 
 Sounds are simply played using ``play_sound()``:
 
-..note:: No additional kelpy module required.
+.. note:: No additional kelpy module required.
 
 .. code-block:: python
 
