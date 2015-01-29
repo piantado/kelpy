@@ -1,3 +1,2 @@
-Pillow
-pygame
+-e hg+http://bitbucket.org/pygame/pygame#egg=pygame
 -e git://github.com/piantado/kelpy.git#egg=kelpy
