@@ -1,0 +1,3 @@
+Pillow
+pygame
+-e https://github.com/piantado/kelpy.git
