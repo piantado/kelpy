@@ -2,5 +2,5 @@ from distutils.core import setup
 
 setup(name='kelpy',
       version='1.0',
-      py_modules=['kelpy'],
+      py_modules=['kelpy.Miscellaneous', 'kelpy.OrderedUpdates', 'kelpy.DisplayQueue'],
       )
