@@ -61,6 +61,7 @@ class CommandableImageSprite(CommandableSprite):
 		self.initial_rotation = rotation
 		self.initial_brightness = brightness
 		self.initial_imagepath = imagepath
+		self.initial_position = init_position
 		
 		self.set_image(imagepath, rotation, scale, brightness)
 		self.visible = True
