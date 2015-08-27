@@ -7,7 +7,7 @@ Installation
 Put this library somewhere--mine lives in "/home/piantado/mit/Libraries/kelpy/"
 
 
-Set the PYTHONPATH environment variable to point to LOTlib/:
+Set the PYTHONPATH environment variable to point to kelpy/:
 
 	export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/mit/Libraries/kelpy
 
