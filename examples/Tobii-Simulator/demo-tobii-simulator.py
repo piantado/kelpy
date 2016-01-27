@@ -42,10 +42,15 @@ def present_trial(imagepath):
 	This is the main function used to run this demo. It is fed an imagepath and uses this to create a CommandableImageSprite offscreen. This Sprite is later moved onto the screen, where it hangs out until it is clicked.
 
 	"""
-	## This image is a DragSprite, a dragable version of the CommandableImageSprite. It accept similar parameters.
-	tobii_sim = TobiiSimController(screen)
-	img = TobiiSprite( screen, spot.center, imagepath, tobii_sim, scale=IMAGE_SCALE)
 
+	#create a tobii simulator
+	tobii_sim = TobiiSimController(screen)
+
+	#create a tobii sprite
+	img = TobiiSprite( screen, spot.center, imagepath, tobii_sim, scale=IMAGE_SCALE)
+	
+	# this sets this sprite to follow eye gaze once it's first looked at
+	img.enable_follow();
 	
 	# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 	# Set up the updates, etc. 
@@ -59,21 +64,30 @@ def present_trial(imagepath):
 	# What order do we draw sprites and things in?
 	dos = OrderedUpdates(img) # Draw and update in this order
 	
-	## Note the time...
-	#start_time = time()
+	## Note the start time...
+	start_time = time()
+
+	# start recording the "eye gaze" data
+	tobii_sim.start_tracking()
 	
 	## The standard event loop in kelpy -- this loops infinitely to process interactions
 	## and throws events depending on what the user does
+	trial_time = 5.0
 	for event in kelpy_standard_event_loop(screen, Q, dos, throw_null_events=True):
-		img.is_following = img.is_looked_at()
+	
+		#stay in the event loop until the trial time has passed
+		if (time() - start_time > trial_time): 
+			print "trial end"
+			break
+
+		#can check if the image is being looked at
+		#img.is_following = img.is_looked_at()
+
+		#have the sprite follow the "eye gaze"
 		img.process_follow(event)
-		
-		
-		
-		## check out the position of the dragging by decommenting the following line:
-		# print arr.position(), arr.get_bottom(), arr.get_right(), arr.get_left(), arr.get_top()
-		
-		
+				
+	#stop collecting "eye gaze" data
+	tobii_sim.stop_tracking()
 
 	
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
