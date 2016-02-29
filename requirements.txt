@@ -1,1 +1,2 @@
+--allow-external pygame
 hg+http://bitbucket.org/pygame/pygame
