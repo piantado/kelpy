@@ -73,6 +73,20 @@ export PYTHONPATH
 <li>Pygame</li>
 <li>Tobii SDK (optional &#8211; for Tobii eye tracker integration)</li>
 </ul>
+<p><strong>Tobii SDK Installation</strong>
+The Tobii SDK can be downloaded at <a class="reference external" href="http://www.tobiipro.com/product-listing/tobii-pro-analytics-sdk/">their website</a>.
+In the zip folder, extract the version that matches your OS (including if it&#8217;s 32 or 64-bit), rename the folder to <tt class="docutils literal"><span class="pre">tobiisdk</span></tt>, and place it in the same parent directory as the kelpy library. So sticking with our example, it would be in:</p>
+<blockquote>
+<div>/home/piantado/mit/Libraries/tobiisdk/</div></blockquote>
+<p>Add the following path to your <tt class="docutils literal"><span class="pre">PYTHONPATH</span></tt> environment variable (as you did previously for adding kelpy):</p>
+<blockquote>
+<div>export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/mit/Libraries/tobiisdk/python27/modules</div></blockquote>
+<p>For Linux users, you will also need to install the following additional python modules(using <tt class="docutils literal"><span class="pre">apt-get</span> <span class="pre">install</span></tt>):</p>
+<ul class="simple">
+<li>libssh2-1</li>
+<li>libavahi-client3</li>
+</ul>
+<p>See the Tobii SDK Developers Guide that came with the SDK for more information, if curious.</p>
 </div>
 </div>
 

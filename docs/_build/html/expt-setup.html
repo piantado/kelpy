@@ -191,6 +191,10 @@
 <h3>filename()<a class="headerlink" href="#filename" title="Permalink to this headline">¶</a></h3>
 <p>As the function name implies, this returns just the filename (e.g., <tt class="docutils literal"><span class="pre">image.png</span></tt>) of the filepath that is passed to it (e.g., <tt class="docutils literal"><span class="pre">/home/user/kelpy-master/kelpy/stimuli/image.png</span></tt>). This is useful when outputting either to the command window or to a data file what stimuli were displayed/played.</p>
 </div>
+<div class="section" id="q-is-empty">
+<h3>Q.is_empty()<a class="headerlink" href="#q-is-empty" title="Permalink to this headline">¶</a></h3>
+<p>This is a call to the DisplayQueue to check if it still has anything in its queue. If it does, it returns False. Otherwise, it returns True. This is potentially useful when determining when to move on during a task.</p>
+</div>
 </div>
 <div class="section" id="code-reference">
 <h2>Code Reference<a class="headerlink" href="#code-reference" title="Permalink to this headline">¶</a></h2>
@@ -312,6 +316,7 @@ We also process the screen flips, etc.</p>
 <li><a class="reference internal" href="#who-was-clicked">who_was_clicked()</a></li>
 <li><a class="reference internal" href="#kstimulus">kstimulus()</a></li>
 <li><a class="reference internal" href="#filename">filename()</a></li>
+<li><a class="reference internal" href="#q-is-empty">Q.is_empty()</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#code-reference">Code Reference</a></li>

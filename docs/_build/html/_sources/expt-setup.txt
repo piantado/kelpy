@@ -174,6 +174,11 @@ filename()
 As the function name implies, this returns just the filename (e.g., ``image.png``) of the filepath that is passed to it (e.g., ``/home/user/kelpy-master/kelpy/stimuli/image.png``). This is useful when outputting either to the command window or to a data file what stimuli were displayed/played.
 
 
+Q.is_empty()
+~~~~~~~~~~~~~~~~~
+This is a call to the DisplayQueue to check if it still has anything in its queue. If it does, it returns False. Otherwise, it returns True. This is potentially useful when determining when to move on during a task.
+
+
 Code Reference
 -------------------------------
 .. autofunction:: kelpy.Miscellaneous.initialize_kelpy

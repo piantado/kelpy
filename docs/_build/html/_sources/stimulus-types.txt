@@ -315,7 +315,7 @@ Sounds
 .. note:: No additional kelpy module required.
 
 
-Sounds are simply played using ``play_sound()``:
+Sounds can be played in two ways. One is using ``play_sound()``, which plays the sound immediately:
 
 .. code-block:: python
 
@@ -331,3 +331,26 @@ Arguments:
 
 	* volume
 		A number from 0-1 that sets the sound's volume level. Default is 0.65.
+
+
+The other option is adding the sound to the DisplayQueue, where it will be played when it comes up in the queue:
+
+.. code-block:: python
+	
+	for event in kelpy_standard_event_loop(screen, Q, dos):
+
+		# have a sprite do something first
+		Q.append(obj=sprite, action="rotate", amount=15, duration=1.5)
+		# then play sound after the animation is completed
+		Q.append(obj='sound', file=filepath, volume=0.5)
+
+Arguments:
+
+	* obj
+		This should be set to ``'sound'``, rather than a reference to a sprite object like typical ``Q.append`` cases.
+
+	* file
+		The filepath for the sound file to be played.
+
+	* volume
+		The volume to set for the sound file. Default is 0.5.

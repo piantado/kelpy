@@ -443,7 +443,7 @@
 <p class="first admonition-title">Note</p>
 <p class="last">No additional kelpy module required.</p>
 </div>
-<p>Sounds are simply played using <tt class="docutils literal"><span class="pre">play_sound()</span></tt>:</p>
+<p>Sounds can be played in two ways. One is using <tt class="docutils literal"><span class="pre">play_sound()</span></tt>, which plays the sound immediately:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">play_sound</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">volume</span><span class="o">=</span><span class="mf">0.65</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -465,6 +465,38 @@
 <li><dl class="first docutils">
 <dt>volume</dt>
 <dd><p class="first last">A number from 0-1 that sets the sound&#8217;s volume level. Default is 0.65.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>The other option is adding the sound to the DisplayQueue, where it will be played when it comes up in the queue:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kelpy_standard_event_loop</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">dos</span><span class="p">):</span>
+
+        <span class="c"># have a sprite do something first</span>
+        <span class="n">Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">sprite</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;rotate&quot;</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+        <span class="c"># then play sound after the animation is completed</span>
+        <span class="n">Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="s">&#39;sound&#39;</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="n">filepath</span><span class="p">,</span> <span class="n">volume</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>obj</dt>
+<dd><p class="first last">This should be set to <tt class="docutils literal"><span class="pre">'sound'</span></tt>, rather than a reference to a sprite object like typical <tt class="docutils literal"><span class="pre">Q.append</span></tt> cases.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>file</dt>
+<dd><p class="first last">The filepath for the sound file to be played.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>volume</dt>
+<dd><p class="first last">The volume to set for the sound file. Default is 0.5.</p>
 </dd>
 </dl>
 </li>
