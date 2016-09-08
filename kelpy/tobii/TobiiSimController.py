@@ -106,26 +106,17 @@ class TobiiSimController:
 			return (None,None,None,None)
 		else:
 			return None
-    
-    
-	def get_left_gaze(self):
-	
+ 
 
-	
+    # gaze information is simply reporting mouse pointer position
+	def get_left_gaze(self):
 		return pygame.mouse.get_pos()
 		
 	def get_right_gaze(self):
-	
 		return pygame.mouse.get_pos()
 		
 	def get_center_gaze(self):
-	
-		gaze_point = self.get_current_gaze_position()
-		
-		if None in gaze_point:
-	 	   return (None,None)
-		else:
-			return pygame.mouse.get_pos()
+		return pygame.mouse.get_pos()
     
 
     #pre-existing data writing methods; adjusted slightly for validity codes

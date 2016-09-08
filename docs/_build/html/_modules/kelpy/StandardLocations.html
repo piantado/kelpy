@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kelpy.StandardLocations &mdash; kelpy 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="kelpy 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../../index.html">kelpy 0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for kelpy.StandardLocations</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">pygame.locals</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="StandardLocations"><a class="viewcode-back" href="../../expt-setup.html#kelpy.StandardLocations.StandardLocations">[docs]</a><span class="k">class</span> <span class="nc">StandardLocations</span><span class="p">():</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		This class can be used to call offscreen and onscreen locations to position things on a screen.</span>
+<span class="sd">		It is used by the following code:</span>
+
+<span class="sd">		.. code:: python</span>
+
+<span class="sd">			screen, spots = initialize_kelpy( dimensions=(800,600) )  # initialize screen/spot objects</span>
+<span class="sd">			print spots.west	## YOU CAN NOW CALL THE POSITIONS FROM THE OBJECT AS ATTRIBUTES! YAY!</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			This initializes everything.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="c">## offscreen spots</span>
+
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">west</span> <span class="o">=</span> <span class="p">(</span> <span class="o">-</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span>  <span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">northwest</span> <span class="o">=</span> <span class="p">(</span> <span class="o">-</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="o">-</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">north</span> <span class="o">=</span> <span class="p">(</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">northeast</span> <span class="o">=</span> <span class="p">(</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">east</span> <span class="o">=</span> <span class="p">(</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">southeast</span><span class="o">=</span> <span class="p">(</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">south</span> <span class="o">=</span> <span class="p">(</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span> <span class="p">,</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">southwest</span> <span class="o">=</span> <span class="p">(</span> <span class="o">-</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">*</span><span class="mi">2</span> <span class="p">)</span>
+		
+		<span class="c">## 4 spots along the screen from right to left (1-4)</span>
+		<span class="c">## and 4 rows top to bottom (a-d)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">a1</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">a2</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">a3</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">a4</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span> <span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">b1</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">b2</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">b3</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">b4</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span> <span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">c1</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">c2</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">c3</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">c4</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span> <span class="p">)</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">d1</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">4</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">d2</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">4</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">d3</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">4</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">d4</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">4</span> <span class="p">)</span>
+
+		<span class="c"># middle row spots</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">midrow1</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span><span class="mi">5</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">midrow2</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span><span class="mi">5</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">midrow3</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span><span class="mi">5</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">midrow4</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span><span class="mi">5</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
+
+		<span class="c">#middle column spots</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">midcol1</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">),</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span><span class="mi">5</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">midcol2</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">),</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span><span class="mi">5</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">midcol3</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">),</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span><span class="mi">5</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">midcol4</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">),</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span><span class="mi">5</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">),</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cu</span><span class="o">=</span><span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">),</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span> <span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cd</span><span class="o">=</span><span class="p">((</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span> <span class="p">),</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span> <span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../../index.html">kelpy 0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Steven T. Piantadosi, Matthew McGovern, and Amanda Yung.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

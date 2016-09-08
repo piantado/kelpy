@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kelpy.OrderedUpdates &mdash; kelpy 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="kelpy 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../../index.html">kelpy 0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for kelpy.OrderedUpdates</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">	This is a friendlier version of pygame&#39;s OrderedUpdate</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">kelpy.Dragable</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="OrderedUpdates"><a class="viewcode-back" href="../../expt-setup.html#kelpy.OrderedUpdates.OrderedUpdates">[docs]</a><span class="k">class</span> <span class="nc">OrderedUpdates</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">sprite</span><span class="o">.</span><span class="n">OrderedUpdates</span><span class="p">):</span>
+	
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+		<span class="n">pygame</span><span class="o">.</span><span class="n">sprite</span><span class="o">.</span><span class="n">OrderedUpdates</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c"># create myself</span>
+		
+		<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="c"># allow us to pass lists as arguments (awesome)</span>
+				<span class="k">for</span> <span class="n">ai</span> <span class="ow">in</span> <span class="n">a</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ai</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+				
+	<span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+	
+	<span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="c"># Like all kelpy, we will have an update function that does everything important</span>
+		<span class="c">## TODO: SHOUDL WE PROCESS DRAGNDROP HERE?</span>
+		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+			<span class="n">x</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+			<span class="n">x</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+			
+<div class="viewcode-block" id="OrderedUpdates.process_dragndrop"><a class="viewcode-back" href="../../expt-setup.html#kelpy.OrderedUpdates.OrderedUpdates.process_dragndrop">[docs]</a>	<span class="k">def</span> <span class="nf">process_dragndrop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			This deals with the ordered updates events. We process from top to botton, </span>
+<span class="sd">			but when we find one we drag (return True from o.maybedrag), then we return</span>
+<span class="sd">			True. This stops us from processing drag events from things behind (that are, e.g. </span>
+<span class="sd">			occluded)</span>
+<span class="sd">			</span>
+<span class="sd">			TODO: drag_brings_to_top - if True, then when we touch something, it becomes the top layer</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		
+		<span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">()):</span>
+			<span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">isdraggable</span> <span class="ow">and</span> <span class="n">o</span><span class="o">.</span><span class="n">process_dragndrop</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+				<span class="k">return</span> <span class="bp">True</span>
+		
+		<span class="k">return</span> <span class="bp">False</span>
+
+</div>
+<div class="viewcode-block" id="OrderedUpdates.process_follow"><a class="viewcode-back" href="../../expt-setup.html#kelpy.OrderedUpdates.OrderedUpdates.process_follow">[docs]</a>	<span class="k">def</span> <span class="nf">process_follow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			The first Followable sprite will update its position based on eye gaze.</span>
+<span class="sd">			Only one sprite should be followable at a time I&#39;m assuming; perhaps </span>
+<span class="sd">			integrate this feature with whether the sprite is currently visible or not.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">()):</span>
+			<span class="c">#check if the object has a &quot;is_following&quot; attribute; specific to Followable class</span>
+			<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="s">&#39;is_following&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">o</span><span class="o">.</span><span class="n">process_follow</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+				<span class="k">return</span> <span class="bp">True</span>
+		
+		<span class="k">return</span> <span class="bp">False</span>
+
+		
+		</div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../../index.html">kelpy 0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Steven T. Piantadosi, Matthew McGovern, and Amanda Yung.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

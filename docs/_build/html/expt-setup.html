@@ -1,0 +1,375 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started &mdash; kelpy 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kelpy 0.1 documentation" href="index.html" />
+    <link rel="next" title="Stimulus Types" href="stimulus-types.html" />
+    <link rel="prev" title="Installation" href="install.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="stimulus-types.html" title="Stimulus Types"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kelpy 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>Kelpy experiments follow a basic structure:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Create the kelpy window via <tt class="docutils literal"><span class="pre">initialize_kelpy</span></tt>.</li>
+<li>Load the stimuli (images, sounds) and add images to the <tt class="docutils literal"><span class="pre">OrderedUpdates</span></tt> list.</li>
+<li>Add animations to the <tt class="docutils literal"><span class="pre">DisplayQueue</span></tt>.</li>
+<li>Run the <tt class="docutils literal"><span class="pre">kelpy_standard_event_loop</span></tt> and check for task/user events.</li>
+</ol>
+</div></blockquote>
+<p>You should always include the following kelpy modules:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">kelpy.OrderedUpdates</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">kelpy.DisplayQueue</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">kelpy.EventHandler</span></tt></li>
+</ul>
+</div></blockquote>
+<div class="section" id="key-components">
+<h2>Key Components<a class="headerlink" href="#key-components" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initialize-kelpy">
+<h3>initialize_kelpy()<a class="headerlink" href="#initialize-kelpy" title="Permalink to this headline">¶</a></h3>
+<p>This sets up the kelpy screen based on the given dimensions and background color. All the stimuli are displayed within this window. For example, this function can be called like so:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">screen</span><span class="p">,</span> <span class="n">spots</span> <span class="o">=</span> <span class="n">initialize_kelpy</span><span class="p">(</span> <span class="n">dimensions</span><span class="o">=</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span><span class="mi">768</span><span class="p">),</span> <span class="n">bg</span><span class="o">=</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="mi">250</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>Where <tt class="docutils literal"><span class="pre">screen</span></tt> is the reference to the screen object and <tt class="docutils literal"><span class="pre">spots</span></tt> is a reference to the <tt class="docutils literal"><span class="pre">StandardLocations</span></tt> object (see <a class="reference internal" href="#standard-locations"><em>StandardLocations</em></a> ).</p>
+<p>Alternatively, you can also set the kelpy screen to fullscreen:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">screen</span><span class="p">,</span> <span class="n">spots</span> <span class="o">=</span> <span class="n">initialize_kelpy</span><span class="p">(</span> <span class="n">fullscreen</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="mi">250</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="orderedupdates">
+<h3>OrderedUpdates<a class="headerlink" href="#orderedupdates" title="Permalink to this headline">¶</a></h3>
+<p>OrderedUpdates takes a list of kelpy sprites (e.g., <cite>CommandableImageSprite</cite>) and uses the list order as the order to draw/update the sprites. This order is important when stimuli overlap, such as when needing an occluder to hide an image:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create your kelpy sprites</span>
+<span class="n">occluder</span> <span class="o">=</span> <span class="n">CommandableImageSprite</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">start_position</span><span class="p">,</span> <span class="n">image_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">reward</span> <span class="o">=</span> <span class="n">CommandableImageSprite</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">start_position</span><span class="p">,</span> <span class="n">image_paths</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c"># add sprites to a list</span>
+<span class="n">stimuli</span> <span class="o">=</span> <span class="p">[</span><span class="n">reward</span><span class="p">,</span> <span class="n">occluder</span><span class="p">]</span>
+
+<span class="c"># store the order that we will draw and update things in this variable &#39;dos&#39;</span>
+<span class="n">dos</span> <span class="o">=</span> <span class="n">OrderedUpdates</span><span class="p">(</span><span class="n">stimuli</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example, <tt class="docutils literal"><span class="pre">reward</span></tt> is drawn first since it is at [0]. <tt class="docutils literal"><span class="pre">occluder</span></tt> is then drawn second &#8211; since the two sprites share the same location (<tt class="docutils literal"><span class="pre">start_position</span></tt>), <tt class="docutils literal"><span class="pre">occluder</span></tt> is drawn on top of <tt class="docutils literal"><span class="pre">reward</span></tt>.</p>
+<p>For the kelpy screen to recognize this <tt class="docutils literal"><span class="pre">OrderedUpdates</span></tt> list, the <tt class="docutils literal"><span class="pre">dos</span></tt> object must be passed to the <tt class="docutils literal"><span class="pre">kelpy_standard_event_loop</span></tt> (see <a class="reference internal" href="#kelpy-standard-event-loop"><em>kelpy_standard_event_loop()</em></a>).</p>
+</div>
+<div class="section" id="displayqueue">
+<span id="display-queue"></span><h3>DisplayQueue<a class="headerlink" href="#displayqueue" title="Permalink to this headline">¶</a></h3>
+<p>The DisplayQueue stores the order of stimulus events that will occur during the <tt class="docutils literal"><span class="pre">kelpy_standard_event_loop</span></tt>. Kelpy sprites have certain actions they can perform, such as moving or rotating, which can be executed in the order specified in the DisplayQueue:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create the DisplayQueue</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">DisplayQueue</span><span class="p">()</span>
+
+<span class="c"># add the sprite events to the queue:</span>
+<span class="c"># first the occluder moves to the north position off-screen (taking 1.5 seconds)</span>
+<span class="n">Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">occluder</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;move&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">spots</span><span class="o">.</span><span class="n">north</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="c"># once the occluder is finished, the the reward sprite wiggles for 2 seconds</span>
+<span class="n">Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">reward</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;wiggle&#39;</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">cycles</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also set actions to occur simultaneously by using <tt class="docutils literal"><span class="pre">append_simultaneous()</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create the DisplayQueue</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">DisplayQueue</span><span class="p">()</span>
+
+<span class="c"># have the occluder move while the reward wiggles</span>
+<span class="n">Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">occluder</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;move&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">spots</span><span class="o">.</span><span class="n">north</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">Q</span><span class="o">.</span><span class="n">append_simultaneous</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">reward</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;wiggle&#39;</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">cycles</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Like <tt class="docutils literal"><span class="pre">OrderedUpdates</span></tt>, a <tt class="docutils literal"><span class="pre">DisplayQueue</span></tt> must be passed to the <tt class="docutils literal"><span class="pre">kelpy_standard_event_loop</span></tt>. For a list of specific actions for the different types of kelpy sprites, see <a class="reference internal" href="stimulus-types.html#stimulus-types"><em>Stimulus Types</em></a>.</p>
+</div>
+<div class="section" id="kelpy-standard-event-loop">
+<span id="id1"></span><h3>kelpy_standard_event_loop()<a class="headerlink" href="#kelpy-standard-event-loop" title="Permalink to this headline">¶</a></h3>
+<p>With your kelpy screen, <tt class="docutils literal"><span class="pre">OrderedUpdates</span></tt> object, and <tt class="docutils literal"><span class="pre">DisplayQueue</span></tt> object, you can now run an event loop:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># pass your 3 objects to the event loop.</span>
+<span class="c"># the loop will run indefinitely while processing interactions,</span>
+<span class="c"># unless you tell it otherwise within the for loop.</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kelpy_standard_event_loop</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">dos</span><span class="p">):</span>
+<span class="c"># in this example, once the reward is clicked, a sound is played</span>
+<span class="c"># and then it breaks out of the event loop</span>
+        <span class="k">if</span> <span class="n">is_click</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+                <span class="c"># check what was clicked</span>
+                <span class="n">who</span> <span class="o">=</span> <span class="n">who_was_clicked</span><span class="p">(</span><span class="n">dos</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">who</span> <span class="ow">is</span> <span class="n">reward</span><span class="p">:</span>
+                        <span class="n">play_sound</span><span class="p">(</span><span class="n">sound_file</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">volume</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+                        <span class="k">break</span>
+</pre></div>
+</div>
+<p>Within the for loop, you can detect user events (such as clicking on objects, dragging objects), add additional sprite actions to the <tt class="docutils literal"><span class="pre">DisplayQueue</span></tt>, play sounds, and whatever else necessary for the flow of your experiment.</p>
+</div>
+</div>
+<div class="section" id="other-useful-classes-functions">
+<h2>Other Useful Classes/Functions<a class="headerlink" href="#other-useful-classes-functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="standardlocations">
+<span id="standard-locations"></span><h3>StandardLocations<a class="headerlink" href="#standardlocations" title="Permalink to this headline">¶</a></h3>
+<p>Once a kelpy screen is created, a <tt class="docutils literal"><span class="pre">StandardLocations</span></tt> object is returned along with a reference to the screen object itself. <tt class="docutils literal"><span class="pre">StandardLocations</span></tt> has several pre-defined properties that refer to spots both on and off the screen, based on the dimensions of the kelpy window. These spots can be used for image placement. Description of available positions:</p>
+<p><strong>Off-screen locations</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>north</li>
+<li>northeast</li>
+<li>east</li>
+<li>southeast</li>
+<li>south</li>
+<li>southwest</li>
+<li>west</li>
+<li>northwest</li>
+</ul>
+</div></blockquote>
+<p><strong>On-screen locations</strong></p>
+<blockquote>
+<div>Default on-screen locations are based on a 4x4 grid pattern, with rows as letters a-d and columns as numbers 1-4. For example, <tt class="docutils literal"><span class="pre">a1</span></tt> is the top left corner, while <tt class="docutils literal"><span class="pre">d1</span></tt> is the bottom left corner. There is also a row of 4 positions at the middle height of the screen (<tt class="docutils literal"><span class="pre">midrow1</span></tt>, <tt class="docutils literal"><span class="pre">midrow2</span></tt>, etc.) and a column of 4 positions at the middle width  (<tt class="docutils literal"><span class="pre">midcol1</span></tt>, <tt class="docutils literal"><span class="pre">midcol2</span></tt>, etc.). The center position of the screen is <tt class="docutils literal"><span class="pre">center</span></tt>.</div></blockquote>
+</div>
+<div class="section" id="who-was-clicked">
+<h3>who_was_clicked()<a class="headerlink" href="#who-was-clicked" title="Permalink to this headline">¶</a></h3>
+<p>During the <tt class="docutils literal"><span class="pre">kelpy_standard_event_loop</span></tt>, if you make a call to <tt class="docutils literal"><span class="pre">who_was_clicked()</span></tt> and pass your DisplayQueue as an argument, the function will return what kelpy sprite was clicked on, if any.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">who</span> <span class="o">=</span> <span class="n">who_was_clicked</span><span class="p">(</span><span class="n">dos</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">who</span> <span class="ow">is</span> <span class="n">correct_sprite</span><span class="p">:</span>
+        <span class="c">#return something positive</span>
+<span class="k">elif</span> <span class="n">who</span> <span class="ow">is</span> <span class="n">wrong_sprite</span><span class="p">:</span>
+        <span class="c">#return something negative?</span>
+<span class="k">else</span><span class="p">:</span>
+        <span class="c">#possibly do nothing since no sprite was clicked</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="kstimulus">
+<h3>kstimulus()<a class="headerlink" href="#kstimulus" title="Permalink to this headline">¶</a></h3>
+<p>This function simplifies calling stimuli files that are included with kelpy, located in the <tt class="docutils literal"><span class="pre">kelpy/stimuli</span></tt> directory. For example, if you wanted to use the <tt class="docutils literal"><span class="pre">Beep.wav</span></tt> sound file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">beep</span> <span class="o">=</span> <span class="n">kstimulus</span><span class="p">(</span><span class="s">&#39;sounds/Beep.wav&#39;</span><span class="p">)</span>
+<span class="n">play_sound</span><span class="p">(</span><span class="n">beep</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are many images and sounds in the stimuli library, so take some time to browse through them!</p>
+</div>
+<div class="section" id="filename">
+<h3>filename()<a class="headerlink" href="#filename" title="Permalink to this headline">¶</a></h3>
+<p>As the function name implies, this returns just the filename (e.g., <tt class="docutils literal"><span class="pre">image.png</span></tt>) of the filepath that is passed to it (e.g., <tt class="docutils literal"><span class="pre">/home/user/kelpy-master/kelpy/stimuli/image.png</span></tt>). This is useful when outputting either to the command window or to a data file what stimuli were displayed/played.</p>
+</div>
+<div class="section" id="q-is-empty">
+<h3>Q.is_empty()<a class="headerlink" href="#q-is-empty" title="Permalink to this headline">¶</a></h3>
+<p>This is a call to the DisplayQueue to check if it still has anything in its queue. If it does, it returns False. Otherwise, it returns True. This is potentially useful when determining when to move on during a task.</p>
+</div>
+</div>
+<div class="section" id="code-reference">
+<h2>Code Reference<a class="headerlink" href="#code-reference" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="kelpy.Miscellaneous.initialize_kelpy">
+<tt class="descclassname">kelpy.Miscellaneous.</tt><tt class="descname">initialize_kelpy</tt><big>(</big><em>dimensions=(1024</em>, <em>768)</em>, <em>bg=(250</em>, <em>250</em>, <em>250)</em>, <em>fullscreen=False</em><big>)</big><a class="reference internal" href="_modules/kelpy/Miscellaneous.html#initialize_kelpy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kelpy.Miscellaneous.initialize_kelpy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls a bunch of pygame functions to set up the screen, etc.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>dimensions: the width and height dimensions of the kelpy window in pixels</li>
+<li>bg: the background color in RGB</li>
+<li>fullscreen: if set to True, ignores the window dimension argument and creates a fullscreen kelpy window</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="first last simple">
+<li>screen: a reference to the created pygame screen object</li>
+<li>locations: a reference to the <tt class="docutils literal"><span class="pre">StandardLocations</span></tt> object for stimulus placement</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="kelpy.OrderedUpdates.OrderedUpdates">
+<em class="property">class </em><tt class="descclassname">kelpy.OrderedUpdates.</tt><tt class="descname">OrderedUpdates</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="_modules/kelpy/OrderedUpdates.html#OrderedUpdates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kelpy.OrderedUpdates.OrderedUpdates" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="kelpy.OrderedUpdates.OrderedUpdates.process_dragndrop">
+<tt class="descname">process_dragndrop</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="_modules/kelpy/OrderedUpdates.html#OrderedUpdates.process_dragndrop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kelpy.OrderedUpdates.OrderedUpdates.process_dragndrop" title="Permalink to this definition">¶</a></dt>
+<dd><p>This deals with the ordered updates events. We process from top to botton, 
+but when we find one we drag (return True from o.maybedrag), then we return
+True. This stops us from processing drag events from things behind (that are, e.g. 
+occluded)</p>
+<p>TODO: drag_brings_to_top - if True, then when we touch something, it becomes the top layer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kelpy.OrderedUpdates.OrderedUpdates.process_follow">
+<tt class="descname">process_follow</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="_modules/kelpy/OrderedUpdates.html#OrderedUpdates.process_follow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kelpy.OrderedUpdates.OrderedUpdates.process_follow" title="Permalink to this definition">¶</a></dt>
+<dd><p>The first Followable sprite will update its position based on eye gaze.
+Only one sprite should be followable at a time I&#8217;m assuming; perhaps 
+integrate this feature with whether the sprite is currently visible or not.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="kelpy.DisplayQueue.DisplayQueue">
+<em class="property">class </em><tt class="descclassname">kelpy.DisplayQueue.</tt><tt class="descname">DisplayQueue</tt><big>(</big><em>obj=None</em><big>)</big><a class="reference internal" href="_modules/kelpy/DisplayQueue.html#DisplayQueue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kelpy.DisplayQueue.DisplayQueue" title="Permalink to this definition">¶</a></dt>
+<dd><p>A DisplayQueue stores a list of objects and actions to call on them. 
+It also stores a list of &#8220;child(ren)&#8221; display queues that get updated at the same time. This allows it
+to process events simultaneously &#8211; by calling append_simultaneous you create new children.</p>
+<p>This returns True on update() when it&#8217;s all done.</p>
+<dl class="method">
+<dt id="kelpy.DisplayQueue.DisplayQueue.append">
+<tt class="descname">append</tt><big>(</big><em>**args</em><big>)</big><a class="reference internal" href="_modules/kelpy/DisplayQueue.html#DisplayQueue.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kelpy.DisplayQueue.DisplayQueue.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a single command onto the queue.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kelpy.DisplayQueue.DisplayQueue.append_simultaneous">
+<tt class="descname">append_simultaneous</tt><big>(</big><em>**args</em><big>)</big><a class="reference internal" href="_modules/kelpy/DisplayQueue.html#DisplayQueue.append_simultaneous"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kelpy.DisplayQueue.DisplayQueue.append_simultaneous" title="Permalink to this definition">¶</a></dt>
+<dd><p># Push on a simultanous command, simultaneous with the command that came before</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kelpy.DisplayQueue.DisplayQueue.is_empty">
+<tt class="descname">is_empty</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/kelpy/DisplayQueue.html#DisplayQueue.is_empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kelpy.DisplayQueue.DisplayQueue.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if we (and all our kids) have no pending operations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kelpy.DisplayQueue.DisplayQueue.next_action">
+<tt class="descname">next_action</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/kelpy/DisplayQueue.html#DisplayQueue.next_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kelpy.DisplayQueue.DisplayQueue.next_action" title="Permalink to this definition">¶</a></dt>
+<dd><p># force movement onto the next action</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kelpy.DisplayQueue.DisplayQueue.update">
+<tt class="descname">update</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/kelpy/DisplayQueue.html#DisplayQueue.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kelpy.DisplayQueue.DisplayQueue.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update on DisplayQueues returns true when we are done with the queue</p>
+<p>This is structured as a tree, so that each DisplayQueue has a bunch of children, which update at the same time.
+This is how we handle simultaneous events</p>
+<p>self.update() returns True when we are done running</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="kelpy.Miscellaneous.kelpy_standard_event_loop">
+<tt class="descclassname">kelpy.Miscellaneous.</tt><tt class="descname">kelpy_standard_event_loop</tt><big>(</big><em>screen</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/kelpy/Miscellaneous.html#kelpy_standard_event_loop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kelpy.Miscellaneous.kelpy_standard_event_loop" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a cute way to loop indefinitely, while updating kelpy objects. 
+Here, each arg gets &#8220;update()&#8221; called on each loop, and we yield the current time. 
+We also process the screen flips, etc.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Getting Started</a><ul>
+<li><a class="reference internal" href="#key-components">Key Components</a><ul>
+<li><a class="reference internal" href="#initialize-kelpy">initialize_kelpy()</a></li>
+<li><a class="reference internal" href="#orderedupdates">OrderedUpdates</a></li>
+<li><a class="reference internal" href="#displayqueue">DisplayQueue</a></li>
+<li><a class="reference internal" href="#kelpy-standard-event-loop">kelpy_standard_event_loop()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-useful-classes-functions">Other Useful Classes/Functions</a><ul>
+<li><a class="reference internal" href="#standardlocations">StandardLocations</a></li>
+<li><a class="reference internal" href="#who-was-clicked">who_was_clicked()</a></li>
+<li><a class="reference internal" href="#kstimulus">kstimulus()</a></li>
+<li><a class="reference internal" href="#filename">filename()</a></li>
+<li><a class="reference internal" href="#q-is-empty">Q.is_empty()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#code-reference">Code Reference</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="install.html"
+                        title="previous chapter">Installation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="stimulus-types.html"
+                        title="next chapter">Stimulus Types</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/expt-setup.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="stimulus-types.html" title="Stimulus Types"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             >previous</a> |</li>
+        <li><a href="index.html">kelpy 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Steven T. Piantadosi, Matthew McGovern, and Amanda Yung.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

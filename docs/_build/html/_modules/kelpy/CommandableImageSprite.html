@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>kelpy.CommandableImageSprite &mdash; kelpy 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="kelpy 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../../index.html">kelpy 0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for kelpy.CommandableImageSprite</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;.. class:: CommandableImageSprite</span>
+
+<span class="sd">	CommandableImageSprite (inherits from CommandableSprite)*</span>
+
+<span class="sd">	The CommandableImageSprite is used to display commandable sprites on a screen.</span>
+
+<span class="sd">	This extends sprites by making them commandable, so that they will do things at certain times</span>
+<span class="sd">	(in a sequence)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">CommandableSprite</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pygame.image</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">PIL.Image</span> <span class="c"># we use this to load images so we can alter attributes easily</span>
+<span class="kn">import</span> <span class="nn">PIL.ImageEnhance</span>
+<span class="kn">import</span> <span class="nn">Image</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+
+<div class="viewcode-block" id="CommandableImageSprite"><a class="viewcode-back" href="../../classes.html#kelpy.CommandableImageSprite.CommandableImageSprite">[docs]</a><span class="k">class</span> <span class="nc">CommandableImageSprite</span><span class="p">(</span><span class="n">CommandableSprite</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		The CommandableImageSprite is a simplified version of the pygame sprite. </span>
+<span class="sd">		It is commandable in that it will follow a series of commands that are laid out for it in the DisplayQueue class.</span>
+<span class="sd">	</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">,</span> <span class="n">init_position</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">brightness</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">isdraggable</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Create a new object with the following properties:</span>
+<span class="sd">		</span>
+<span class="sd">		screen: </span>
+<span class="sd">		The screen on which the creep lives (must be a </span>
+<span class="sd">		pygame Surface object, such as pygame.display)</span>
+<span class="sd">		</span>
+<span class="sd">		init_position:</span>
+<span class="sd">		A vec2d or a pair specifying the initial position</span>
+<span class="sd">		of the creep on the screen.</span>
+<span class="sd">		</span>
+<span class="sd">		imagepath:</span>
+<span class="sd">		The filepath of the image to be displayed.</span>
+<span class="sd">		</span>
+<span class="sd">		rotation:</span>
+<span class="sd">		The value of the initial rotation of the image. Default is 0.</span>
+<span class="sd">		</span>
+<span class="sd">		scale:</span>
+<span class="sd">		The scale of the image to be used, from 0 to 1 (or beyond to enlarge, beware pixelation!). Default is 1.</span>
+<span class="sd">		</span>
+<span class="sd">		brightness:</span>
+<span class="sd">		Initial brightness of the object. Default is 1.0</span>
+<span class="sd">		</span>
+<span class="sd">		isdraggable:</span>
+<span class="sd">		Boolean to set whether the object is draggable. Set to false. </span>
+<span class="sd">		</span>
+<span class="sd">		NOTE however that to create dragable sprites, use the DragSprite and DropSprite classes in the DragDrop module. </span>
+<span class="sd">		</span>
+<span class="sd">		</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">CommandableSprite</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">,</span> <span class="n">init_position</span><span class="p">,</span> <span class="n">isdraggable</span><span class="o">=</span><span class="n">isdraggable</span><span class="p">)</span>
+		
+		
+		<span class="c"># load the image</span>
+		<span class="c">##NOTE: Here image stores the current display image, and base_image stores it before scaling+rotation</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">initial_scale</span> <span class="o">=</span> <span class="n">scale</span> <span class="c"># for &#39;restore&#39; command</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">initial_rotation</span> <span class="o">=</span> <span class="n">rotation</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">initial_brightness</span> <span class="o">=</span> <span class="n">brightness</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">initial_imagepath</span> <span class="o">=</span> <span class="n">imagepath</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">set_image</span><span class="p">(</span><span class="n">imagepath</span><span class="p">,</span> <span class="n">rotation</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">brightness</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">visible</span> <span class="o">=</span> <span class="bp">True</span>
+		
+		<span class="c"># some variables needed for the movements, to be stored across updates</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">last_blink_parity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+		
+	
+<div class="viewcode-block" id="CommandableImageSprite.set_image"><a class="viewcode-back" href="../../classes.html#kelpy.CommandableImageSprite.CommandableImageSprite.set_image">[docs]</a>	<span class="k">def</span> <span class="nf">set_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">brightness</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			This funciton is used to load and set the Image part of the CommandableImageSprite.</span>
+<span class="sd">			It uses some fanciness from the Pygame library to handle the altering (rotating, scaling, brightness) of the image.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="c"># We use PIL to load images (so we can manipulate them)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">PILimage</span> <span class="o">=</span> <span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">imagepath</span><span class="p">)</span>
+		<span class="c">#self.PILimage = self.PILimage.resize(self.PILimage.size, Image.ANTIALIAS) # Hmm we should antialias here in the future</span>
+		<span class="c">#assert self.PILimage.mode in [&quot;RGB&quot;, &quot;RGBA&quot;], &quot;*** NOT IN RIGHT MODE:&quot;+self.PILimage.mode # check that its the right mode</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">base_pyimage</span> <span class="o">=</span>  <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PILimage</span><span class="o">.</span><span class="n">tostring</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">PILimage</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PILimage</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+		<span class="c">#self.base_image = pygame.image.load(imagepath).convert_alpha()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">image_path</span> <span class="o">=</span> <span class="n">imagepath</span>
+		
+		<span class="c"># and update the features</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">brightness</span><span class="o">=</span><span class="n">brightness</span><span class="p">)</span>
+		</div>
+<div class="viewcode-block" id="CommandableImageSprite.set_image_attributes"><a class="viewcode-back" href="../../classes.html#kelpy.CommandableImageSprite.CommandableImageSprite.set_image_attributes">[docs]</a>	<span class="k">def</span> <span class="nf">set_image_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">brightness</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			update the image attributes. Note: This does not load the image from the disk -- it only re-loads from the PIL stored self.PILimage</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">rotation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span>
+		<span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>    <span class="n">scale</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span>
+		
+		<span class="k">if</span> <span class="n">brightness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="c"># re-convert from PIL if we must (if brightness is altered)</span>
+			<span class="c">## NOTE: Wow this looks terrible, PIL. We&#39;ll write our own below</span>
+			<span class="c">#ii = PIL.ImageEnhance.Brightness(self.PILimage).enhance(brightness)</span>
+			<span class="c">#self.base_pyimage = pygame.image.fromstring(ii.tostring(), ii.size, ii.mode)</span>
+			
+			<span class="c">#ii = PIL.Image.blend(PIL.Image.new(self.PILimage.mode, self.PILimage.size, 0), self.PILimage, brightness)</span>
+			
+			<span class="n">ii</span> <span class="o">=</span> <span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PILimage</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">brightness</span><span class="p">)</span>
+			<span class="c">#ii = PIL.Image.eval(self.PILimage, lambda x: 0)</span>
+			<span class="c">#print brightness, ii.getpixel( (100,100) )</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">base_pyimage</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">ii</span><span class="o">.</span><span class="n">tostring</span><span class="p">(),</span> <span class="n">ii</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">ii</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+		
+		<span class="c"># re-rotate and zoom the base pyimage</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">display_image</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotozoom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_pyimage</span><span class="p">,</span> <span class="n">rotation</span><span class="p">,</span> <span class="n">scale</span> <span class="p">)</span>
+		<span class="n">w</span><span class="p">,</span><span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_image</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>	
+		<span class="bp">self</span><span class="o">.</span><span class="n">set_width</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">set_height</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+		
+		<span class="c"># and save the features</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span>
+		<span class="k">if</span> <span class="n">brightness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">brightness</span> <span class="o">=</span> <span class="n">brightness</span>
+		
+		</div>
+<div class="viewcode-block" id="CommandableImageSprite.update_action"><a class="viewcode-back" href="../../classes.html#kelpy.CommandableImageSprite.CommandableImageSprite.update_action">[docs]</a>	<span class="k">def</span> <span class="nf">update_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">c</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			This is given c[&#39;finish&#39;]=True when we are done with this (so everythign should be snapped to final position)</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="c"># try updating as a parent -- this defines self.start_x, self.start_y</span>
+		<span class="k">if</span> <span class="n">CommandableSprite</span><span class="o">.</span><span class="n">update_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">c</span><span class="p">):</span> <span class="k">return</span> <span class="bp">True</span>
+		
+		<span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;first&#39;</span><span class="p">]:</span> <span class="c"># If this is the first function call</span>
+			<span class="c">#self.start_x, self.start_y = self.position() # these are set above</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">start_rotation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">start_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">start_brightness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">brightness</span>
+			
+			
+		<span class="n">action</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span>
+		<span class="n">duration</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;duration&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="c"># get the duration else 0.0 if none is specified</span>
+		<span class="n">t</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">duration</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="k">else</span> <span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;start_time&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span> <span class="c"># what percent of the way through are we?</span>
+		
+		<span class="c"># update according to remaining time</span>
+		<span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s">&#39;wagglemove&#39;</span><span class="p">:</span> <span class="c"># waggle and move; should be a better way to do this</span>
+			<span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;pos&#39;</span><span class="p">]</span>
+			
+			<span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">+</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;amount&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">t</span> <span class="o">/</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;period&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+			
+			<span class="bp">self</span><span class="o">.</span><span class="n">set_x</span><span class="p">(</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_x</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_x</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">set_y</span><span class="p">(</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_y</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_y</span><span class="p">)</span>
+			
+			<span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;finish&#39;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span> 
+				<span class="bp">self</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s">&#39;pos&#39;</span><span class="p">])</span> <span class="c"># make sure you end up somewhere</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_rotation</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s">&#39;waggle&#39;</span><span class="p">:</span> <span class="c">## NOTE: this leaves it rotated if </span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">+</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;amount&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">t</span> <span class="o">/</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;period&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;finish&#39;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_rotation</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s">&#39;wiggle&#39;</span><span class="p">:</span> <span class="c">## a variation on waggle to have more oscillatory motion</span>
+			<span class="c">#takes duration (in seconds, how long the motion is),</span>
+			<span class="c">#amount (in degrees, the max change in rotation),</span>
+			<span class="c">#and cycles (the number of cycles completed during the duration)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_rotation</span> <span class="o">+</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;amount&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s">&#39;cycles&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span><span class="p">))</span>
+			<span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;finish&#39;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_rotation</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s">&#39;circlescale&#39;</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">+</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;amount&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">t</span> <span class="o">/</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;period&#39;</span><span class="p">]</span> <span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;finish&#39;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_scale</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s">&#39;scale&#39;</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_scale</span><span class="o">*</span><span class="p">(</span><span class="mf">1.</span><span class="o">-</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_scale</span> <span class="o">*</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;amount&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;finish&#39;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_scale</span> <span class="o">*</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;amount&#39;</span><span class="p">])</span>
+		<span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s">&#39;swap&#39;</span><span class="p">:</span> <span class="c"># here we swap the image for something else; parameters are scale and rotation</span>
+			<span class="c"># This can take a &quot;flag&quot; which is a global variable -- we only swap if the variable is &quot;true&quot; at the time this is evaled</span>
+			<span class="c"># if no flag is specified, we always do the swap</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">set_image</span><span class="p">(</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;image&#39;</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;rotation&#39;</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;scale&#39;</span><span class="p">]</span> <span class="p">)</span> <span class="c"># takes the file, rotation, scale from parameters</span>
+		<span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s">&#39;rotate&#39;</span><span class="p">:</span> <span class="c"># spin is an interactive action that takes some time</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_rotation</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;amount&#39;</span><span class="p">]</span> <span class="p">)</span>
+		<span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s">&#39;darken&#39;</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">brightness</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_brightness</span><span class="o">*</span><span class="p">(</span><span class="mf">1.</span><span class="o">-</span><span class="n">t</span><span class="p">)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">start_brightness</span><span class="o">*</span><span class="n">c</span><span class="p">[</span><span class="s">&#39;amount&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;finish&#39;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_image_attributes</span><span class="p">(</span><span class="n">brightness</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_brightness</span><span class="o">*</span><span class="n">c</span><span class="p">[</span><span class="s">&#39;amount&#39;</span><span class="p">])</span>
+		<span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s">&#39;swapblink&#39;</span><span class="p">:</span> <span class="c"># swap between two images</span>
+			<span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;first&#39;</span><span class="p">]:</span> <span class="c"># if we are just starting this</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">initial_swap_image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_path</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">initial_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">initial_rotation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">initial_brightness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">brightness</span>
+		
+			<span class="n">period</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;period&#39;</span><span class="p">]</span>
+			<span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;start_time&#39;</span><span class="p">])</span> 
+			<span class="n">parity</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="nb">abs</span><span class="p">((</span><span class="n">floor</span><span class="p">(</span> <span class="n">t</span> <span class="o">/</span> <span class="n">period</span> <span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">1e-4</span><span class="p">)</span> <span class="c"># make a number</span>
+			<span class="c">#print [t, period, self.last_blink_parity]</span>
+			
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_blink_parity</span> <span class="o">!=</span> <span class="n">parity</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">last_blink_parity</span> <span class="o">=</span> <span class="n">parity</span>
+				<span class="k">if</span> <span class="n">parity</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_swap_image</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_rotation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_scale</span><span class="p">)</span>
+				<span class="k">else</span><span class="p">:</span>      <span class="bp">self</span><span class="o">.</span><span class="n">set_image</span><span class="p">(</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;image&#39;</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;rotation&#39;</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;scale&#39;</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;brightness&#39;</span><span class="p">]</span> <span class="p">)</span> 				
+		<span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s">&#39;restore&#39;</span><span class="p">:</span> <span class="c"># return to the original image that we loaded</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">set_image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_imagepath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_rotation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_brightness</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span> <span class="c"># if the parent could not update this</span>
+			<span class="k">print</span> <span class="s">&quot;*** Bad CommandableImageSprite action! &quot;</span><span class="p">,</span> <span class="n">action</span>
+			<span class="k">return</span> <span class="bp">False</span>
+			
+		<span class="k">return</span> <span class="bp">True</span>
+		</div>
+	<span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="c"># Define an update so that I can be passed on my own to keply standard event loop</span>
+		<span class="n">CommandableSprite</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+		
+<div class="viewcode-block" id="CommandableImageSprite.draw"><a class="viewcode-back" href="../../classes.html#kelpy.CommandableImageSprite.CommandableImageSprite.draw">[docs]</a>	<span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			This function is where we process commands.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="c">#print self.pos</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span>
+			<span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_image</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span>
+			<span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">display_image</span><span class="p">,</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">-</span> <span class="n">w</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span> <span class="o">-</span> <span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span> <span class="c"># transform by our coordinates and draw</span>
+</div>
+<div class="viewcode-block" id="CommandableImageSprite.get_size_xy"><a class="viewcode-back" href="../../classes.html#kelpy.CommandableImageSprite.CommandableImageSprite.get_size_xy">[docs]</a>	<span class="k">def</span> <span class="nf">get_size_xy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">			returns the image size and x/y spots as a tuple. **Width, Height**</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_image</span><span class="o">.</span><span class="n">get_height</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
+	</div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../../index.html">kelpy 0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Steven T. Piantadosi, Matthew McGovern, and Amanda Yung.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

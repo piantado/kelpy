@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; kelpy 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="kelpy 0.1 documentation" href="index.html" />
+    <link rel="next" title="Getting Started" href="expt-setup.html" />
+    <link rel="prev" title="kelpy Documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="expt-setup.html" title="Getting Started"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="kelpy Documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">kelpy 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>Put this library somewhere&#8211;mine lives in:</p>
+<div class="highlight-python"><div class="highlight"><pre>/home/piantado/mit/Libraries/kelpy/
+</pre></div>
+</div>
+<p>Set the <tt class="docutils literal"><span class="pre">PYTHONPATH</span></tt> environment variable to point to the library:</p>
+<div class="highlight-python"><div class="highlight"><pre>export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/mit/Libraries/kelpy
+</pre></div>
+</div>
+<p>You can put this into your .bashrc file to make it load automatically when you open a terminal. On ubuntu and most linux, this is:</p>
+<div class="highlight-python"><div class="highlight"><pre>echo &#39;export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/mit/Libraries/kelpy&#39; &gt;&gt; ~/.bashrc
+
+PYTHONPATH=&quot;${PYTHONPATH}:/path/to/some/cool/python/package/:/path/to/another/cool/python/package/&quot;
+export PYTHONPATH
+</pre></div>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>PIL</li>
+<li>Pygame</li>
+<li>Tobii SDK (optional &#8211; for Tobii eye tracker integration)</li>
+</ul>
+<p><strong>Tobii SDK Installation</strong>
+The Tobii SDK can be downloaded at <a class="reference external" href="http://www.tobiipro.com/product-listing/tobii-pro-analytics-sdk/">their website</a>.
+In the zip folder, extract the version that matches your OS (including if it&#8217;s 32 or 64-bit), rename the folder to <tt class="docutils literal"><span class="pre">tobiisdk</span></tt>, and place it in the same parent directory as the kelpy library. So sticking with our example, it would be in:</p>
+<blockquote>
+<div>/home/piantado/mit/Libraries/tobiisdk/</div></blockquote>
+<p>Add the following path to your <tt class="docutils literal"><span class="pre">PYTHONPATH</span></tt> environment variable (as you did previously for adding kelpy):</p>
+<blockquote>
+<div>export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/mit/Libraries/tobiisdk/python27/modules</div></blockquote>
+<p>For Linux users, you will also need to install the following additional python modules(using <tt class="docutils literal"><span class="pre">apt-get</span> <span class="pre">install</span></tt>):</p>
+<ul class="simple">
+<li>libssh2-1</li>
+<li>libavahi-client3</li>
+</ul>
+<p>See the Tobii SDK Developers Guide that came with the SDK for more information, if curious.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">kelpy Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="expt-setup.html"
+                        title="next chapter">Getting Started</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/install.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="expt-setup.html" title="Getting Started"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="kelpy Documentation"
+             >previous</a> |</li>
+        <li><a href="index.html">kelpy 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Steven T. Piantadosi, Matthew McGovern, and Amanda Yung.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

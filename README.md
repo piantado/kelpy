@@ -7,13 +7,13 @@
 Put this library somewhere--mine lives in "/home/piantado/mit/Libraries/kelpy/"
 
 
-Set the PYTHONPATH environment variable to point to LOTlib/:
+Set the PYTHONPATH environment variable to point to kelpy/:
 
-	export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/Libraries/kelpy-master
+	export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/Libraries/kelpy
 
 You can put this into your .bashrc file to make it load automatically when you open a terminal. On ubuntu and most linux, this is:
 
-	echo 'export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/Libraries/kelpy-master' >> ~/.bashrc
+	echo 'export PYTHONPATH=$PYTHONPATH:/home/piantado/Desktop/Libraries/kelpy' >> ~/.bashrc
 
 
 And you should be ready to use the library
@@ -23,6 +23,11 @@ The basic approach of Kelpy is to handle simple animations and things, taking ca
 
 *Kelpy is a work in progress, so please be mindful that some demos and classes may not function as intended just yet!*
 
+##Documentation
+Kelpy documentation can be found at:
+http://kelpy.readthedocs.org/en/latest/
+
+(or checking out the docs directory; the index page is at docs/_build/html/index.html)
 
 ##Dependencies:
 	

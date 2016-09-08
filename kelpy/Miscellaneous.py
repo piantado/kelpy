@@ -143,7 +143,16 @@ def play_sound(sound, wait=False, volume=0.65):
 def initialize_kelpy(dimensions=(1024,768), bg=(250,250,250), fullscreen=False):
 	"""
 		Calls a bunch of pygame functions to set up the screen, etc. 
-		- Fullscreen - if true, we override the dimensions.
+		
+		Args:
+			* dimensions: the width and height dimensions of the kelpy window in pixels
+			* bg: the background color in RGB
+			* fullscreen: if set to True, ignores the window dimension argument and creates a fullscreen kelpy window
+
+		Returns:
+			* screen: a reference to the created pygame screen object
+			* locations: a reference to the ``StandardLocations`` object for stimulus placement
+
 	"""
 	
 	global background_color # change the up-one-level variable
@@ -177,14 +186,19 @@ def clear_screen(screen):
 
 def kelpy_standard_event_loop(screen, *args, **kwargs):
 	"""
-		This is a cute way to loop indefinitely (or until max time -- TODO implement this), while updating kelpy objects. 
-		Here, each arg gets "update()" called on each loop, and we yeild the current time. 
-		We also process the screen flips, etc. etc. 
-		
-		NOTE: SPACEBAR_CHANGE_EVENT sends the new state, NOT the old state! So if you want the time for lookaways, you have to look at times 
-		TODO: WE SHOULD CHANGE THIS AFTER COMPBABY RUNS SO THAT THE is_space_pressed is the OLD time, so its reporting events (instead of new stats with prior times)
-		If a pygame event of type LOOP_EXIT_EVENT is thrown, then we exit this loop
+		This is a cute way to loop indefinitely, while updating kelpy objects. 
+		Here, each arg gets "update()" called on each loop, and we yield the current time. 
+		We also process the screen flips, etc. 
+
 	"""
+		
+	#NOTE: SPACEBAR_CHANGE_EVENT sends the new state, NOT the old state! So if you want the time for lookaways, you have to look at times 
+	
+	#TODO: WE SHOULD CHANGE THIS AFTER COMPBABY RUNS SO THAT THE is_space_pressed is the OLD time, so its reporting events (instead of new stats with prior times)
+	#If a pygame event of type LOOP_EXIT_EVENT is thrown, then we exit this loop
+
+	#TODO: loop until a given max time
+	
 	
 	# Make events for when spacebar changes status
 	old_is_space_pressed = is_space_pressed
