@@ -245,8 +245,8 @@ class TobiiController:
             elif g.RightValidity >= 2:
                 ave = (g.LeftGazePoint2D.x,g.LeftGazePoint2D.y)
             else:
-                ave = ((g.LeftGazePoint2D.x+g.RightGazePoint2D.x)/2,
-                       (g.LeftGazePoint2D.y+g.RightGazePoint2D.y)/2)
+                ave = ((g.LeftGazePoint2D.x*self.screen.get_width()+g.RightGazePoint2D.x*self.screen.get_width())/2,
+                       (g.LeftGazePoint2D.y*self.screen.get_height()+g.RightGazePoint2D.y*self.screen.get_height())/2)
                 
             self.datafile.write('\t%.4f\t%.4f\t'%ave)
             self.datafile.write('\n')
