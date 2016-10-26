@@ -14,4 +14,5 @@ Contents
    install
    expt-setup
    stimulus-types
+   tobii
    credits
