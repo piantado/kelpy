@@ -14,18 +14,20 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#the 'tobii' here is the tobii sdk package
-from tobii.eye_tracking_io.basic import EyetrackerException
-
 import os
 import datetime
 
-import tobii.eye_tracking_io.mainloop
-import tobii.eye_tracking_io.browsing
-import tobii.eye_tracking_io.eyetracker
-import tobii.eye_tracking_io.time.clock
-import tobii.eye_tracking_io.time.sync
+try:
+    #the 'tobii' here is the tobii sdk package
+    from tobii.eye_tracking_io.basic import EyetrackerException
 
+    import tobii.eye_tracking_io.mainloop
+    import tobii.eye_tracking_io.browsing
+    import tobii.eye_tracking_io.eyetracker
+    import tobii.eye_tracking_io.time.clock
+    import tobii.eye_tracking_io.time.sync
+except ImportError:
+    print "*** Warning: Running without Tobii SDK"
 
 class TobiiController:
     def __init__(self, screen):
