@@ -1,3 +1,7 @@
+''' Welcome to our game! We have two toy boxes. '''
+
+
+
 import os, sys
 import pygame
 from random import randint, choice, sample, shuffle
@@ -14,7 +18,25 @@ from kelpy.EventHandler import *
 
 IMAGE_SCALE = 0.25
 
-MAX_DISPLAY_TIME = 12.0
+MAX_DISPLAY_TIME = 10
+
+'''
+if use_tobii_sim:
+	#create a tobii simulator
+	tobii_controller = TobiiSimController(screen)
+
+else:
+	#create an actual tobii controller
+	tobii_controller = TobiiController(screen)
+
+	# code for when it's actually hooked up to the eye tracker
+	tobii_controller.wait_for_find_eyetracker(3)
+
+	#store tobii data in this file
+	tobii_controller.set_data_file(data_folder + subject + '_' + session + '_' + session_time + '.tsv')
+
+	#activate the first tobii eyetracker that was found
+	tobii_controller.activate(tobii_controller.eyetrackers.keys()[0])'''
 
 ##############################################
 ## Set up pygame
@@ -98,10 +120,17 @@ def present_trial(objects, probabilities, trial_duration, when_open):
 
 
 probs = [0.1, 0.25, 0.5, 0.75, 0.9]
-objects = [kstimulus("misc/tennis.png") ,
-kstimulus("misc/teddy.png"),kstimulus("misc/bug.png"),kstimulus("misc/duck.png"),kstimulus("misc/firetruck.png"),kstimulus("misc/robot.png")]
+objects = [
+        kstimulus("misc/tennis.png") ,
+        kstimulus("misc/teddy.png"),
+        kstimulus("misc/bug.png"),
+        kstimulus("misc/duck.png"),
+        kstimulus("misc/firetruck.png"),
+        kstimulus("misc/robot.png"),
+        kstimulus("misc/gears.png")
+        ]
 
-WHEN_OPEN = 2
+WHEN_OPEN = 1
 TRIAL_DURATION = 30
 
 import itertools
@@ -120,11 +149,13 @@ for cond in conditions:
 
     print ">>> Box 1 contains object with "+ str(cond[0])
     print ">>> Box 2 contains object with " + str(cond[1]) +"\n"
+
+    #choose random stimuli
     random_stim = np.random.choice(objects, 2, replace=False)
 
     # calculate how many times to run the box_open
-    for i in range(4):
+    for i in range(10):
 
         present_trial(random_stim, cond, TRIAL_DURATION, WHEN_OPEN)
 
-    # new condition here
+    # new condition starts
