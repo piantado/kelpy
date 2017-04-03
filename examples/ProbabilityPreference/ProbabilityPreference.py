@@ -13,11 +13,11 @@ from kelpy.Miscellaneous import *
 from kelpy.DisplayQueue import *
 from kelpy.OrderedUpdates import *
 from kelpy.EventHandler import *
+import itertools
+from random import shuffle
 
 
-
-IMAGE_SCALE = 0.25
-
+IMAGE_SCALE = 0.9
 MAX_DISPLAY_TIME = 10
 
 '''
@@ -43,7 +43,6 @@ else:
 
 screen, spot = initialize_kelpy( dimensions=(850,600) )
 
-
 OFF_SOUTH = (spot.south)
 LID_SPOT1 = (((screen.get_width()/5) * 1)+25, (screen.get_height()/5)*3 )
 LID_SPOT2 = (((screen.get_width()/5) * 4)+25, (screen.get_height()/5)*3 )
@@ -60,8 +59,8 @@ def present_trial(objects, probabilities, trial_duration, when_open):
     box2 = CommandableImageSprite(screen, spot.c4, kstimulus("misc/box.png"), scale=1.2)
     boxfront2 = CommandableImageSprite(screen, spot.c4, kstimulus("misc/boxfront.png"), scale=1.2)
     lid2 = CommandableImageSprite(screen, LID_SPOT2, kstimulus("misc/lid.png"), scale=1.2)
-    obj1 = CommandableImageSprite( screen, spot.c1, objects[0], scale=1.0)
-    obj2 = CommandableImageSprite(screen, spot.c4, objects[1], scale=1.0)
+    obj1 = CommandableImageSprite( screen, spot.c1, objects[0], scale=IMAGE_SCALE)
+    obj2 = CommandableImageSprite(screen, spot.c4, objects[1], scale=IMAGE_SCALE)
 
 
     #the boxes keep opening every when_open seconds, and object appearance is stochastic
@@ -73,8 +72,6 @@ def present_trial(objects, probabilities, trial_duration, when_open):
     Q.append(obj=lid2, action='wait', duration=when_open)
     Q.append_simultaneous(obj=lid1, action = 'move', pos=LID1_MOVE, duration=0.5)
     Q.append_simultaneous(obj=lid2, action='move', pos=LID2_MOVE, duration=0.5)
-    #Q.append(obj=obj1, action='wait', duration=0.0)
-    #Q.append(obj=obj2, action='wait', duration=0.0)
 
     #with certain probability, reveal object:
     flip1 = random.random()
@@ -87,7 +84,6 @@ def present_trial(objects, probabilities, trial_duration, when_open):
     print flip2
     if flip2 < probabilities[1]:
         Q.append_simultaneous(obj=obj2, action='move', pos=spot.b4, duration=1.0)
-    #Q.append_simultaneous(obj=obj1, action='move', pos=spot.b1, duration=1.0)
 
     Q.append(obj=obj1, action='wait', duration=1.0)
     Q.append(obj=obj2, action='wait', duration=1.0)
@@ -133,15 +129,13 @@ objects = [
 WHEN_OPEN = 1
 TRIAL_DURATION = 30
 
-import itertools
-from random import shuffle
+
 
 condition_set = set()
 for i in itertools.combinations(probs,2):
     condition_set.add(i)
     condition_set.add(i[::-1])
 conditions = list(condition_set)
-print conditions
 shuffle(conditions)
 
 
@@ -153,8 +147,8 @@ for cond in conditions:
     #choose random stimuli
     random_stim = np.random.choice(objects, 2, replace=False)
 
-    # calculate how many times to run the box_open
-    for i in range(10):
+    #TODO: calculate how many times to run the box_open
+    for i in range(5):
 
         present_trial(random_stim, cond, TRIAL_DURATION, WHEN_OPEN)
 
