@@ -7,8 +7,8 @@ Additionally: We have TRIALS and BOX_OPENS. A Trial is when a tuple of probabili
 
 import os, sys
 import pygame
-from random import randint, choice, sample, shuffle
-import numpy as np
+from random import randint, sample, shuffle
+
 from time import time
 from kelpy.CommandableImageSprite import *
 from kelpy.Miscellaneous import *
@@ -49,7 +49,10 @@ data_file = data_folder + subject + '_' + session + '_' + session_time + '.csv'
 ##############################################
 ## Set up eye tracker
 
+##############################################
+## Set up pygame
 
+screen, spot = initialize_kelpy(dimensions=(1000,1000) )
 if use_tobii_sim:
 	#create a tobii simulator
 	tobii_controller = TobiiSimController(screen)
@@ -67,10 +70,7 @@ else:
 	#activate the first tobii eyetracker that was found
 	tobii_controller.activate(tobii_controller.eyetrackers.keys()[0])
 
-##############################################
-## Set up pygame
 
-screen, spot = initialize_kelpy( dimensions=(900,900) )
 
 OFF_SOUTH = (spot.south)
 LID_SPOT1 = (((screen.get_width()/5) * 1)+20, (screen.get_height()/5)*3 )
@@ -79,7 +79,7 @@ left_lid_MOVE = (((screen.get_width()/5) * 1)+20, ((screen.get_height()/6)-50)*3
 right_lid_MOVE = (((screen.get_width()/5) * 4)+20, ((screen.get_height()/6)-50)*3 )
 
 
-def present_trial(objects, probabilities, when_open, trial,i, writer):
+def present_trial(objects, probabilities, trial,i, writer):
     start_time = time()
     in_right = False
     in_left = False
@@ -105,14 +105,13 @@ def present_trial(objects, probabilities, when_open, trial,i, writer):
 
     #with certain probability, reveal object:
     flip1 = random.random()
-    print flip1
     if  flip1 < probabilities[0]:
         Q.append_simultaneous(obj=left_object, action='move', pos=spot.b1, duration=.5)
         in_left = True
 
     #with other probability, reveal object
     flip2 = random.random()
-    print flip2
+    
     if flip2 < probabilities[1]:
         Q.append_simultaneous(obj=right_object, action='move', pos=spot.b4, duration=.5)
         in_right = True
@@ -136,17 +135,18 @@ def present_trial(objects, probabilities, when_open, trial,i, writer):
 
     #main ticker loop
     for event in kelpy_standard_event_loop(screen, Q, dos, throw_null_events=True):
-    #file_header = ['Subject', 'Session', 'Trial', 'Trial_Iteration', 'Trial_Start','Trial_End', 'Left_Object', 'Left_Probability','Left_Show', 'LeftBox_Look', 'LeftObj_Look', 'LeftLid_Look', 'Right_Object' ,'Right_Probability', 'Right_Show', 'RightBox_Look', 'RightObj_Look', 'RightLid_Look']
     # output trial info to csv
 
         writer.writerow([subject, session, trial, i, start_time, time(), objects[0], probabilities[0], in_left, left_box.is_looked_at(), left_object.is_looked_at(), left_lid.is_looked_at(), objects[1],probabilities[1], in_right, right_box.is_looked_at(), right_object.is_looked_at(), right_lid.is_looked_at()])
+        print file_header
+        print subject, session, trial, i, start_time, time(), objects[0], probabilities[0], in_left, left_box.is_looked_at(), left_object.is_looked_at(), left_lid.is_looked_at(), objects[1],probabilities[1], in_right, right_box.is_looked_at(), right_object.is_looked_at(), right_lid.is_looked_at()
         if (time() - start_time > MAX_DISPLAY_TIME):
             break
 
         # If the event is a click:
         #if is_click(event):
          #   break
-
+		
     # need to do a check for exiting here
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
@@ -156,6 +156,8 @@ def present_trial(objects, probabilities, when_open, trial,i, writer):
                     tobii_controller.stop_tracking()
                     tobii_controller.close_data_file()
                     tobii_controller.destroy()
+                    
+    
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -174,17 +176,18 @@ def main():
             kstimulus("misc/gears.png")
             ]
 
-    WHEN_OPEN = 1
-    TRIAL_DURATION = 30
+    WHEN_OPEN = 2
     TRIAL = 0
+    
+    
     # hide mouse pointer
-    pygame.mouse.set_visible(True)
+    pygame.mouse.set_visible(False)
+    
     # open and start writing to data file
     with open(data_file, 'wb') as df:
 
         # create csv writer (using tabs as the delimiter; the "tsv" extension is being used for the tobii output)
         writer = csv.writer(df, delimiter='\t')
-
         # write the header for the file
         writer.writerow(file_header)
 
@@ -198,21 +201,25 @@ def main():
         shuffle(conditions)
 
         images = [ kstimulus('/gifs/191px-Seven_segment_display-animated.gif'), kstimulus('gifs/Laurel_&_Hardy_dancing.gif'), kstimulus('gifs/240px-Phenakistoscope_3g07690b.gif') ]
+        #THIS IS THE LOOP FOR THE ACTUAL TRIALS. THE "PRESENT_TRIAL" FUNCTION CONTROLS AN ITERATION OF A TRIAL.
         for trial_num,cond in enumerate(conditions):
 
             print ">>> Box 1 contains object with "+ str(cond[0])
             print ">>> Box 2 contains object with " + str(cond[1]) +"\n"
 
             #choose random stimuli
-            random_stim = np.random.choice(objects, 2, replace=False)
+            random_stim = random.sample(objects,2)
 
             #TODO: calculate how many times to run the box_open
-            for i in range(10):
+            for i in range(WHEN_OPEN):
 
-                present_trial(random_stim, cond, WHEN_OPEN, trial_num,i, writer)
-
+                present_trial(random_stim, cond, trial_num,i, writer)
+                
+		    
+            
             #distractor
             gif_attention_getter(screen, spot.center, images)
+            move_on = raw_input("Ready to move on now? Press Enter.")
 
             clear_screen(screen)
             # new condition starts
