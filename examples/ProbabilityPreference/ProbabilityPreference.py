@@ -20,12 +20,13 @@ from random import shuffle
 from kelpy.AttentionGetter import *
 from kelpy.tobii.TobiiSimController import *
 from kelpy.tobii.TobiiSprite import *
+import csv
 
 
-IMAGE_SCALE = .7
+IMAGE_SCALE = .8
 BOX_SCALE = 1
 #trial time
-MAX_DISPLAY_TIME = 10
+MAX_DISPLAY_TIME =5
 
 use_tobii_sim = True #toggles between using the tobii simulator or the actual tobii controller
 subject = raw_input('Subject ID: ')
@@ -72,13 +73,13 @@ else:
 screen, spot = initialize_kelpy( dimensions=(900,900) )
 
 OFF_SOUTH = (spot.south)
-LID_SPOT1 = (((screen.get_width()/5) * 1)+40, (screen.get_height()/5)*3 )
-LID_SPOT2 = (((screen.get_width()/5) * 4)+40, (screen.get_height()/5)*3 )
-left_lid_MOVE = (((screen.get_width()/5) * 1)+40, ((screen.get_height()/6)-50)*3 )
-right_lid_MOVE = (((screen.get_width()/5) * 4)+40, ((screen.get_height()/6)-50)*3 )
+LID_SPOT1 = (((screen.get_width()/5) * 1)+20, (screen.get_height()/5)*3 )
+LID_SPOT2 = (((screen.get_width()/5) * 4)+20, (screen.get_height()/5)*3 )
+left_lid_MOVE = (((screen.get_width()/5) * 1)+20, ((screen.get_height()/6)-50)*3 )
+right_lid_MOVE = (((screen.get_width()/5) * 4)+20, ((screen.get_height()/6)-50)*3 )
 
 
-def present_trial(objects, probabilities, when_open, trial,i, output_file):
+def present_trial(objects, probabilities, when_open, trial,i, writer):
     start_time = time()
     in_right = False
     in_left = False
@@ -99,33 +100,33 @@ def present_trial(objects, probabilities, when_open, trial,i, output_file):
 
     Q.append(obj=left_lid, action='wait', duration=when_open)
     Q.append(obj=right_lid, action='wait', duration=when_open)
-    Q.append_simultaneous(obj=left_lid, action = 'move', pos=left_lid_MOVE, duration=0.5)
-    Q.append_simultaneous(obj=right_lid, action='move', pos=right_lid_MOVE, duration=0.5)
+    Q.append_simultaneous(obj=left_lid, action = 'move', pos=left_lid_MOVE, duration=0.25)
+    Q.append_simultaneous(obj=right_lid, action='move', pos=right_lid_MOVE, duration=0.25)
 
     #with certain probability, reveal object:
     flip1 = random.random()
     print flip1
     if  flip1 < probabilities[0]:
-        Q.append_simultaneous(obj=left_object, action='move', pos=spot.b1, duration=1.0)
+        Q.append_simultaneous(obj=left_object, action='move', pos=spot.b1, duration=.5)
         in_left = True
 
     #with other probability, reveal object
     flip2 = random.random()
     print flip2
     if flip2 < probabilities[1]:
-        Q.append_simultaneous(obj=right_object, action='move', pos=spot.b4, duration=1.0)
+        Q.append_simultaneous(obj=right_object, action='move', pos=spot.b4, duration=.5)
         in_right = True
 
-    Q.append(obj=left_object, action='wait', duration=1.0)
-    Q.append(obj=right_object, action='wait', duration=1.0)
+    Q.append(obj=left_object, action='wait', duration=.25)
+    Q.append(obj=right_object, action='wait', duration=.25)
 
-    Q.append(obj=left_lid, action='wait', duration=1.0)
-    Q.append(obj=right_lid, action='wait', duration=1.0)
+    Q.append(obj=left_lid, action='wait', duration=.25)
+    Q.append(obj=right_lid, action='wait', duration=.25)
 
-    Q.append_simultaneous(obj=left_object, action='move', pos=spot.c1, duration=1.0)
-    Q.append_simultaneous(obj=right_object, action='move', pos=spot.c4, duration=1.0)
-    Q.append_simultaneous(obj=left_lid, action='move', pos=LID_SPOT1,duration=1.0)
-    Q.append_simultaneous(obj=right_lid, action='move', pos=LID_SPOT2, duration=1.0)
+    Q.append_simultaneous(obj=left_object, action='move', pos=spot.c1, duration=.5)
+    Q.append_simultaneous(obj=right_object, action='move', pos=spot.c4, duration=.5)
+    Q.append_simultaneous(obj=left_lid, action='move', pos=LID_SPOT1,duration=.5)
+    Q.append_simultaneous(obj=right_lid, action='move', pos=LID_SPOT2, duration=.5)
 
     Q.append(obj=left_object, action='move', pos=OFF_SOUTH, duration=0.0)
     Q.append(obj=right_object, action='move', pos=OFF_SOUTH, duration=0.0)
@@ -206,9 +207,9 @@ def main():
             random_stim = np.random.choice(objects, 2, replace=False)
 
             #TODO: calculate how many times to run the box_open
-            for i in range(2):
+            for i in range(10):
 
-                present_trial(random_stim, cond, WHEN_OPEN, trial_num,i, df)
+                present_trial(random_stim, cond, WHEN_OPEN, trial_num,i, writer)
 
             #distractor
             gif_attention_getter(screen, spot.center, images)
