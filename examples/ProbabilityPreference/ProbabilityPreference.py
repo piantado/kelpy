@@ -98,8 +98,8 @@ def present_trial(objects, probabilities, trial,i, writer):
     # A queue of animation operations
     Q = DisplayQueue()
 
-    Q.append(obj=left_lid, action='wait', duration=when_open)
-    Q.append(obj=right_lid, action='wait', duration=when_open)
+    Q.append(obj=left_lid, action='wait', duration=1)
+    Q.append(obj=right_lid, action='wait', duration=1)
     Q.append_simultaneous(obj=left_lid, action = 'move', pos=left_lid_MOVE, duration=0.25)
     Q.append_simultaneous(obj=right_lid, action='move', pos=right_lid_MOVE, duration=0.25)
 
@@ -111,7 +111,7 @@ def present_trial(objects, probabilities, trial,i, writer):
 
     #with other probability, reveal object
     flip2 = random.random()
-    
+
     if flip2 < probabilities[1]:
         Q.append_simultaneous(obj=right_object, action='move', pos=spot.b4, duration=.5)
         in_right = True
@@ -146,7 +146,7 @@ def present_trial(objects, probabilities, trial,i, writer):
         # If the event is a click:
         #if is_click(event):
          #   break
-		
+
     # need to do a check for exiting here
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
@@ -156,8 +156,8 @@ def present_trial(objects, probabilities, trial,i, writer):
                     tobii_controller.stop_tracking()
                     tobii_controller.close_data_file()
                     tobii_controller.destroy()
-                    
-    
+
+
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -178,11 +178,11 @@ def main():
 
     WHEN_OPEN = 2
     TRIAL = 0
-    
-    
+
+
     # hide mouse pointer
     pygame.mouse.set_visible(False)
-    
+
     # open and start writing to data file
     with open(data_file, 'wb') as df:
 
@@ -214,9 +214,9 @@ def main():
             for i in range(WHEN_OPEN):
 
                 present_trial(random_stim, cond, trial_num,i, writer)
-                
-		    
-            
+
+
+
             #distractor
             gif_attention_getter(screen, spot.center, images)
             move_on = raw_input("Ready to move on now? Press Enter.")
