@@ -112,7 +112,7 @@ class GIFImage(object):
 		##                    if image.dispose:
 		##                        print "YAY!"
 		##                        i = image.dispose
-		##                        np = pygame.image.fromstring(i.tostring(), i.size, i.mode)
+		##                        np = pygame.image.fromstring(i.tobytes(), i.size, i.mode)
 		##                        np.set_palette(palette)
 		##                        if "transparency" in i.info:
 		##                            np.set_colorkey(i.info["transparency"])
@@ -122,7 +122,7 @@ class GIFImage(object):
 		##                except:
 		##                    print image.dispose
 
-				pi = pygame.image.fromstring(image.tostring(), image.size, image.mode)
+				pi = pygame.image.fromstring(image.tobytes(), image.size, image.mode)
 				pi.set_palette(palette)
 				if "transparency" in image.info:
 					pi.set_colorkey(image.info["transparency"])

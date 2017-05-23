@@ -7,52 +7,52 @@ from copy import deepcopy
 """ CommandableImageSprite (inherits from CommandableSprite)
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	# The CommandableImageSprite is used to display commandable sprites on a screen.
-	# 
+	#
 	#
 	#This extends sprites by making them commandable, so that they will do things at certain times
 	# (in a sequence)
-	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 """
 
 class CommandableImageSprite(CommandableSprite):
 	"""
-		The CommandableImageSprite is a simplified version of the pygame sprite. 
+		The CommandableImageSprite is a simplified version of the pygame sprite.
 		It is commandable in that it will follow a series of commands that are laid out for it in the DisplayQueue class.
-	
+
 	"""
 	def __init__(self, screen, init_position, imagepath, rotation=0, scale=1.0, brightness=1.0, isdraggable=False):
 		""" Create a new object with the following properties:
-		
-		screen: 
-		The screen on which the creep lives (must be a 
+
+		screen:
+		The screen on which the creep lives (must be a
 		pygame Surface object, such as pygame.display)
-		
+
 		init_position:
 		A vec2d or a pair specifying the initial position
 		of the creep on the screen.
-		
+
 		imagepath:
 		The filepath of the image to be displayed.
-		
+
 		rotation:
 		The value of the initial rotation of the image. Default is 0.
-		
+
 		scale:
 		The scale of the image to be used, from 0 to 1 (or beyond to enlarge, beware pixelation!). Default is 1.
-		
+
 		brightness:
 		Initial brightness of the object. Default is 1.0
-		
+
 		isdraggable:
-		Boolean to set whether the object is draggable. Set to false. 
-		
-		NOTE however that to create dragable sprites, use the DragSprite and DropSprite classes in the DragDrop module. 
-		
-		
+		Boolean to set whether the object is draggable. Set to false.
+
+		NOTE however that to create dragable sprites, use the DragSprite and DropSprite classes in the DragDrop module.
+
+
 		"""
 		CommandableSprite.__init__(self, screen, init_position, isdraggable=isdraggable)
-		
-		
+
+
 		# load the image
 		##NOTE: Here image stores the current display image, and base_image stores it before scaling+rotation
 		self.scale = scale
@@ -62,14 +62,14 @@ class CommandableImageSprite(CommandableSprite):
 		self.initial_brightness = brightness
 		self.initial_imagepath = imagepath
 		self.initial_position = init_position
-		
+
 		self.set_image(imagepath, rotation, scale, brightness)
 		self.visible = True
-		
+
 		# some variables needed for the movements, to be stored across updates
 		self.last_blink_parity = 1;
-		
-	
+
+
 	def set_image(self, imagepath, rotation=0, scale=1.0, brightness=1.0):
 		"""
 			This funciton is used to load and set the Image part of the CommandableImageSprite.
@@ -79,77 +79,77 @@ class CommandableImageSprite(CommandableSprite):
 		self.PILimage = PIL.Image.open(imagepath)
 		#self.PILimage = self.PILimage.resize(self.PILimage.size, Image.ANTIALIAS) # Hmm we should antialias here in the future
 		#assert self.PILimage.mode in ["RGB", "RGBA"], "*** NOT IN RIGHT MODE:"+self.PILimage.mode # check that its the right mode
-		
-		self.base_pyimage =  pygame.image.fromstring(self.PILimage.tostring(), self.PILimage.size, self.PILimage.mode)
+
+		self.base_pyimage =  pygame.image.fromstring(self.PILimage.tobytes(), self.PILimage.size, self.PILimage.mode)
 		#self.base_image = pygame.image.load(imagepath).convert_alpha()
 		self.image_path = imagepath
-		
+
 		# and update the features
 		self.set_image_attributes(rotation=rotation, scale=scale, brightness=brightness)
-		
+
 	def set_image_attributes(self, rotation=None, scale=None, brightness=None):
 		"""
 			update the image attributes. Note: This does not load the image from the disk -- it only re-loads from the PIL stored self.PILimage
 		"""
 		if rotation is None: rotation = self.rotation
 		if scale is None:    scale    = self.scale
-		
+
 		if brightness is not None:
 			# re-convert from PIL if we must (if brightness is altered)
 			## NOTE: Wow this looks terrible, PIL. We'll write our own below
 			#ii = PIL.ImageEnhance.Brightness(self.PILimage).enhance(brightness)
-			#self.base_pyimage = pygame.image.fromstring(ii.tostring(), ii.size, ii.mode)
-			
+			#self.base_pyimage = pygame.image.fromstring(ii.tobytes(), ii.size, ii.mode)
+
 			#ii = PIL.Image.blend(PIL.Image.new(self.PILimage.mode, self.PILimage.size, 0), self.PILimage, brightness)
-			
+
 			ii = PIL.Image.eval(self.PILimage, lambda x: x*brightness)
 			#ii = PIL.Image.eval(self.PILimage, lambda x: 0)
 			#print brightness, ii.getpixel( (100,100) )
-			self.base_pyimage = pygame.image.fromstring(ii.tostring(), ii.size, ii.mode)
-		
+			self.base_pyimage = pygame.image.fromstring(ii.tobytes(), ii.size, ii.mode)
+
 		# re-rotate and zoom the base pyimage
 		self.display_image = pygame.transform.rotozoom(self.base_pyimage, rotation, scale )
-		w,h = self.display_image.get_size()	
+		w,h = self.display_image.get_size()
 		self.set_width(w)
 		self.set_height(h)
-		
+
 		# and save the features
 		self.scale = scale
 		self.rotation = rotation
 		if brightness is not None: self.brightness = brightness
-		
-		
+
+
 	def update_action(self, **c):
 		"""
 			This is given c['finish']=True when we are done with this (so everythign should be snapped to final position)
 		"""
 		# try updating as a parent -- this defines self.start_x, self.start_y
 		if CommandableSprite.update_action(self, **c): return True
-		
+
 		if c['first']: # If this is the first function call
 			#self.start_x, self.start_y = self.position() # these are set above
 			self.start_rotation = self.rotation
 			self.start_scale = self.scale
 			self.start_brightness = self.brightness
-			
-			
+
+
 		action = c['action']
 		duration = c.get('duration', 0.0) # get the duration else 0.0 if none is specified
 		t = 1.0 if duration == 0.0 else (time() - c['start_time']) / float(duration) # what percent of the way through are we?
-		
+
 		# update according to remaining time
 		if action == 'wagglemove': # waggle and move; should be a better way to do this
 			x,y = c['pos']
-			
+
 			self.set_image_attributes(rotation=self.rotation + c['amount'] * sin(2.0 * pi * t / c['period']) / 2)
-			
+
 			self.set_x( (x - self.start_x) * t + self.start_x)
 			self.set_y( (y - self.start_y) * t + self.start_y)
-			
-			if c.get('finish',False) is True: 
+
+			if c.get('finish',False) is True:
 				self.set_position(c['pos']) # make sure you end up somewhere
 				self.set_image_attributes(rotation=self.start_rotation)
-		elif action == 'waggle': ## NOTE: this leaves it rotated if 
+		elif action == 'waggle': ## NOTE: this leaves it rotated if
 			self.set_image_attributes(rotation=self.rotation + c['amount'] * sin(2.0 * pi * t / c['period']) / 2)
 			if c.get('finish',False) is True: self.set_image_attributes(rotation=self.start_rotation)
 		elif action == 'wiggle': ## a variation on waggle to have more oscillatory motion
@@ -179,29 +179,29 @@ class CommandableImageSprite(CommandableSprite):
 				self.initial_scale = self.scale
 				self.initial_rotation = self.rotation
 				self.initial_brightness = self.brightness
-		
+
 			period = c['period']
-			t = (time() - c['start_time']) 
+			t = (time() - c['start_time'])
 			parity = (1-abs((floor( t / period ) % 2)) < 1e-4) # make a number
 			#print [t, period, self.last_blink_parity]
-			
+
 			if self.last_blink_parity != parity:
 				self.last_blink_parity = parity
 				if parity: self.set_image(self.initial_swap_image, self.initial_rotation, self.initial_scale)
-				else:      self.set_image( c['image'], c['rotation'], c['scale'], c['brightness'] ) 				
+				else:      self.set_image( c['image'], c['rotation'], c['scale'], c['brightness'] )
 		elif action == 'restore': # return to the original image that we loaded
 			self.set_image(self.initial_imagepath, self.initial_rotation, self.initial_scale, self.initial_brightness)
 		else: # if the parent could not update this
 			print "*** Bad CommandableImageSprite action! ", action
 			return False
-			
+
 		return True
-		
+
 	def update(self):
 		# Define an update so that I can be passed on my own to keply standard event loop
 		CommandableSprite.update(self)
 		self.draw()
-		
+
 	def draw(self):
 		"""
 			This function is where we process commands.
@@ -216,6 +216,5 @@ class CommandableImageSprite(CommandableSprite):
 		"""
 			returns the image size and x/y spots as a tuple. **Width, Height**
 		"""
-		
+
 		return self.display_image.get_width(), self.display_image.get_height(), self.get_x() , self.get_y()
-	
