@@ -52,7 +52,7 @@ data_file = data_folder + subject + '_' + session + '_' + session_time + '.csv'
 ##############################################
 ## Set up pygame
 
-screen, spot = initialize_kelpy(dimensions=(1000,1000) )
+screen, spot = initialize_kelpy(dimensions=(1920,1200))
 if use_tobii_sim:
 	#create a tobii simulator
 	tobii_controller = TobiiSimController(screen)
@@ -111,7 +111,7 @@ def present_trial(objects, probabilities, trial,i, writer):
 
     #with other probability, reveal object
     flip2 = random.random()
-
+    
     if flip2 < probabilities[1]:
         Q.append_simultaneous(obj=right_object, action='move', pos=spot.b4, duration=.5)
         in_right = True
@@ -139,32 +139,98 @@ def present_trial(objects, probabilities, trial,i, writer):
 
         writer.writerow([subject, session, trial, i, start_time, time(), objects[0], probabilities[0], in_left, left_box.is_looked_at(), left_object.is_looked_at(), left_lid.is_looked_at(), objects[1],probabilities[1], in_right, right_box.is_looked_at(), right_object.is_looked_at(), right_lid.is_looked_at()])
         print file_header
-        print subject, session, trial, i, start_time, time(), objects[0], probabilities[0], in_left, left_box.is_looked_at(), left_object.is_looked_at(), left_lid.is_looked_at(), objects[1],probabilities[1], in_right, right_box.is_looked_at(), right_object.is_looked_at(), right_lid.is_looked_at()
+        #print subject, session, trial, i, start_time, time(), objects[0], probabilities[0], in_left, left_box.is_looked_at(), left_object.is_looked_at(), left_lid.is_looked_at(), objects[1],probabilities[1], in_right, right_box.is_looked_at(), right_object.is_looked_at(), right_lid.is_looked_at()
         if (time() - start_time > MAX_DISPLAY_TIME):
             break
 
         # If the event is a click:
         #if is_click(event):
          #   break
-
+		
     # need to do a check for exiting here
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 print("escaping now")
+                quit()
                 # make sure to close the data file when exiting, otherwise it'll hang
                 if not use_tobii_sim:
                     tobii_controller.stop_tracking()
                     tobii_controller.close_data_file()
                     tobii_controller.destroy()
+                    
+    
+def run_whole_trial(cond, objects,WHEN_OPEN, trial_num, i, writer,images):
+	print ">>> Box 1 contains object with "+ str(cond[0])
+	print ">>> Box 2 contains object with " + str(cond[1]) +"\n"
 
+	#choose random stimuli
+	random_stim = random.sample(objects,2)
 
+	#TODO: calculate how many times to run the box_open
+	for i in range(WHEN_OPEN):
 
+		present_trial(random_stim, cond, trial_num,i, writer)
+		
+	
+	#distractor
+	#gif_attention_getter(screen, spot.center, images)
+	attention_circle()
+	print("Hey lovely experimenter! Press Enter to continue once the baby is paying attention!")
+	for event in kelpy_standard_event_loop(screen,throw_null_events=True):
 
+		if event.type == KEYDOWN:
+			if event.key == K_RETURN or event.key == K_KP_ENTER:
+				if not use_tobii_sim:				
+						#stop collecting "eye gaze" data
+						tobii_controller.stop_tracking()
+
+				#clear_screen(screen) #function defined in Miscellaneous
+				return True
+	
+			#need to do a check for exiting here
+			elif event.key == K_ESCAPE:
+				#make sure to close the data file when exiting, otherwise it'll hang
+				if not use_tobii_sim:
+					tobii_controller.stop_tracking()
+					tobii_controller.close_data_file()
+					tobii_controller.destroy()
+	
+	# new condition starts
+	TRIAL+=1
+	
+def attention_circle():
+	purple = (190,41,236)
+	cyan = (0,255,255)
+	lime = (50,205,50)
+	pink = (255,105,180)
+	orange = (255,165,0)
+	yellow = (255,215,0)
+	
+	colors = [purple, cyan, lime, pink, orange, yellow]
+	clear_screen(screen)
+	radius=20
+	color_choice = random.choice(colors)
+	pygame.draw.circle(screen,color_choice,spot.center, radius)
+	for i in range(3):
+		for j in range(70):
+			radius=j
+			pygame.draw.circle(screen,color_choice,spot.center, radius)
+			pygame.display.update()
+		pygame.display.update()
+		for k in range(70,-1,-1):
+			#draw over previous circle in white
+			pygame.draw.circle(screen,(250,250,250),spot.center, radius)
+			radius=k
+			pygame.draw.circle(screen,color_choice,spot.center, radius)
+			pygame.display.update()
+			
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Main experiment
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-def main():
+def experiment():
+	
+	
     probs = [0.1, 0.25, 0.5, 0.75, 0.9]
     objects = [
             kstimulus("misc/tennis.png") ,
@@ -176,13 +242,14 @@ def main():
             kstimulus("misc/gears.png")
             ]
 
-    WHEN_OPEN = 2
+    WHEN_OPEN = 1
     TRIAL = 0
-
-
+    
+    ready = raw_input("Are you ready to begin? Press Enter.")
+    pygame.display.set_mode((1920,1200),pygame.FULLSCREEN)
     # hide mouse pointer
     pygame.mouse.set_visible(False)
-
+    
     # open and start writing to data file
     with open(data_file, 'wb') as df:
 
@@ -201,33 +268,18 @@ def main():
         shuffle(conditions)
 
         images = [ kstimulus('/gifs/191px-Seven_segment_display-animated.gif'), kstimulus('gifs/Laurel_&_Hardy_dancing.gif'), kstimulus('gifs/240px-Phenakistoscope_3g07690b.gif') ]
-        #THIS IS THE LOOP FOR THE ACTUAL TRIALS. THE "PRESENT_TRIAL" FUNCTION CONTROLS AN ITERATION OF A TRIAL.
+        
+        
         for trial_num,cond in enumerate(conditions):
+			run=run_whole_trial(cond, objects,WHEN_OPEN, trial_num, i, writer,images)
+			
+		if not use_tobii_sim:
+		#when using the real tobii, make sure to close the eye tracking file and close connection
+		tobii_controller.close_data_file()
+		tobii_controller.destroy()
+			
+			
+                    
+experiment()
 
-            print ">>> Box 1 contains object with "+ str(cond[0])
-            print ">>> Box 2 contains object with " + str(cond[1]) +"\n"
-
-            #choose random stimuli
-            random_stim = random.sample(objects,2)
-
-            #TODO: calculate how many times to run the box_open
-            for i in range(WHEN_OPEN):
-
-                present_trial(random_stim, cond, trial_num,i, writer)
-
-
-
-            #distractor
-            gif_attention_getter(screen, spot.center, images)
-            move_on = raw_input("Ready to move on now? Press Enter.")
-
-            clear_screen(screen)
-            # new condition starts
-            TRIAL+=1
-
-        if not use_tobii_sim:
-            #when using the real tobii, make sure to close the eye tracking file and close connection
-            tobii_controller.close_data_file()
-            tobii_controller.destroy()
-
-main()
+			
