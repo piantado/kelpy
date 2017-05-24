@@ -273,10 +273,7 @@ def experiment():
         for trial_num,cond in enumerate(conditions):
 			run=run_whole_trial(cond, objects,WHEN_OPEN, trial_num, i, writer,images)
 			
-		if not use_tobii_sim:
-		#when using the real tobii, make sure to close the eye tracking file and close connection
-		tobii_controller.close_data_file()
-		tobii_controller.destroy()
+		
 			
 			
                     
