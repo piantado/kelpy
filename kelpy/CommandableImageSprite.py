@@ -20,7 +20,7 @@ class CommandableImageSprite(CommandableSprite):
 		It is commandable in that it will follow a series of commands that are laid out for it in the DisplayQueue class.
 
 	"""
-	def __init__(self, screen, init_position, imagepath, rotation=0, scale=1.0, brightness=1.0, isdraggable=False):
+	def __init__(self, screen, init_position, imagepath, rotation=0, scale=1.0, brightness=1.0, isdraggable=False, name=None):
 		""" Create a new object with the following properties:
 
 		screen:
@@ -50,7 +50,7 @@ class CommandableImageSprite(CommandableSprite):
 
 
 		"""
-		CommandableSprite.__init__(self, screen, init_position, isdraggable=isdraggable)
+		CommandableSprite.__init__(self, screen, init_position, isdraggable=isdraggable, name=name)
 
 
 		# load the image
@@ -62,6 +62,7 @@ class CommandableImageSprite(CommandableSprite):
 		self.initial_brightness = brightness
 		self.initial_imagepath = imagepath
 		self.initial_position = init_position
+		self.name=name
 
 		self.set_image(imagepath, rotation, scale, brightness)
 		self.visible = True
@@ -98,7 +99,7 @@ class CommandableImageSprite(CommandableSprite):
 			# re-convert from PIL if we must (if brightness is altered)
 			## NOTE: Wow this looks terrible, PIL. We'll write our own below
 			#ii = PIL.ImageEnhance.Brightness(self.PILimage).enhance(brightness)
-			#self.base_pyimage = pygame.image.fromstring(ii.tobytes(), ii.size, ii.mode)
+			#self.base_pyimage = pygame.image.fromstring(ii.tostring(), ii.size, ii.mode)
 
 			#ii = PIL.Image.blend(PIL.Image.new(self.PILimage.mode, self.PILimage.size, 0), self.PILimage, brightness)
 
@@ -218,3 +219,6 @@ class CommandableImageSprite(CommandableSprite):
 		"""
 
 		return self.display_image.get_width(), self.display_image.get_height(), self.get_x() , self.get_y()
+		
+	def get_name(self):
+		return self.name

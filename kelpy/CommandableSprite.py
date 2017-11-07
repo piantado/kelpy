@@ -23,7 +23,7 @@ import pygame
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class CommandableSprite(Sprite, Dragable):
 	
-	def __init__(self, screen, init_position, isdraggable=False):
+	def __init__(self, screen, init_position, isdraggable=False,name=None):
 		
 		#Arrangeable.__init__(self)
 		Sprite.__init__(self)
@@ -82,6 +82,7 @@ class CommandableSprite(Sprite, Dragable):
 		
 		# update according to remaining time
 		if action == 'move': # move
+			
 			x,y = c['pos']
 			self.set_x( (x - self.start_x) * t + self.start_x)
 			self.set_y( (y - self.start_y) * t + self.start_y)

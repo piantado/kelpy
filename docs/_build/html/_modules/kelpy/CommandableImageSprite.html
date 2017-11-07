@@ -127,7 +127,7 @@
 		<span class="c">#self.PILimage = self.PILimage.resize(self.PILimage.size, Image.ANTIALIAS) # Hmm we should antialias here in the future</span>
 		<span class="c">#assert self.PILimage.mode in [&quot;RGB&quot;, &quot;RGBA&quot;], &quot;*** NOT IN RIGHT MODE:&quot;+self.PILimage.mode # check that its the right mode</span>
 		
-		<span class="bp">self</span><span class="o">.</span><span class="n">base_pyimage</span> <span class="o">=</span>  <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PILimage</span><span class="o">.</span><span class="n">tostring</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">PILimage</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PILimage</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">base_pyimage</span> <span class="o">=</span>  <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PILimage</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">PILimage</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PILimage</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
 		<span class="c">#self.base_image = pygame.image.load(imagepath).convert_alpha()</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">image_path</span> <span class="o">=</span> <span class="n">imagepath</span>
 		
@@ -145,14 +145,14 @@
 			<span class="c"># re-convert from PIL if we must (if brightness is altered)</span>
 			<span class="c">## NOTE: Wow this looks terrible, PIL. We&#39;ll write our own below</span>
 			<span class="c">#ii = PIL.ImageEnhance.Brightness(self.PILimage).enhance(brightness)</span>
-			<span class="c">#self.base_pyimage = pygame.image.fromstring(ii.tostring(), ii.size, ii.mode)</span>
+			<span class="c">#self.base_pyimage = pygame.image.fromstring(ii.tobytes(), ii.size, ii.mode)</span>
 			
 			<span class="c">#ii = PIL.Image.blend(PIL.Image.new(self.PILimage.mode, self.PILimage.size, 0), self.PILimage, brightness)</span>
 			
 			<span class="n">ii</span> <span class="o">=</span> <span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PILimage</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">brightness</span><span class="p">)</span>
 			<span class="c">#ii = PIL.Image.eval(self.PILimage, lambda x: 0)</span>
 			<span class="c">#print brightness, ii.getpixel( (100,100) )</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">base_pyimage</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">ii</span><span class="o">.</span><span class="n">tostring</span><span class="p">(),</span> <span class="n">ii</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">ii</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">base_pyimage</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">ii</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">ii</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">ii</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
 		
 		<span class="c"># re-rotate and zoom the base pyimage</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">display_image</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">rotozoom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_pyimage</span><span class="p">,</span> <span class="n">rotation</span><span class="p">,</span> <span class="n">scale</span> <span class="p">)</span>

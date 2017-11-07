@@ -36,8 +36,9 @@ exp_start=time()
 ##############################################
 ## Set up pygame
 
-
-screen, spot = initialize_kelpy(dimensions=(1920,1200))
+SCREEN_WIDTH=1200
+SCREEN_HEIGHT=800
+screen, spot = initialize_kelpy(dimensions=(SCREEN_WIDTH,SCREEN_HEIGHT))
 screen.fill((255,255,255))
 
 OFF_LEFT = (spot.west)
@@ -50,7 +51,8 @@ quadrant3 = [spot.y3,spot.y4, spot.z3, spot.z4]
 
 #######################
 #Set up Tobii
-use_tobii_sim = False
+use_tobii_sim = True
+
 subject = raw_input('Subject ID: ')
 session = raw_input('Session #: ')
 session_time = str(time())
@@ -91,7 +93,7 @@ else:
 	#activate the first tobii eyetracker that was found
 	tobii_controller.activate(tobii_controller.eyetrackers.keys()[0])
 
-blank_box=TobiiSprite(screen, spot.center,"/home/aslinlab/Desktop/Laura/kelpy/stimuli/laura_diss/window.jpg",tobii_controller,scale=.5)
+blank_box=TobiiSprite(screen, spot.center,kstimulus("laura_diss/window.jpg"),tobii_controller,scale=.5)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Run a single trial
 # ~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -341,7 +343,7 @@ def attention_circle():
 
 
 ready = raw_input("Are you ready to begin? Press Enter.")
-pygame.display.set_mode((1920,1200))
+pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 screen.fill((255,255,255))
 
 
@@ -394,7 +396,7 @@ for s in sequences:
 
 
 	chosen_blob1 = blobs.pop()
-	chosen_blob = TobiiSprite(screen, spot.center, chosen_blob1, tobii_controller, scale=.85)
+	chosen_blob = TobiiSprite(screen, spot.center, chosen_blob1, tobii_controller, scale=.55)
 
 	the_data = biglist.pop()
 
