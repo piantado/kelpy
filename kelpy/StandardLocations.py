@@ -62,3 +62,28 @@ class StandardLocations():
 		self.center = ((screen.get_width() /2 ), (screen.get_height() /2 ) )
 		self.cu=((screen.get_width() /2 ), (screen.get_height() /5)*1 )
 		self.cd=((screen.get_width() /2 ), (screen.get_height()/5)*3 )
+		
+		
+		
+		#laura custom spots-spots closer to center
+		#four spots across screen from left to right (1-4)
+		#and in four columns top to bottom (w-z)
+		self.w1 = ((screen.get_width()/8) * 2, (screen.get_height()/8)*2 )
+		self.w2 = ((screen.get_width()/8) * 3, (screen.get_height()/8)*2 )
+		self.w3 = ((screen.get_width()/8) * 5, (screen.get_height()/8)*2 )
+		self.w4 = ((screen.get_width()/8) * 6, (screen.get_height()/8)*2 )
+
+		self.x1 = ((screen.get_width()/8) * 2, (screen.get_height()/8)*3 )
+		self.x2 = ((screen.get_width()/8) * 3, (screen.get_height()/8)*3 )
+		self.x3 = ((screen.get_width()/8) * 5, (screen.get_height()/8)*3 )
+		self.x4 = ((screen.get_width()/8) * 6, (screen.get_height()/8)*3 )
+		#bottom right quadrant
+		self.y1 = ((screen.get_width()/8) * 2, (screen.get_height()/8)*5 )
+		self.y2 = ((screen.get_width()/8) * 3, (screen.get_height()/8)*5 )
+		self.y3 = ((screen.get_width()/8) * 5, (screen.get_height()/8)*5 )
+		self.y4 = ((screen.get_width()/8) * 6, (screen.get_height()/8)*5 )
+		#bottom right quadrant
+		self.z1 = ((screen.get_width()/8) * 2, (screen.get_height()/8)*6 )
+		self.z2 = ((screen.get_width()/8) * 3, (screen.get_height()/8)*6 )
+		self.z3 = ((screen.get_width()/8) * 5, (screen.get_height()/8)*6 )
+		self.z4 = ((screen.get_width()/8) * 6, (screen.get_height()/8)*6 )
