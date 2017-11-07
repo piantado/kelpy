@@ -2,7 +2,7 @@ from CommandableSprite import *
 from pygame.image import *
 import PIL.Image # we use this to load images so we can alter attributes easily
 import PIL.ImageEnhance
-import Image
+
 from copy import deepcopy
 """ CommandableImageSprite (inherits from CommandableSprite)
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

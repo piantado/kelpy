@@ -140,7 +140,7 @@ def play_sound(sound, wait=False, volume=0.65):
 
 
 
-def initialize_kelpy(dimensions=(1024,768), bg=(250,250,250), fullscreen=False):
+def initialize_kelpy(dimensions=(1400,900), bg=(250,250,250), fullscreen=False):
 	"""
 		Calls a bunch of pygame functions to set up the screen, etc. 
 		
@@ -234,7 +234,7 @@ def kelpy_standard_event_loop(screen, *args, **kwargs):
 			elif event.type == EXIT_KELPY_STANDARD_EVENT_LOOP: return # we are done with this loop
 			
 		# fill the background and update everything
-		screen.fill(background_color)
+		#screen.fill(background_color)
 		for a in args:
 			if isinstance(a, list): 
 				for ai in a: ai.update()
@@ -245,6 +245,9 @@ def filename( inputFilepath ):
 		This function returns the filename when passed a full filepath.
 	"""
 	return inputFilepath.rsplit('/', 1)[1]
+
+
+
 
 
 

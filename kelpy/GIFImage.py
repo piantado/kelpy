@@ -3,7 +3,7 @@
 	From http://pyedpypers.org/index.php?page=project&projectid=11&view=true, but modified to scale and speed
 image = image.resize( (self.sizex, image.size[1] * self.sizex / image.size[0] ), Image.NEAREST)      # use nearest neighbour
 """
-import Image
+import PIL.Image
 import pygame
 from pygame.locals import *
 

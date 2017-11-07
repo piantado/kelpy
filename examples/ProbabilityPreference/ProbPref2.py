@@ -2,7 +2,7 @@ import os, sys
 import pygame
 from random import randint, sample, shuffle
 
-from time import time
+from time import time,sleep
 from kelpy.CommandableImageSprite import *
 from kelpy.Miscellaneous import *
 from kelpy.DisplayQueue import *
@@ -26,6 +26,9 @@ MAX_DISPLAY_TIME =100
 TRIAL = 1
 
 BOXES = []
+clip = VideoFileClip(kstimulus('gifs/babylaugh.mov'))
+clip=clip.resize(height=800,width=1300)
+print kstimulus('gifs/babylaugh.mov')
 for filename in glob.glob('../../kelpy/stimuli/boximages/*'):
     im=filename
     BOXES.append(im)
@@ -37,6 +40,7 @@ for filename in glob.glob('../../kelpy/stimuli/socialstim/*'):
     OBJECTS.append(im)
 
 PROBABILITIES = [0.1, 0.25, 0.5, 0.75, 0.9]
+shuffle(PROBABILITIES)
 
 use_tobii_sim = True #toggles between using the tobii simulator or the actual tobii controller
 subject = raw_input('Subject ID: ')
@@ -83,8 +87,7 @@ else:
     tobii_controller.activate(tobii_controller.eyetrackers.keys()[0])
 
 def smiley_baby_distractor():
-    clip = VideoFileClip(kstimulus('gifs/babylaugh.mov'))
-    clip=clip.resize(height=800,width=1300)
+
     clip.preview()
 
 
@@ -92,10 +95,14 @@ def smiley_baby_distractor():
 
 
 #run a single Open Box animation as part of the trial. count these!
-def open_box(object, box, probability, trial, writer, BGCOLOR):
+def open_box(object, box, probability, trial, writer, BGCOLOR, lookaway_start_time,TRIAL_START):
+    print TRIAL_START
     pygame.display.set_mode((1400,900),pygame.FULLSCREEN)
     play_sound(kstimulus('music/hothothot.wav'))
     start_time = time()
+    lookaway_time = 2.0
+
+    started_looking_away = False
     screen.fill(BGCOLOR)
     box =  TobiiSprite( screen, spot.center, box, tobii_controller, scale=BOX_SCALE)
     object = TobiiSprite( screen, spot.south, object,tobii_controller, scale=IMAGE_SCALE)
@@ -106,7 +113,7 @@ def open_box(object, box, probability, trial, writer, BGCOLOR):
     Q.append(obj=box, action='wait', duration=1)
 
 
-    for i in range(100):
+    for i in range(1000):
         #with certain probability, reveal object:
         flip = random.random()
         #print flip
@@ -119,7 +126,6 @@ def open_box(object, box, probability, trial, writer, BGCOLOR):
         Q.append(obj=box, action='wait',duration=.25)
         Q.append_simultaneous(obj=object, action='move', pos=spot.north, duration=0)
 
-        #if a baby looks away for 3 seconds, the trial ENDS. How do we deal with this?
 
 
 
@@ -143,11 +149,19 @@ def open_box(object, box, probability, trial, writer, BGCOLOR):
         if (time() - start_time > MAX_DISPLAY_TIME):
             break
 
-        #we want this for about 2 seconds
-        if(not(blankbox.is_looked_at())):
-            print blankbox.is_looked_at()
-            break
 
+        if not blankbox.is_looked_at():
+            if not started_looking_away:
+                lookaway_start_time = time()
+                started_looking_away = True
+                #check if they've looked away for long enough
+            if (time() - lookaway_start_time > lookaway_time):
+                final_time = time() - TRIAL_START
+                print str(final_time) + "is final time!!!!!!!!!!!"
+                break #or whatever else you need to do at the end of the trial
+
+        elif blankbox.is_looked_at():
+		    started_looking_away = False #resets timer
         # If the event is a click:
         #if is_click(event):
          #   break
@@ -162,7 +176,11 @@ def open_box(object, box, probability, trial, writer, BGCOLOR):
                     tobii_controller.stop_tracking()
                     tobii_controller.close_data_file()
                     tobii_controller.destroy()
+            if event.key == K_p:
 
+                pygame.mixer.music.pause()
+                sleep(3)
+                pygame.mixer.music.unpause()
 
 
 
@@ -170,17 +188,18 @@ def open_box(object, box, probability, trial, writer, BGCOLOR):
 
 
 def run_trial(trial, prob, writer):
+    TRIAL_START= time()
     #pick a box
     box = random.choice(BOXES)
     #pick an object
     object = random.choice(OBJECTS)
-
+    lookaway_start_time = time() #just as some default start time
     BGCOLOR=(randint(0,255),randint(0,255),randint(0,255))
     screen.fill(BGCOLOR)
     pygame.display.update()
     print "The box contains the object with " + str(prob) + " probability."
 
-    open_box(object, box, prob, trial, writer, BGCOLOR)
+    open_box(object, box, prob, trial, writer, BGCOLOR, lookaway_start_time,TRIAL_START)
     smiley_baby_distractor()
     #gif_attention_getter(screen,spot.center,kstimulus("gifs/babylaugh.gif"))
     print("Press Enter to continue once the baby is paying attention!")
