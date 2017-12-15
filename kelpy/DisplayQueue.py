@@ -25,7 +25,11 @@ class DisplayQueue:
 	def get_obj(self):
 		args = self.commands[0]
 		return args['obj']
-		
+
+	def get_action(self):
+		args = self.commands[0]
+		return args['action']
+
 	def is_empty(self):
 		"""
 			Return true if we (and all our kids) have no pending operations		
