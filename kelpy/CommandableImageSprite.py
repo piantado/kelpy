@@ -162,6 +162,12 @@ class CommandableImageSprite(CommandableSprite):
 		elif action == 'circlescale':
 			self.set_image_attributes(scale=self.scale + c['amount'] * sin(2.0 * pi * t / c['period'] ) / 2)
 			if c.get('finish',False) is True: self.set_image_attributes(scale=self.start_scale)
+		elif action == 'loom': ## a variation on circlescale to have more oscillatory motion
+			#takes duration (in seconds, how long the motion is),
+			#amount (the max amount to scale the image by),
+			#and cycles (the number of cycles completed during the duration)
+			self.set_image_attributes(scale=self.start_scale + c['amount'] * sin(c['cycles'] * (2.0 * pi) * t))
+			if c.get('finish',False) is True: self.set_image_attributes(rotation=self.start_scale)
 		elif action == 'scale':
 			self.set_image_attributes(scale=self.start_scale*(1.-t) + self.start_scale * c['amount'] * t)
 			if c.get('finish',False) is True: self.set_image_attributes(scale=self.start_scale * c['amount'])
