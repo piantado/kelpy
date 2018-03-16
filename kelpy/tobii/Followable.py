@@ -2,6 +2,7 @@
 
 from kelpy.Dragable import *
 from kelpy.tobii.TobiiController import *
+import math
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Followable works with the Tobii Controller to update a sprite's position based on current eye gaze
@@ -14,6 +15,7 @@ class Followable(Dragable):
 
 		self.is_following = False
 		self.tobii_controller = tobii_controller
+		self.jitter_threshold = 15 # threshold to keep sprite static when the eye gaze data is noisy
 
 	def set_follow(self, follow):
 		if (follow):
@@ -34,9 +36,16 @@ class Followable(Dragable):
 		else:
 			gaze_point = self.tobii_controller.get_center_gaze()
 			oldxy = ( (self.x, self.y) )
+
 			if not None in gaze_point:
-				self.set_x(gaze_point[0])
-				self.set_y(gaze_point[1])	
+				#calculate difference in position between last eye gaze and this current eye gaze
+				gazeDifference = math.sqrt((gaze_point[0] - self.x)**2 + (gaze_point[1] - self.y)**2)
+
+				#only update the position when the difference between the current and previous eye gaze is greater than the jitter threshold
+				if gazeDifference > self.jitter_threshold: 
+					self.set_x(gaze_point[0])
+					self.set_y(gaze_point[1])	
+
 			## Band-aid to allow the followable to process drag zones properly.
 			## NOTE: Processing following and drag n drop uses different loops, so if, for some reason, an object is both followable and drag-n-droppable,
 			## it would require two different loops to process those interactions.
