@@ -15,7 +15,7 @@ class Followable(Dragable):
 
 		self.is_following = False
 		self.tobii_controller = tobii_controller
-		self.jitter_threshold = 15 # threshold to keep sprite static when the eye gaze data is noisy
+		self.jitter_threshold = 30 # threshold to keep sprite static when the eye gaze data is noisy
 
 	def set_follow(self, follow):
 		if (follow):
